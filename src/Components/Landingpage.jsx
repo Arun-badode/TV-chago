@@ -1,5 +1,6 @@
 import React from 'react';
 import Footer from '../Layout/Footer';
+import { Link } from 'react-router-dom';
 
 const products = [
   { title: 'Classic White T-Shirt', price: '$29.99', desc: 'Essential cotton tee for everyday comfort', img: 'https://readdy.ai/api/search-image?query=A%20professional%20product%20photography%20of%20a%20classic%20white%20t-shirt%20on%20a%20minimalist%20light%20gray%20background%2C%20clean%20styling%2C%20high-quality%20fabric%20texture%20visible%2C%20fashion%20product%20photography%2C%20commercial%20quality%2C%20soft%20lighting&width=400&height=400&seq=1&orientation=squarish' },
@@ -86,7 +87,9 @@ const LandingPage = () => {
                 <p className="text-muted small">{prod.desc}</p>
                 <div className="d-flex justify-content-between align-items-center mt-3">
                   <span className="fw-bold text-dark">{prod.price}</span>
-                  <button className="btn btn-warning btn-sm">Buy Now</button>
+                  <Link to='/Order'>
+                  <button className="btn btn-warning btn-sm ">Buy Now</button>
+                  </Link>
                 </div>
               </div>
             </div>

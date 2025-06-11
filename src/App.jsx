@@ -2,14 +2,15 @@ import { BrowserRouter as Router, Route, Routes, useLocation } from 'react-route
 import CustomNavbar from './Layout/Navbar';
 import LandingPage from './Components/Landingpage';
 import LoginPage from './Auth/LoginPage'; // Your login page
-import Sidebar from './Components/Order';
+
+import Order from './Components/Order';
 // import Dashboard from './Components/Dashboard'; // Any other internal software route
 
 function AppWrapper() {
   const location = useLocation();
 
   // Hide Navbar on login and internal software routes
-  const hideNavbarRoutes = ['/login', '/sidebar'];
+  const hideNavbarRoutes = ['/login', '/Order'];
 
   const shouldShowNavbar = !hideNavbarRoutes.includes(location.pathname);
 
@@ -19,7 +20,8 @@ function AppWrapper() {
       <Routes>
         <Route path="/" element={<LandingPage />} />
         <Route path="/login" element={<LoginPage />} />
-        <Route path="/sidebar" element={<Sidebar />} />
+        <Route path="/Order" element={<Order />} />
+        
       </Routes>
     </>
   );
