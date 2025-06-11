@@ -56,7 +56,7 @@ const LandingPage = () => {
           />
         </div>
         <div className="col-6 col-md-auto">
-          <button className="btn btn-success w-100 py-3">Search</button>
+          <button className="btn btn-warning w-100 py-3">Search</button>
         </div>
         <div className="col-6 col-md-auto">
           <button className="btn btn-light text-dark w-100 py-3">All Products</button>
