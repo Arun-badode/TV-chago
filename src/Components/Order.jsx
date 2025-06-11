@@ -1,7 +1,7 @@
 import React, { useState, useRef } from 'react';
 import './Order.css'; // Assuming you have a CSS file for styling
 
-const Sidebar = () => {
+const Order = () => {
   // Step state: 1 = Order, 2 = Payment, 3 = Confirmation
   const [step, setStep] = useState(1);
 
@@ -493,4 +493,4 @@ const Sidebar = () => {
   );
 };
 
-export default Sidebar;
+export default Order;
