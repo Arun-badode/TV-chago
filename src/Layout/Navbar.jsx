@@ -4,7 +4,9 @@ import { Container, Navbar, Nav, NavDropdown, Dropdown } from 'react-bootstrap';
 
 const CustomNavbar = () => {
   return (
-    <Navbar expand="lg" className="fixed-top py-3 shadow-lg" style={{ backgroundColor: '#fefae0' }}>
+    <Navbar expand="lg" className="fixed-top py-3 shadow-lg"style={{
+  background: 'linear-gradient(90deg, #fff7c2 0%, #ffe98a 100%)'
+}}>
       <Container className="d-flex justify-content-between align-items-center">
         {/* Brand Logo */}
         <Navbar.Brand href="#" className="d-flex align-items-center">
