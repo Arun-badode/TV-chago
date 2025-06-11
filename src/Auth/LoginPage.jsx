@@ -1,5 +1,6 @@
 import React from 'react';
 import { Container, Form, Button } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 
 const LoginPage = () => {
   return (
@@ -65,8 +66,8 @@ const LoginPage = () => {
               Forgot Password?
             </a>
           </div>
-
-          <Button
+<Link to='/sidebar'>
+          <button
             className="w-100 rounded-pill border-0 mt-3"
             style={{
               background: 'linear-gradient(to right, #1c3a67, #5e8dd1)',
@@ -75,8 +76,9 @@ const LoginPage = () => {
               letterSpacing: '1px',
             }}
           >
-            Login
-          </Button>
+            LOGIN
+          </button>
+          </Link>
         </Form>
       </div>
     </div>
