@@ -66,7 +66,7 @@ const LoginPage = () => {
               Forgot Password?
             </a>
           </div>
-<Link to='/sidebar'>
+<Link to='/dashboardlayout'>
           <button
             className="w-100 rounded-pill border-0 mt-3"
             style={{

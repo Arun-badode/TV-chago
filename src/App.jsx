@@ -3,13 +3,14 @@ import CustomNavbar from './Layout/Navbar';
 import LandingPage from './Components/Landingpage';
 import LoginPage from './Auth/LoginPage'; // Your login page
 import Sidebar from './Components/Order';
+import DashboardLayout from './Components/Dashboad/DashboardLayout';
 // import Dashboard from './Components/Dashboard'; // Any other internal software route
 
 function AppWrapper() {
   const location = useLocation();
 
   // Hide Navbar on login and internal software routes
-  const hideNavbarRoutes = ['/login', '/sidebar'];
+  const hideNavbarRoutes = ['/login', '/sidebar', '/dashboardlayout'];
 
   const shouldShowNavbar = !hideNavbarRoutes.includes(location.pathname);
 
@@ -20,6 +21,18 @@ function AppWrapper() {
         <Route path="/" element={<LandingPage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/sidebar" element={<Sidebar />} />
+
+          <Route path="/dashboardlayout" element={<DashboardLayout />}>
+            {/* <Route index element={<Dashboard />} /> */}
+            {/* <Route path="allusers" element={<AllUsers />} />
+            <Route path="adminprofile" element={<AdminProfile />} />
+            <Route path="updateprofile" element={<UpdateProfile />} />
+            <Route path="plans" element={<Plans />} /> */}
+            {/* <Route path="createsubscription" element={<Submissions />} /> */}
+            {/* <Route path="systemreports" element={<SystemReports />} /> */}
+            {/* <Route path="submission" element={<Submissions />} /> */}
+          </Route>
+
       </Routes>
     </>
   );
