@@ -75,7 +75,7 @@ const LoginPage = () => {
               letterSpacing: '1px',
             }}
           >
-            LOGIN
+            Login
           </Button>
         </Form>
       </div>
