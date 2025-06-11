@@ -36,13 +36,6 @@ const Sidebar = ({ activeSection, setActiveSection, sidebarOpen, setSidebarOpen 
       // Example: localStorage.clear(); navigate('/login');
       return;
     }
-
-    if (id !== 'chatbot') {
-      navigate(path ? `/dashboard/${path}` : '/dashboard');
-    } else {
-      navigate(path ? `/${path}` : '/chatbot');
-    }
-
     setActiveSection(id);
   };
 
