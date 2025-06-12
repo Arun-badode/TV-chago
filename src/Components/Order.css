@@ -1,7 +1,7 @@
 :root {
-            --primary-unique: #3498DB;
+            --primary-unique: #d84a33;
             --primary-light-unique: #eaf6fd;
-            --primary-dark-unique: #217dbb;
+            --primary-dark-unique: back;
         }
         .order-stepper-unique {
             display: flex;
@@ -13,17 +13,7 @@
             text-align: center;
             position: relative;
         }
-        .order-step-unique:not(:last-child)::after {
-            content: '';
-            position: absolute;
-            top: 50%;
-            right: 0;
-            width: 100%;
-            height: 2px;
-            background: var(--primary-light-unique);
-            z-index: 0;
-            transform: translateY(-50%);
-        }
+     
         .order-step-circle-unique {
             width: 38px;
             height: 38px;
@@ -64,7 +54,7 @@
         }
         .order-file-upload-unique:hover {
             border-color: var(--primary-dark-unique);
-            background: #f4fbff;
+            background: #fff4f4;
         }
         .btn-primary, .btn-primary:active, .btn-primary:focus {
             background: var(--primary-unique) !important;
@@ -132,3 +122,6 @@
                 display: none;
             }
         }
+
+
+  
