@@ -221,7 +221,7 @@ const Upload = () => {
             <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
             <div className="container-fluid py-4"
-            style={{marginTop: '78px'}}>
+                style={{ marginTop: '78px' }}>
 
                 {/* Uploads Content */}
 
@@ -248,10 +248,11 @@ const Upload = () => {
                                 <p className="text-muted mb-3">or</p>
                                 <button
                                     onClick={handleFileUpload}
-                                    className="btn btn-success"
+                                    style={{ backgroundColor: '#d84a33', color: '#fff', border: 'none', padding: '8px 16px', borderRadius: '4px' }}
                                 >
                                     Browse Files
                                 </button>
+
                                 <p className="text-muted small mt-3">Supported formats: JPG, PNG, GIF, PDF, DOCX, MP4 (Max 50MB)</p>
                             </div>
                         </div>
@@ -266,7 +267,7 @@ const Upload = () => {
                                 <div className="card-body">
                                     <div className="d-flex justify-content-between align-items-center mb-2">
                                         <div className="d-flex align-items-center">
-                                            <i className="fas fa-file-image text-primary me-3"></i>
+                                            <i className="fas fa-file-image me-3"></i>
                                             <div>
                                                 <h6 className="mb-0">Uploading files...</h6>
                                                 <small className="text-muted">{uploadProgress}% complete</small>
@@ -278,10 +279,11 @@ const Upload = () => {
                                     </div>
                                     <div className="progress">
                                         <div
-                                            className="progress-bar bg-success"
+                                            className="progress-bar bg-chago"
                                             role="progressbar"
                                             style={{ width: `${uploadProgress}%` }}
                                         ></div>
+
                                     </div>
                                 </div>
                             </div>
@@ -321,31 +323,37 @@ const Upload = () => {
                                         </select>
                                     </div>
                                     <div className="col-sm-6 col-lg-3">
-                                        <div className="btn-group w-100" role="group">
-                                            <button
-                                                type="button"
-                                                className={`btn ${viewMode === 'grid' ? 'btn-primary' : 'btn-outline-primary'}`}
-                                                onClick={() => setViewMode('grid')}
-                                            >
-                                                <i className="fas fa-th-large"></i>
-                                            </button>
-                                            <button
-                                                type="button"
-                                                className={`btn ${viewMode === 'list' ? 'btn-primary' : 'btn-outline-primary'}`}
-                                                onClick={() => setViewMode('list')}
-                                            >
-                                                <i className="fas fa-list"></i>
-                                            </button>
+                                        <div className="col-sm-6 col-lg-3">
+                                            <div className="btn-group w-100" role="group">
+                                                <button
+                                                    type="button"
+                                                    className={`btn ${viewMode === 'grid' ? 'btn-chago' : 'btn-outline-chago'}`}
+                                                    onClick={() => setViewMode('grid')}
+                                                >
+                                                    <i className="fas fa-th-large"></i>
+                                                </button>
+                                                <button
+                                                    type="button"
+                                                    className={`btn ${viewMode === 'list' ? 'btn-chago' : 'btn-outline-chago'}`}
+                                                    onClick={() => setViewMode('list')}
+                                                >
+                                                    <i className="fas fa-list"></i>
+                                                </button>
+                                            </div>
                                         </div>
+
                                     </div>
+
                                     <div className="col-sm-6 col-lg-3">
                                         <button
                                             onClick={handleFileUpload}
-                                            className="btn btn-success w-100"
+                                            className="btn w-100 text-white"
+                                            style={{ backgroundColor: '#d84a33', borderColor: '#d84a33' }}
                                         >
                                             <i className="fas fa-upload me-2"></i>
                                             Upload
                                         </button>
+
                                     </div>
                                 </div>
                             </div>
@@ -397,10 +405,14 @@ const Upload = () => {
                                         </div>
                                         {upload.type === 'image' ? (
                                             <img
-                                                src={`https://via.placeholder.com/400x300/f8f9fa/6c757d?text=${encodeURIComponent(upload.name.split('.')[0])}`}
+                                                src="https://i.ibb.co/XfB42c7W/image.png"
+                                                onError={(e) => {
+                                                    e.target.onerror = null;
+                                                    e.target.src = "https://via.placeholder.com/400x300?text=Image+Not+Available";
+                                                }}
                                                 className="card-img-top"
                                                 alt={upload.name}
-                                                style={{ height: '200px', objectFit: 'cover' }}
+                                                style={{ height: '200px', width: '100%', objectFit: 'cover' }}
                                             />
                                         ) : (
                                             <div className="card-img-top d-flex flex-column align-items-center justify-content-center bg-light" style={{ height: '200px' }}>
@@ -566,6 +578,7 @@ const Upload = () => {
                                 </li>
                             </ul>
                         </nav>
+
                     </div>
                 </div>
             </div>
