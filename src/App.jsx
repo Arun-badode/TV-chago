@@ -6,16 +6,19 @@ import Order from './Components/Order';
 import DashboardLayout from './Components/Dashboad/DashboardLayout';
 import AdminDashboard from './Components/Dashboad/AdminDashboard/AdminDashboard';
 import Customers from './Components/Dashboad/Customers/Customers';
+import Notifications from './Components/Dashboad/Notifications/Notifications';
+import Uploads from './Components/Dashboad/Uploads/Uploads';
 
 
 
 function AppWrapper() {
   const location = useLocation();
 
-  // Hide Navbar on login and dashboard layout root route
   const hideNavbarRoutes = ['/login', '/dashboardlayout'];
 
-  const shouldShowNavbar = !hideNavbarRoutes.includes(location.pathname);
+  const shouldShowNavbar = !hideNavbarRoutes.some(route =>
+    location.pathname.startsWith(route)
+  );
 
   return (
     <>
@@ -25,19 +28,19 @@ function AppWrapper() {
         <Route path="/login" element={<LoginPage />} />
         <Route path="/Order" element={<Order />} />
 
-        {/* Nested routing for dashboard */}
-       <Route path="/dashboardlayout" element={<DashboardLayout />}>
-  <Route index element={<AdminDashboard />} />
-  <Route path="customer" element={<Customers />} />
-  {/* <Route path="orders/pending" element={<PendingOrders />} />
-  <Route path="orders/completed" element={<CompletedOrders />} /> */}
-  {/* Add other child components accordingly */}
-</Route>
-
+        {/* Dashboard nested routes */}
+        <Route path="/dashboardlayout" element={<DashboardLayout />}>
+          <Route index element={<AdminDashboard />} />
+          <Route path="customer" element={<Customers />} />
+          <Route path="notification" element={<Notifications />} />
+          <Route path="Upload" element={<Uploads />} />
+          {/* Add more nested routes as needed */}
+        </Route>
       </Routes>
     </>
   );
 }
+
 
 export default function App() {
   return (

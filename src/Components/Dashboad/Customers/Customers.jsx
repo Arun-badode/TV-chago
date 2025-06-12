@@ -97,7 +97,7 @@ const Customers = () => {
   }, [activeTab]);
 
   return (
-    <div className="container-fluid p-0 " style={{marginTop: '78px'}}>
+    <div className="container-fluid p-0  " style={{marginTop:"78px"}} >
       <main className="p-4">
         {activeTab === 'customers' ? (
           <>

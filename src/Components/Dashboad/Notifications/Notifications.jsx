@@ -1,6 +1,6 @@
 import React, { useState, useRef, useCallback } from 'react';
 
-const App = () => {
+const Notifications = () => {
   const [activeTab, setActiveTab] = useState('uploads');
   const [viewMode, setViewMode] = useState('grid');
   const [selectedFiles, setSelectedFiles] = useState([]);
@@ -695,4 +695,4 @@ const App = () => {
   );
 };
 
-export default App;
+export default Notifications;
