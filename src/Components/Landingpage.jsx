@@ -87,7 +87,7 @@ const LandingPage = () => {
                 <p className="text-muted small">{prod.desc}</p>
                 <div className="d-flex justify-content-between align-items-center mt-3">
                   <span className="fw-bold text-dark">{prod.price}</span>
-                  <Link to='/Order'>
+                  <Link to='/Ordertrack'>
                   <button className="btn btn-warning btn-sm ">Buy Now</button>
                   </Link>
                 </div>

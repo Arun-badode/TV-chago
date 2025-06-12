@@ -1,7 +1,7 @@
 import React, { useState, useRef } from 'react';
-import './Order.css'; // Assuming you have a CSS file for styling
+import './Ordertrack.css'; // Assuming you have a CSS file for styling
 
-const Order = () => {
+const Ordertrack = () => {
   // Step state: 1 = Order, 2 = Payment, 3 = Confirmation
   const [step, setStep] = useState(1);
 
@@ -497,4 +497,4 @@ const Order = () => {
   );
 };
 
-export default Order;
+export default Ordertrack;

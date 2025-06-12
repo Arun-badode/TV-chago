@@ -19,8 +19,8 @@ const navigate= useNavigate();
     label: 'Orders',
     icon: ShoppingBag,
     children: [
-      { id: 'pending-orders', label: 'Pending Orders', icon: Inbox, path: 'dashboardlayout/orders/pending' },
-      { id: 'completed-orders', label: 'Completed Orders', icon: Send, path: 'dashboardlayout/orders/completed' },
+      { id: 'pending-orders', label: 'Pending Orders', icon: Inbox, path: 'dashboardlayout/pendingorder' },
+      { id: 'completed-orders', label: 'Completed Orders', icon: Send, path: 'dashboardlayout/completedorder' },
     ],
   },
   { id: 'upload', label: 'Upload', icon: Users, path: 'dashboardlayout/Upload' },
