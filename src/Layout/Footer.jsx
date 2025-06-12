@@ -10,20 +10,21 @@ const Footer = () => {
           {/* Brand */}
           <Col md={3}>
             <img
-    src="https://i.postimg.cc/8CG6dNYw/Whats-App-Image-2025-06-12-at-11-59-46-c03b4354-removebg-preview.png"
-    alt="CHAGO TV Logo"
-    height="40"
-    width="90"
+              src="https://i.ibb.co/hQXHbxq/Whats-App-Image-2025-06-12-at-11-36-54-4b11e3ec.jpg"
+              alt="CHAGO TV Logo"
+              height="40"
+              width="90"
 
-    className="d-inline-block align-top bg-white"
-  />
-            <p className='text-white'>Your one-stop destination for trendy and high-quality fashion products.</p>
+              className="d-inline-block align-top"
+            />
+            <p className='terxt-white-50'>Your one-stop destination for trendy and high-quality fashion products.</p>
             <div className="d-flex gap-3 mt-3">
-              <FaFacebookF style={{ color: '#d84a33' }}/>
-              <FaTwitter  style={{ color: '#d84a33' }}  />
-              <FaInstagram style={{ color: '#d84a33' }} />
-              <FaPinterestP  style={{ color: '#d84a33' }}/>
+              <a href="#" className="social-icon"><FaFacebookF /></a>
+              <a href="#" className="social-icon"><FaTwitter /></a>
+              <a href="#" className="social-icon"><FaInstagram /></a>
+              <a href="#" className="social-icon"><FaPinterestP /></a>
             </div>
+
           </Col>
 
           {/* Shop */}

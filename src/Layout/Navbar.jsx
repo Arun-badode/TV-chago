@@ -50,7 +50,7 @@ const CustomNavbar = () => {
         <Navbar.Collapse id="navbar-nav" className="justify-content-between">
           <Nav className="gap-3 mx-auto">
             <Nav.Link href="#home" className="text-dark">
-              Hoome
+              Home
             </Nav.Link>
             <Nav.Link href="#allproduct" className="text-dark">
               Shop
@@ -81,7 +81,7 @@ const CustomNavbar = () => {
               >
                 <Dropdown.Item href="/profile">My Profile</Dropdown.Item>
                 <Dropdown.Item href="/login">Login</Dropdown.Item>
-                <Dropdown.Item href="/logout">Logout</Dropdown.Item>
+                
               </Dropdown.Menu>
             </Dropdown>
           </div>
