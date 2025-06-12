@@ -213,7 +213,7 @@ const Customers = () => {
 
 
                         {/* Chart */}
-                        <div className={`card mb-4 ${darkMode ? 'bg-secondary text-white' : ''}`}>
+                        {/* <div className={`card mb-4 ${darkMode ? 'bg-secondary text-white' : ''}`}>
                             <div className="card-body">
                                 <div className="d-flex flex-column flex-md-row justify-content-between align-items-center mb-3">
                                     <h5 className={`card-title mb-3 mb-md-0 ${darkMode ? 'text-white' : ''}`}>Customer Analytics</h5>
@@ -226,32 +226,14 @@ const Customers = () => {
                                 </div>
                                 <div id="customer-chart" style={{ height: '300px', minHeight: '300px' }}></div>
                             </div>
-                        </div>
+                        </div> */}
 
                         {/* Customer Table */}
                         <div className={`card ${darkMode ? 'bg-secondary text-white' : ''}`}>
                             <div className="card-body">
                                 <div className="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center mb-3">
                                     <h5 className={`card-title mb-3 mb-md-0 ${darkMode ? 'text-white' : ''}`}>Customer List</h5>
-                                    <div className="d-flex flex-column flex-sm-row w-100 w-md-auto">
-                                        <select
-                                            className={`form-select me-sm-2 mb-2 mb-sm-0 ${darkMode ? 'bg-dark text-white' : ''}`}
-                                            value={statusFilter}
-                                            onChange={(e) => setStatusFilter(e.target.value)}
-                                        >
-                                            <option value="all">All Status</option>
-                                            <option value="active">Active</option>
-                                            <option value="inactive">Inactive</option>
-                                        </select>
-                                        <button
-                                            onClick={() => setIsAddModalOpen(true)}
-                                            className="btn btn-chago"
-                                        >
-                                            <i className="fas fa-plus me-2"></i>
-                                            Add Customer
-                                        </button>
-
-                                    </div>
+                                    
                                 </div>
 
                                 {/* Add Customer Modal */}
@@ -309,7 +291,7 @@ const Customers = () => {
                                                     </div>
                                                     <div className="mb-3">
                                                         <label htmlFor="customerStatus" className="form-label">
-                                                            Status
+                                                           Payment Status
                                                         </label>
                                                         <select
                                                             id="customerStatus"
@@ -352,7 +334,7 @@ const Customers = () => {
                                                 <th>Email</th>
                                                 <th>Phone</th>
                                                 <th>Orders</th>
-                                                <th>Status</th>
+                                                <th>Payment Status</th>
                                                 <th>Actions</th>
                                             </tr>
                                         </thead>
@@ -374,14 +356,12 @@ const Customers = () => {
                                                     <td>{customer.orders}</td>
                                                     <td>
                                                         <span className={`badge ${customer.status === 'active' ? 'bg-success' : 'bg-secondary'}`}>
-                                                            {customer.status === 'active' ? 'Active' : 'Inactive'}
+                                                            {customer.status === 'active' ? 'Paid' : 'UnPaid'}
                                                         </span>
                                                     </td>
                                                     <td>
                                                         <div className="d-flex">
-                                                            <button className={`btn btn-sm ${darkMode ? 'btn-outline-light' : 'btn-outline-primary'} me-2`}>
-                                                                <i className="fas fa-edit"></i>
-                                                            </button>
+                                                            
                                                             <button className={`btn btn-sm ${darkMode ? 'btn-outline-danger' : 'btn-outline-danger'}`}>
                                                                 <i className="fas fa-trash"></i>
                                                             </button>

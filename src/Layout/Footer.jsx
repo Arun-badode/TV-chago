@@ -12,8 +12,8 @@ const Footer = () => {
             <img
               src="https://i.ibb.co/hQXHbxq/Whats-App-Image-2025-06-12-at-11-36-54-4b11e3ec.jpg"
               alt="CHAGO TV Logo"
-              height="40"
-              width="90"
+              height="60"
+              width="100"
 
               className="d-inline-block align-top"
             />
