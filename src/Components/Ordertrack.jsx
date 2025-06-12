@@ -7,6 +7,7 @@ const Ordertrack = () => {
     fullName: '',
     email: '',
     mobile: '',
+    address: '',
     requirements: '',
     file: null,
   });
@@ -133,6 +134,17 @@ const Ordertrack = () => {
                         className="form-control"
                         id="mobileUnique"
                         value={order.mobile}
+                        onChange={handleOrderChange}
+                        required
+                      />
+                    </div>
+                    <div className="col-12 col-md-6">
+                      <label htmlFor="addressUnique" className="form-label">Address *</label>
+                      <input
+                        type="text"
+                        className="form-control"
+                        id="addressUnique"
+                        value={order.address || ''}
                         onChange={handleOrderChange}
                         required
                       />

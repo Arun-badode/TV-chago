@@ -25,7 +25,7 @@ const Sidebar = ({ sidebarOpen: parentSidebarOpen, setSidebarOpen: setParentSide
                 { id: 'completed-orders', label: 'Completed Orders', icon: Send, path: 'dashboardlayout/completedorder' },
             ],
         },
-        { id: 'upload', label: 'Upload', icon: Users, path: 'dashboardlayout/Upload' },
+        { id: 'upload', label: 'Order Upload', icon: Users, path: 'dashboardlayout/Upload' },
         { id: 'customers', label: 'Customers', icon: Users, path: 'dashboardlayout/customer' },
         { id: 'notifications', label: 'Notifications', icon: MessageSquare, path: 'dashboardlayout/notification', notificationCount: 5 },
         { id: 'settings', label: 'Settings', icon: Settings, path: 'dashboardlayout/setting' },
@@ -97,12 +97,26 @@ const Sidebar = ({ sidebarOpen: parentSidebarOpen, setSidebarOpen: setParentSide
                                 )}
                             </div>
                             {children && ordersOpen && id === 'orders' && !isCollapsed && (
-                                <div className="submenu ps-4">
+                                <div
+                                    className="submenu ps-4"
+                                    style={{
+                                        display: 'flex',
+                                        flexDirection: 'column',
+                                        alignItems: 'center', // Center children horizontally
+                                        gap: 6,
+                                        paddingLeft: 0, // Remove extra left padding
+                                    }}
+                                >
                                     {children.map(({ id: childId, label: childLabel, icon: ChildIcon, path: childPath }) => (
                                         <div
                                             key={childId}
                                             className={`submenu-item d-flex align-items-center py-1 ${activeSection === childId ? 'active' : ''}`}
-                                            style={{ cursor: 'pointer' }}
+                                            style={{
+                                                cursor: 'pointer',
+                                                justifyContent: 'center', // Center icon+label
+                                                width: '100%',
+                                                textAlign: 'center',
+                                            }}
                                             onClick={() => handleNavigation(childId, childPath)}
                                         >
                                             <ChildIcon size={16} strokeWidth={1.8} />

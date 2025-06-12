@@ -9,14 +9,15 @@ const CompletedOrders = () => {
   const [sortField, setSortField] = useState('date');
   const [sortDirection, setSortDirection] = useState('desc');
 
-  // Sample orders data (only completed orders)
+  // Add random payment status to each order
+  const paymentStatuses = ['Successful', 'Pending', 'Incomplete'];
   const orders = [
-    { id: 'ORD-7895', customer: 'Emma Wilson', date: '2025-06-10', products: 'Silk Blouse, Summer Hat', amount: '$129.99', status: 'Delivered' },
-    { id: 'ORD-7891', customer: 'Olivia Smith', date: '2025-06-06', products: 'Slim Fit Jeans, Cotton T-shirt', amount: '$89.99', status: 'Delivered' },
-    { id: 'ORD-7889', customer: 'Ava Martinez', date: '2025-06-04', products: 'Floral Dress, Straw Hat', amount: '$109.99', status: 'Delivered' },
-    { id: 'ORD-7887', customer: 'Sophia Garcia', date: '2025-06-02', products: 'Evening Gown, Clutch Bag', amount: '$299.99', status: 'Delivered' },
-    { id: 'ORD-7885', customer: 'Isabella Rodriguez', date: '2025-05-30', products: 'Casual Sneakers, Hoodie', amount: '$79.99', status: 'Delivered' },
-    { id: 'ORD-7883', customer: 'Mia Thompson', date: '2025-05-28', products: 'Winter Coat, Scarf', amount: '$199.99', status: 'Delivered' }
+    { id: 'ORD-7895', customer: 'Emma Wilson', date: '2025-06-10', products: 'Silk Blouse, Summer Hat', amount: '$129.99', status: 'Delivered', payment: paymentStatuses[Math.floor(Math.random() * 3)] },
+    { id: 'ORD-7891', customer: 'Olivia Smith', date: '2025-06-06', products: 'Slim Fit Jeans, Cotton T-shirt', amount: '$89.99', status: 'Delivered', payment: paymentStatuses[Math.floor(Math.random() * 3)] },
+    { id: 'ORD-7889', customer: 'Ava Martinez', date: '2025-06-04', products: 'Floral Dress, Straw Hat', amount: '$109.99', status: 'Delivered', payment: paymentStatuses[Math.floor(Math.random() * 3)] },
+    { id: 'ORD-7887', customer: 'Sophia Garcia', date: '2025-06-02', products: 'Evening Gown, Clutch Bag', amount: '$299.99', status: 'Delivered', payment: paymentStatuses[Math.floor(Math.random() * 3)] },
+    { id: 'ORD-7885', customer: 'Isabella Rodriguez', date: '2025-05-30', products: 'Casual Sneakers, Hoodie', amount: '$79.99', status: 'Delivered', payment: paymentStatuses[Math.floor(Math.random() * 3)] },
+    { id: 'ORD-7883', customer: 'Mia Thompson', date: '2025-05-28', products: 'Winter Coat, Scarf', amount: '$199.99', status: 'Delivered', payment: paymentStatuses[Math.floor(Math.random() * 3)] }
   ];
 
   // Filter orders based on search query
@@ -95,6 +96,20 @@ const CompletedOrders = () => {
         return 'bg-primary text-white';
       case 'Returned':
         return 'bg-warning text-dark';
+      default:
+        return 'bg-secondary text-white';
+    }
+  };
+
+  // Payment badge color helper
+  const getPaymentBadgeColor = (payment) => {
+    switch (payment) {
+      case 'Successful':
+        return 'bg-success text-white';
+      case 'Pending':
+        return 'bg-warning text-dark';
+      case 'Incomplete':
+        return 'bg-danger text-white';
       default:
         return 'bg-secondary text-white';
     }
@@ -237,60 +252,46 @@ const CompletedOrders = () => {
                         />
                       </div>
                     </th>
-                    <th 
-                      onClick={() => handleSort('id')} 
-                      style={{ cursor: 'pointer', userSelect: 'none' }}
-                    >
-                      Order ID 
+                    <th onClick={() => handleSort('id')} style={{ cursor: 'pointer', userSelect: 'none' }}>
+                      Order ID
                       {sortField === 'id' && (
                         <i className={`fas fa-sort-${sortDirection === 'asc' ? 'up' : 'down'} ms-1`}></i>
                       )}
                     </th>
-                    <th 
-                      onClick={() => handleSort('customer')} 
-                      style={{ cursor: 'pointer', userSelect: 'none' }}
-                    >
-                      Customer 
+                    <th onClick={() => handleSort('customer')} style={{ cursor: 'pointer', userSelect: 'none' }}>
+                      Customer
                       {sortField === 'customer' && (
                         <i className={`fas fa-sort-${sortDirection === 'asc' ? 'up' : 'down'} ms-1`}></i>
                       )}
                     </th>
-                    <th 
-                      onClick={() => handleSort('date')} 
-                      style={{ cursor: 'pointer', userSelect: 'none' }}
-                    >
-                      Delivery Date 
+                    <th onClick={() => handleSort('date')} style={{ cursor: 'pointer', userSelect: 'none' }}>
+                      Delivery Date
                       {sortField === 'date' && (
                         <i className={`fas fa-sort-${sortDirection === 'asc' ? 'up' : 'down'} ms-1`}></i>
                       )}
                     </th>
-                    <th 
-                      onClick={() => handleSort('products')} 
-                      style={{ cursor: 'pointer', userSelect: 'none' }}
-                    >
-                      Products 
+                    <th onClick={() => handleSort('products')} style={{ cursor: 'pointer', userSelect: 'none' }}>
+                      Products
                       {sortField === 'products' && (
                         <i className={`fas fa-sort-${sortDirection === 'asc' ? 'up' : 'down'} ms-1`}></i>
                       )}
                     </th>
-                    <th 
-                      onClick={() => handleSort('amount')} 
-                      style={{ cursor: 'pointer', userSelect: 'none' }}
-                    >
-                      Amount 
+                    <th onClick={() => handleSort('amount')} style={{ cursor: 'pointer', userSelect: 'none' }}>
+                      Amount
                       {sortField === 'amount' && (
                         <i className={`fas fa-sort-${sortDirection === 'asc' ? 'up' : 'down'} ms-1`}></i>
                       )}
                     </th>
-                    <th 
-                      onClick={() => handleSort('status')} 
+                    <th
+                      onClick={() => handleSort('status')}
                       style={{ cursor: 'pointer', userSelect: 'none' }}
                     >
-                      Status 
+                      Status
                       {sortField === 'status' && (
                         <i className={`fas fa-sort-${sortDirection === 'asc' ? 'up' : 'down'} ms-1`}></i>
                       )}
                     </th>
+                    <th>Payment</th>
                     <th style={{ width: '180px' }}>Actions</th>
                   </tr>
                 </thead>
@@ -338,6 +339,11 @@ const CompletedOrders = () => {
                         <span className={`badge ${getStatusBadgeColor(order.status)}`}>
                           <i className="fas fa-check me-1"></i>
                           {order.status}
+                        </span>
+                      </td>
+                      <td>
+                        <span className={`badge ${getPaymentBadgeColor(order.payment)}`}>
+                          {order.payment}
                         </span>
                       </td>
                       <td>

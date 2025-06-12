@@ -1,5 +1,19 @@
 import React, { useState, useRef, useCallback } from 'react';
 
+// Dummy initial order state (replace with your actual fields)
+const initialOrderState = {
+    orderId: '',
+    customerName: '',
+    phone: '',
+    email: '',
+    address: '',
+    product: '',
+    quantity: 1,
+    price: '',
+    status: '',
+    date: '',
+};
+
 const Upload = () => {
     const [activeTab, setActiveTab] = useState('uploads');
     const [viewMode, setViewMode] = useState('grid');
@@ -12,6 +26,8 @@ const Upload = () => {
     const [showUploadProgress, setShowUploadProgress] = useState(false);
     const [uploadProgress, setUploadProgress] = useState(0);
     const [isDragging, setIsDragging] = useState(false);
+    const [showOrderModal, setShowOrderModal] = useState(false);
+    const [orderData, setOrderData] = useState(initialOrderState);
     const fileInputRef = useRef(null);
 
     // Sample uploads data
@@ -214,6 +230,24 @@ const Upload = () => {
     // Count unread notifications
     const unreadCount = notifications.filter(notification => !notification.read).length;
 
+    // Handle order modal input change
+    const handleOrderChange = (e) => {
+        const { name, value } = e.target;
+        setOrderData(prev => ({
+            ...prev,
+            [name]: value
+        }));
+    };
+
+    // Handle order submit (dummy)
+    const handleOrderSubmit = (e) => {
+        e.preventDefault();
+        // Add your order submit logic here
+        setShowOrderModal(false);
+        setOrderData(initialOrderState);
+        alert('Order Added!');
+    };
+
     return (
         <>
             <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
@@ -346,12 +380,13 @@ const Upload = () => {
 
                                     <div className="col-sm-6 col-lg-3">
                                         <button
-                                            onClick={handleFileUpload}
                                             className="btn w-100 text-white"
                                             style={{ backgroundColor: '#d84a33', borderColor: '#d84a33' }}
+                                            onClick={() => setShowOrderModal(true)}
                                         >
                                             <i className="fas fa-upload me-2"></i>
-                                            Upload
+                                            Add Products
+                            
                                         </button>
 
                                     </div>
@@ -581,6 +616,67 @@ const Upload = () => {
 
                     </div>
                 </div>
+
+                {/* Order Modal */}
+                {showOrderModal && (
+                    <div className="modal fade show" style={{ display: 'block', background: 'rgba(0,0,0,0.3)' }}>
+                        <div className="modal-dialog modal-dialog-centered">
+                            <div className="modal-content">
+                                <form onSubmit={handleOrderSubmit}>
+                                    <div className="modal-header">
+                                        <h5 className="modal-title">Add Products</h5>
+                                        <button type="button" className="btn-close" onClick={() => setShowOrderModal(false)}></button>
+                                    </div>
+                                    <div className="modal-body">
+                                        <div className="mb-2">
+                                            <label className="form-label">Order ID</label>
+                                            <input type="text" className="form-control" name="orderId" value={orderData.orderId} onChange={handleOrderChange} required />
+                                        </div>
+                                        <div className="mb-2">
+                                            <label className="form-label">Order Name</label>
+                                            <input type="text" className="form-control" name="customerName" value={orderData.customerName} onChange={handleOrderChange} required />
+                                        </div>
+                                        <div className="mb-2">
+                                            <label className="form-label">Order Description</label>
+                                            <textarea className="form-control" name="description" value={orderData.description || ''} onChange={handleOrderChange} rows={2} required />
+                                        </div>
+                                        <div className="mb-2">
+                                            <label className="form-label">Product Image</label>
+                                            <input
+                                                type="file"
+                                                className="form-control"
+                                                name="productImage"
+                                                accept="image/*"
+                                                onChange={e => setOrderData(prev => ({
+                                                    ...prev,
+                                                    productImage: e.target.files && e.target.files[0] ? e.target.files[0] : null
+                                                }))}
+                                                required
+                                            />
+                                        </div>
+                                        <div className="mb-2">
+                                            <label className="form-label">Order Price</label>
+                                            <input type="number" className="form-control" name="price" value={orderData.price} onChange={handleOrderChange} required />
+                                        </div>
+                                        <div className="mb-2">
+                                            <label className="form-label">Order Date</label>
+                                            <input type="date" className="form-control" name="date" value={orderData.date} onChange={handleOrderChange} required />
+                                        </div>
+                                        <div className="mb-2">
+                                            <label className="form-label">Quantity</label>
+                                            <input type="number" className="form-control" name="quantity" value={orderData.quantity} onChange={handleOrderChange} min="1" required />
+                                        </div>
+                                    </div>
+                                    <div className="modal-footer">
+                                        <button type="button" className="btn btn-secondary" onClick={() => setShowOrderModal(false)}>Close</button>
+                                        <button type="submit" className="btn btn-primary">Add Order</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                )}
+
             </div>
         </>
     );
