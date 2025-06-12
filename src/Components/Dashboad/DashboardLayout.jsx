@@ -5,12 +5,12 @@ import { Outlet, useLocation } from 'react-router-dom';
 
 const DashboardLayout = () => {
   const location = useLocation();
-  const [activeSection, setActiveSection] = useState('dashboard');
+  const [activeSection, setActiveSection] = useState('admindashboard');
   const [sidebarOpen, setSidebarOpen] = useState(true);
 
   useEffect(() => {
     const path = location.pathname.split('/')[2]; // e.g. 'allusers'
-    setActiveSection(path || 'dashboard');
+    setActiveSection(path || 'admindashboard');
   }, [location]);
 
   return (

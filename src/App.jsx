@@ -4,6 +4,7 @@ import LandingPage from './Components/Landingpage';
 import LoginPage from './Auth/LoginPage'; // Your login page
 import Order from './Components/Order';
 import DashboardLayout from './Components/Dashboad/DashboardLayout';
+import AdminDashboard from './Components/Dashboad/AdminDashboard/AdminDashboard';
 // import Dashboard from './Components/Dashboard'; // Any other internal software route
 
 function AppWrapper() {
@@ -23,7 +24,7 @@ function AppWrapper() {
         <Route path="/Order" element={<Order />} />
 
           <Route path="/dashboardlayout" element={<DashboardLayout />}>
-            {/* <Route index element={<Dashboard />} /> */}
+            <Route index element={<AdminDashboard />} />
             {/* <Route path="allusers" element={<AllUsers />} />
             <Route path="adminprofile" element={<AdminProfile />} />
             <Route path="updateprofile" element={<UpdateProfile />} />

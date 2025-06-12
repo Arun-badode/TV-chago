@@ -1,156 +1,125 @@
 import React, { useState, useEffect } from 'react';
 import {
-    Users, UserCheck, Settings, FileText, Activity, LogOut, Inbox, Send
+  Users, UserCheck, Settings, FileText, Activity, LogOut, Inbox, Send,
+  ChevronDown, ChevronUp, Home, ShoppingBag, CreditCard, BarChart2, MessageSquare
 } from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
-import { FaDollarSign } from 'react-icons/fa';
+import "./Sidebar.css"
 
-const Sidebar = ({ activeSection, setActiveSection, sidebarOpen, setSidebarOpen }) => {
-    const navigate = useNavigate();
-    const [ordersOpen, setOrdersOpen] = useState(false);
+const Sidebar = ({ sidebarOpen }) => {
+  const [activeSection, setActiveSection] = useState('dashboard');
+  const [ordersOpen, setOrdersOpen] = useState(false);
+  const [reportsOpen, setReportsOpen] = useState(false);
 
-    const isMobile = () => window.innerWidth < 992;
+  const menuItems = [
+    { id: 'dashboard', label: 'Dashboard', icon: Home, path: '' },
+    {
+      id: 'orders',
+      label: 'Orders',
+      icon: ShoppingBag,
+      children: [
+        { id: 'pending-orders', label: 'Pending Orders', icon: Inbox, path: 'orders/pending' },
+        { id: 'completed-orders', label: 'Completed Orders', icon: Send, path: 'orders/completed' },
+      ],
+    },
+    { id: 'customers', label: 'Customers', icon: Users, path: 'customers' },
+    { id: 'notifications', label: 'Notifications', icon: MessageSquare, path: 'notifications', notificationCount: 5 },
+    { id: 'settings', label: 'Settings', icon: Settings, path: 'settings' },
+  ];
 
-    const menuItems = [
-        { id: 'dashboard', label: 'Dashboard', icon: Activity, path: '' },
-        {
-            id: 'orders',
-            label: 'Orders',
-            icon: Users,
-            children: [
-                { id: 'pending-orders', label: 'Pending Orders', icon: Inbox, path: 'orders/pending' },
-                { id: 'completed-orders', label: 'Completed Orders', icon: Send, path: 'orders/completed' },
-            ],
-        },
-        { id: 'uploads', label: 'Uploads', icon: UserCheck, path: 'uploads' },
-        { id: 'notifications', label: 'Notifications', icon: FaDollarSign, path: 'notifications' },
-        { id: 'customers', label: 'Customers', icon: FileText, path: 'customers' },
-        { id: 'settings', label: 'Settings', icon: Settings, path: 'setting' },
-    ];
+  useEffect(() => {
+    if (activeSection === 'pending-orders' || activeSection === 'completed-orders' || activeSection === 'returns') {
+      setOrdersOpen(true);
+    }
+    if (activeSection === 'sales' || activeSection === 'inventory') {
+      setReportsOpen(true);
+    }
+  }, [activeSection]);
 
-    useEffect(() => {
-        // Expand orders if a child route is active
-        if (activeSection === 'pending-orders' || activeSection === 'completed-orders') {
-            setOrdersOpen(true);
-        }
-    }, [activeSection]);
+  const handleNavigation = (id, path) => {
+    setActiveSection(id);
+  };
 
-    const handleNavigation = (id, path) => {
-        if (isMobile()) setSidebarOpen(false);
-        if (id === 'logout') {
-            // Example logout logic
-            // localStorage.clear();
-            // navigate('/login');
-            return;
-        }
-        setActiveSection(id);
-        if (path) navigate(`/${path}`);
-    };
-
-    return (
-        <div
-            className="position-fixed top-0 start-0 vh-100 shadow-sm border-end d-flex flex-column animate-slide-in"
-            style={{
-                width: '280px',
-                transform: sidebarOpen ? 'translateX(0)' : 'translateX(-100%)',
-                transition: 'transform 0.3s ease-in-out',
-                zIndex: 1050,
-                backgroundColor: '#fffdf7',
-                borderTopRightRadius: '15px',
-                borderBottomRightRadius: '15px',
-            }}
-        >
-            {/* Sidebar Header */}
-            <div className="d-flex align-items-center justify-content-between p-3">
-                <h5 className="fw-bold m-0 text-dark">Menu</h5>
-                <button className="btn-close d-lg-none" onClick={() => setSidebarOpen(false)} />
+  return (
+    <div className="sidebar-container" style={{ transform: sidebarOpen ? 'translateX(0)' : 'translateX(-100%)' }}>
+      <div className="sidebar">
+        {/* Sidebar Header */}
+        <div className="sidebar-header">
+          <div className="brand">
+            <div className="logo">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                <path d="M12 2L2 7L12 12L22 7L12 2Z" fill="#E86A33" />
+                <path d="M2 17L12 22L22 17" stroke="#E86A33" strokeWidth="2" />
+                <path d="M2 12L12 17L22 12" stroke="#E86A33" strokeWidth="2" />
+              </svg>
             </div>
-
-            {/* Navigation */}
-            <nav className="px-3 flex-grow-1 overflow-auto">
-                <div className="nav nav-pills flex-column">
-                    {menuItems.map(({ id, label, icon: Icon, path, children }) => (
-                        <React.Fragment key={id}>
-                            <button
-                                onClick={() => {
-                                    if (children) setOrdersOpen((open) => !open);
-                                    else handleNavigation(id, path);
-                                }}
-                                className={`nav-link text-start d-flex align-items-center py-3 px-3 mb-1 border-0 rounded ${activeSection === id ? 'text-dark' : 'text-dark'
-                                    }`}
-                                style={{
-                                    cursor: 'pointer',
-                                    transition: 'all 0.2s',
-                                    background: 'linear-gradient(90deg, #fff7c2 0%, #ffe98a 100%)'
-                                }}
-                            >
-                                <Icon size={20} className="me-3" />
-                                {label}
-                                {children && (
-                                    <span className="ms-auto">{ordersOpen ? '' : ''}</span>
-                                )}
-                            </button>
-
-                            {children && ordersOpen && (
-                                <div className="ms-4">
-                                    {children.map(({ id: childId, label: childLabel, icon: ChildIcon, path: childPath }) => (
-                                        <button
-                                            key={childId}
-                                            onClick={() => handleNavigation(childId, childPath)}
-                                            className={`nav-link text-start d-flex align-items-center py-2 px-3 mb-1 border-0 rounded ${activeSection === childId ? 'bg-primary text-white' : 'text-dark'
-                                                }`}
-                                            style={{
-                                                fontSize: '0.95rem',
-                                                cursor: 'pointer',
-                                                transition: 'all 0.2s',
-                                                background: 'linear-gradient(90deg, #fff7c2 0%, #ffe98a 100%)'
-                                            }}
-                                        >
-                                            <ChildIcon size={18} className="me-2" />
-                                            {childLabel}
-                                        </button>
-                                    ))}
-                                </div>
-                            )}
-                        </React.Fragment>
-                    ))}
-                </div>
-            </nav>
-
-            {/* Logout */}
-            <div className="p-3 mt-auto">
-                <button
-                    className="nav-link text-start d-flex align-items-center py-3 px-3 border-0 text-danger rounded"
-                    onClick={() => handleNavigation('logout')}
-                >
-                    <LogOut size={20} className="me-3" />
-                    Logout
-                </button>
+            <div>
+              <h2>AdminSuite</h2>
+              <p>Management Dashboard</p>
             </div>
-
-            {/* Animation Keyframes */}
-            <style>{`
-        .animate-slide-in {
-          animation: slideIn 0.5s ease-out;
-        }
-
-        @keyframes slideIn {
-          from {
-            transform: translateX(-100%);
-            opacity: 0;
-          }
-          to {
-            transform: translateX(0);
-            opacity: 1;
-          }
-        }
-
-        .nav-link:hover {
-          background-color: rgba(0, 0, 0, 0.05);
-        }
-      `}</style>
+          </div>
         </div>
-    );
+
+        {/* Navigation */}
+        <nav className="sidebar-nav">
+          {menuItems.map(({ id, label, icon: Icon, path, children, notificationCount }) => (
+            <React.Fragment key={id}>
+              <div 
+                className={`nav-item ${activeSection === id ? 'active' : ''}`}
+                onClick={() => {
+                  if (children && id === 'orders') setOrdersOpen(!ordersOpen);
+                  else if (children && id === 'reports') setReportsOpen(!reportsOpen);
+                  else handleNavigation(id, path);
+                }}
+              >
+                <Icon size={20} strokeWidth={1.8} />
+                <span>{label}</span>
+                
+                {notificationCount && (
+                  <span className="notification-badge">{notificationCount}</span>
+                )}
+                
+                {children && (
+                  <span className="chevron">
+                    {id === 'orders' ? (ordersOpen ? <ChevronUp size={16} /> : <ChevronDown size={16} />) : 
+                     id === 'reports' ? (reportsOpen ? <ChevronUp size={16} /> : <ChevronDown size={16} />) : null}
+                  </span>
+                )}
+              </div>
+
+              {children && ((id === 'orders' && ordersOpen) || (id === 'reports' && reportsOpen)) && (
+                <div className="submenu">
+                  {children.map(({ id: childId, label: childLabel, icon: ChildIcon, path: childPath }) => (
+                    <div
+                      key={childId}
+                      className={`submenu-item ${activeSection === childId ? 'active' : ''}`}
+                      onClick={() => handleNavigation(childId, childPath)}
+                    >
+                      <ChildIcon size={16} strokeWidth={1.8} />
+                      {childLabel}
+                    </div>
+                  ))}
+                </div>
+              )}
+            </React.Fragment>
+          ))}
+        </nav>
+
+        {/* Logout */}
+        <div className="logout-section">
+          <div className="user-profile">
+            <div className="avatar">JD</div>
+            <div className="user-info">
+              <strong>John Doe</strong>
+              <span>Admin</span>
+            </div>
+          </div>
+          <button className="logout-button">
+            <LogOut size={18} />
+          </button>
+        </div>
+      </div>
+    </div>
+  );
 };
 
 export default Sidebar;
