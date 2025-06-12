@@ -1,0 +1,223 @@
+/* Header Styles */
+.header-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 90px;
+    background-color: #fffcec;
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.1);
+    padding: 0 20px;
+    z-index: 500;
+}
+
+.profile-button {
+    padding: 6px 12px;
+    border-radius: 6px;
+}
+
+.search-input {
+    padding: 6px 10px;
+    border-radius: 6px;
+    font-size: 0.95rem;
+}
+
+
+.header-content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 100%;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.header-left {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.header-menu-button {
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    background: white;
+    border: 1px solid rgba(0, 0, 0, 0.03);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: #5A4D3D;
+    transition: all 0.2s ease;
+}
+
+.header-menu-button:hover {
+    background: rgba(255, 255, 255, 0.8);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
+    transform: translateY(-2px);
+}
+
+.logo-text {
+    margin: 0;
+    font-size: 1.4rem;
+    color: #2B2B2B;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+}
+
+.header-search {
+    flex: 1;
+    max-width: 500px;
+    position: relative;
+    margin: 0 30px;
+}
+
+.search-group {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    background: rgba(255, 255, 255, 0.4);
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+    border: 1px solid rgba(0, 0, 0, 0.03);
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.search-group:focus-within {
+    background: rgba(255, 255, 255, 0.8);
+    box-shadow: 0 4px 12px rgba(232, 106, 51, 0.2);
+}
+
+.search-icon {
+    padding: 0 15px;
+    display: flex;
+    align-items: center;
+    color: #7A6A53;
+}
+
+.search-input {
+    flex: 1;
+    height: 45px;
+    border: none;
+    background: transparent;
+    padding: 0 15px 0 0;
+    font-size: 0.95rem;
+    color: #5A4D3D;
+    outline: none;
+}
+
+.search-input::placeholder {
+    color: #a09887;
+}
+
+.search-results {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    margin-top: 8px;
+    max-height: 300px;
+    overflow-y: auto;
+    z-index: 1050;
+    list-style: none;
+    padding: 10px 0;
+}
+
+.result-item {
+    padding: 12px 20px;
+    display: flex;
+    flex-direction: column;
+    transition: all 0.2s ease;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.result-item:last-child {
+    border-bottom: none;
+}
+
+.result-item:hover {
+    background: rgba(232, 106, 51, 0.05);
+    transform: translateX(3px);
+}
+
+.result-name {
+    font-weight: 600;
+    color: #2B2B2B;
+    margin-bottom: 3px;
+}
+
+.result-email {
+    color: #7A6A53;
+    font-size: 0.85rem;
+}
+
+.header-right {
+    display: flex;
+    align-items: center;
+}
+
+.profile-button {
+    display: flex;
+    align-items: center;
+    padding: 10px 20px;
+    background: white;
+    border-radius: 10px;
+    border: 1px solid rgba(0, 0, 0, 0.03);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    color: #5A4D3D;
+    font-weight: 500;
+
+}
+
+.profile-button:hover {
+    background: rgba(255, 255, 255, 0.8);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
+    transform: translateY(-2px);
+    color: #E86A33;
+}
+
+.profile-icon {
+    margin-right: 10px;
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+    .header-content {
+        flex-wrap: wrap;
+        height: auto;
+        padding: 10px 0;
+    }
+
+    .header-left {
+        width: 100%;
+        justify-content: space-between;
+        margin-bottom: 10px;
+    }
+
+    .header-search {
+        order: 3;
+        width: 100%;
+        margin: 10px 0;
+        max-width: none;
+    }
+
+    .header-right {
+        order: 2;
+    }
+
+    .profile-text {
+        display: none;
+    }
+
+    .profile-button {
+        padding: 10px;
+    }
+}
