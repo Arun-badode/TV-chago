@@ -8,6 +8,7 @@ import AdminDashboard from './Components/Dashboad/AdminDashboard/AdminDashboard'
 import Customers from './Components/Dashboad/Customers/Customers';
 import Notifications from './Components/Dashboad/Notifications/Notifications';
 import Uploads from './Components/Dashboad/Uploads/Uploads';
+import Setting from './Components/Dashboad/Settings/Settings';
 
 
 
@@ -34,6 +35,7 @@ function AppWrapper() {
           <Route path="customer" element={<Customers />} />
           <Route path="notification" element={<Notifications />} />
           <Route path="Upload" element={<Uploads />} />
+          <Route path="setting" element={<Setting />} />
           {/* Add more nested routes as needed */}
         </Route>
       </Routes>

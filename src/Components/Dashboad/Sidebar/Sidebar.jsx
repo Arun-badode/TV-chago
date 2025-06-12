@@ -26,7 +26,7 @@ const navigate= useNavigate();
   { id: 'upload', label: 'Upload', icon: Users, path: 'dashboardlayout/Upload' },
   { id: 'customers', label: 'Customers', icon: Users, path: 'dashboardlayout/customer' },
   { id: 'notifications', label: 'Notifications', icon: MessageSquare, path: 'dashboardlayout/notification', notificationCount: 5 },
-  { id: 'settings', label: 'Settings', icon: Settings, path: 'dashboardlayout/settings' },
+  { id: 'settings', label: 'Settings', icon: Settings, path: 'dashboardlayout/setting' },
 ];
 
   useEffect(() => {
