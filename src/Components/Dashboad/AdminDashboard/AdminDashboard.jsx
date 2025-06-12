@@ -2,38 +2,38 @@ import React, { useState } from 'react';
 
 const AdminDashboard = () => {
   const [activeTab, setActiveTab] = useState('dashboard');
+  const [timeRange, setTimeRange] = useState('weekly');
   
   return (
-    <div 
-    style={{
+    <div style={{
       minHeight: '100vh',
-      backgroundColor: 'white',
+      backgroundColor: '#f8f9fa',
       padding: '20px',
       marginTop: '76px'
-
     }}>
       {/* Dashboard Content */}
       {activeTab === 'dashboard' && (
         <div style={{
-          maxWidth: '1200px'
+          maxWidth: '1200px',
+          margin: '0 auto'
         }}>
           {/* Stats Cards */}
           <div style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))',
             gap: '20px',
             marginBottom: '30px'
           }}>
             {[
-              { title: 'Total Sales', value: '$24,780', change: '+12.5%', icon: 'fa-dollar-sign', color: '#007bff' },
-              { title: 'Total Orders', value: '1,482', change: '+8.2%', icon: 'fa-shopping-bag', color: '#28a745' },
-              { title: 'New Customers', value: '382', change: '+5.7%', icon: 'fa-users', color: '#17a2b8' },
-              { title: 'Conversion Rate', value: '3.6%', change: '+1.2%', icon: 'fa-chart-line', color: '#ffc107' }
+              { title: 'Total Sales', value: '$24,780', change: '+12.5%', icon: 'fa-dollar-sign', color: '#d84a33' },
+              { title: 'Total Orders', value: '1,482', change: '+8.2%', icon: 'fa-shopping-bag', color: '#d84a33' },
+              { title: 'New Customers', value: '382', change: '+5.7%', icon: 'fa-users', color: '#d84a33' },
+              { title: 'Conversion Rate', value: '3.6%', change: '+1.2%', icon: 'fa-chart-line', color: '#d84a33' }
             ].map((stat, index) => (
               <div key={index} style={{
                 backgroundColor: 'white',
                 borderRadius: '12px',
-                padding: '24px',
+                padding: '20px',
                 boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
                 display: 'flex',
                 alignItems: 'center',
@@ -47,18 +47,18 @@ const AdminDashboard = () => {
                     fontWeight: '500'
                   }}>{stat.title}</p>
                   <h3 style={{
-                    fontSize: '28px',
+                    fontSize: '24px',
                     fontWeight: 'bold',
                     margin: '0 0 8px 0',
                     color: '#212529'
                   }}>{stat.value}</h3>
                   <p style={{
-                    color: '#28a745',
+                    color: stat.change.includes('+') ? '#28a745' : '#dc3545',
                     fontSize: '12px',
                     margin: '0',
                     fontWeight: '500'
                   }}>
-                    <i className="fas fa-arrow-up" style={{ marginRight: '4px' }}></i>
+                    <i className={`fas fa-arrow-${stat.change.includes('+') ? 'up' : 'down'}`} style={{ marginRight: '4px' }}></i>
                     {stat.change} from last month
                   </p>
                 </div>
@@ -82,7 +82,7 @@ const AdminDashboard = () => {
           <div style={{
             backgroundColor: 'white',
             borderRadius: '12px',
-            padding: '24px',
+            padding: '20px',
             boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
             marginBottom: '30px'
           }}>
@@ -90,50 +90,40 @@ const AdminDashboard = () => {
               display: 'flex',
               justifyContent: 'space-between',
               alignItems: 'center',
-              marginBottom: '24px',
+              marginBottom: '20px',
               flexWrap: 'wrap',
               gap: '16px'
             }}>
               <h2 style={{
-                fontSize: '20px',
+                fontSize: '18px',
                 fontWeight: '600',
                 color: '#212529',
                 margin: '0'
               }}>Sales Analytics</h2>
               <div style={{
                 display: 'flex',
-                gap: '8px'
+                gap: '8px',
+                flexWrap: 'wrap'
               }}>
-                <button style={{
-                  padding: '8px 16px',
-                  backgroundColor: '#007bff',
-                  color: 'white',
-                  border: 'none',
-                  borderRadius: '6px',
-                  fontSize: '14px',
-                  fontWeight: '500',
-                  cursor: 'pointer'
-                }}>Weekly</button>
-                <button style={{
-                  padding: '8px 16px',
-                  backgroundColor: '#f8f9fa',
-                  color: '#6c757d',
-                  border: 'none',
-                  borderRadius: '6px',
-                  fontSize: '14px',
-                  fontWeight: '500',
-                  cursor: 'pointer'
-                }}>Monthly</button>
-                <button style={{
-                  padding: '8px 16px',
-                  backgroundColor: '#f8f9fa',
-                  color: '#6c757d',
-                  border: 'none',
-                  borderRadius: '6px',
-                  fontSize: '14px',
-                  fontWeight: '500',
-                  cursor: 'pointer'
-                }}>Yearly</button>
+                {['weekly', 'monthly', 'yearly'].map((range) => (
+                  <button 
+                    key={range}
+                    onClick={() => setTimeRange(range)}
+                    style={{
+                      padding: '6px 12px',
+                      backgroundColor: timeRange === range ? '#d84a33' : '#f8f9fa',
+                      color: timeRange === range ? 'white' : '#d84a33',
+                      border: 'none',
+                      borderRadius: '6px',
+                      fontSize: '14px',
+                      fontWeight: '500',
+                      cursor: 'pointer',
+                      transition: 'all 0.2s'
+                    }}
+                  >
+                    {range.charAt(0).toUpperCase() + range.slice(1)}
+                  </button>
+                ))}
               </div>
             </div>
             <div style={{
@@ -146,8 +136,11 @@ const AdminDashboard = () => {
               flexDirection: 'column',
               color: '#6c757d'
             }}>
-              <i className="fas fa-chart-bar" style={{ fontSize: '48px', marginBottom: '12px' }}></i>
+              <i className="fas fa-chart-bar" style={{ fontSize: '48px', marginBottom: '12px', color: '#d84a33' }}></i>
               <p style={{ margin: '0', fontSize: '16px' }}>Sales chart will be displayed here</p>
+              <p style={{ margin: '4px 0 0', fontSize: '14px', color: '#adb5bd' }}>
+                Showing {timeRange} data
+              </p>
             </div>
           </div>
           
@@ -155,33 +148,35 @@ const AdminDashboard = () => {
           <div style={{
             display: 'grid',
             gridTemplateColumns: '1fr',
-            gap: '30px'
+            gap: '20px'
           }}>
             <div style={{
               display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fit, minmax(400px, 1fr))',
-              gap: '30px'
+              gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
+              gap: '20px'
             }}>
+              {/* Recent Orders Table */}
               <div style={{
                 backgroundColor: 'white',
                 borderRadius: '12px',
-                padding: '24px',
-                boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
+                padding: '20px',
+                boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
+                overflowX: 'auto'
               }}>
                 <div style={{
                   display: 'flex',
                   justifyContent: 'space-between',
                   alignItems: 'center',
-                  marginBottom: '20px'
+                  marginBottom: '16px'
                 }}>
                   <h2 style={{
-                    fontSize: '20px',
+                    fontSize: '18px',
                     fontWeight: '600',
                     color: '#212529',
                     margin: '0'
                   }}>Recent Orders</h2>
                   <button style={{
-                    color: '#007bff',
+                    color: '#dc3545',
                     backgroundColor: 'transparent',
                     border: 'none',
                     fontSize: '14px',
@@ -190,7 +185,7 @@ const AdminDashboard = () => {
                     textDecoration: 'none'
                   }}>View All</button>
                 </div>
-                <div style={{ overflowX: 'auto' }}>
+                <div style={{ minWidth: '500px' }}>
                   <table style={{
                     width: '100%',
                     borderCollapse: 'collapse'
@@ -220,14 +215,6 @@ const AdminDashboard = () => {
                           fontWeight: '600',
                           color: '#6c757d',
                           textTransform: 'uppercase'
-                        }}>Product</th>
-                        <th style={{
-                          textAlign: 'left',
-                          padding: '12px 8px',
-                          fontSize: '12px',
-                          fontWeight: '600',
-                          color: '#6c757d',
-                          textTransform: 'uppercase'
                         }}>Amount</th>
                         <th style={{
                           textAlign: 'left',
@@ -241,37 +228,32 @@ const AdminDashboard = () => {
                     </thead>
                     <tbody>
                       {[
-                        { id: '#ORD-7895', customer: 'Emma Wilson', product: 'Silk Blouse', amount: '$79.99', status: 'Delivered' },
-                        { id: '#ORD-7894', customer: 'Michael Brown', product: 'Casual Blazer', amount: '$89.99', status: 'Processing' },
-                        { id: '#ORD-7893', customer: 'Sophia Davis', product: 'Summer Dress', amount: '$69.99', status: 'Shipped' },
-                        { id: '#ORD-7892', customer: 'James Johnson', product: 'Leather Jacket', amount: '$129.99', status: 'Pending' },
-                        { id: '#ORD-7891', customer: 'Olivia Smith', product: 'Slim Fit Jeans', amount: '$59.99', status: 'Delivered' }
+                        { id: '#ORD-7895', customer: 'Emma Wilson', amount: '$79.99', status: 'Delivered' },
+                        { id: '#ORD-7894', customer: 'Michael Brown', amount: '$89.99', status: 'Processing' },
+                        { id: '#ORD-7893', customer: 'Sophia Davis', amount: '$69.99', status: 'Shipped' },
+                        { id: '#ORD-7892', customer: 'James Johnson', amount: '$129.99', status: 'Pending' },
+                        { id: '#ORD-7891', customer: 'Olivia Smith', amount: '$59.99', status: 'Delivered' }
                       ].map((order, index) => (
                         <tr key={index} style={{
                           borderBottom: index < 4 ? '1px solid #f8f9fa' : 'none'
                         }}>
                           <td style={{
-                            padding: '16px 8px',
+                            padding: '12px 8px',
                             fontSize: '14px',
                             fontWeight: '600',
                             color: '#212529'
                           }}>{order.id}</td>
                           <td style={{
-                            padding: '16px 8px',
+                            padding: '12px 8px',
                             fontSize: '14px',
                             color: '#6c757d'
                           }}>{order.customer}</td>
                           <td style={{
-                            padding: '16px 8px',
-                            fontSize: '14px',
-                            color: '#6c757d'
-                          }}>{order.product}</td>
-                          <td style={{
-                            padding: '16px 8px',
+                            padding: '12px 8px',
                             fontSize: '14px',
                             color: '#6c757d'
                           }}>{order.amount}</td>
-                          <td style={{ padding: '16px 8px' }}>
+                          <td style={{ padding: '12px 8px' }}>
                             <span style={{
                               padding: '4px 12px',
                               borderRadius: '12px',
@@ -296,26 +278,27 @@ const AdminDashboard = () => {
                 </div>
               </div>
               
+              {/* Recent Activity */}
               <div style={{
                 backgroundColor: 'white',
                 borderRadius: '12px',
-                padding: '24px',
+                padding: '20px',
                 boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
               }}>
                 <div style={{
                   display: 'flex',
                   justifyContent: 'space-between',
                   alignItems: 'center',
-                  marginBottom: '20px'
+                  marginBottom: '16px'
                 }}>
                   <h2 style={{
-                    fontSize: '20px',
+                    fontSize: '18px',
                     fontWeight: '600',
                     color: '#212529',
                     margin: '0'
                   }}>Recent Activity</h2>
                   <button style={{
-                    color: '#007bff',
+                    color: '#dc3545',
                     backgroundColor: 'transparent',
                     border: 'none',
                     fontSize: '14px',
@@ -327,14 +310,14 @@ const AdminDashboard = () => {
                 <div style={{
                   display: 'flex',
                   flexDirection: 'column',
-                  gap: '16px'
+                  gap: '12px'
                 }}>
                   {[
-                    { action: 'New order placed', user: 'Emma Wilson', time: '2 hours ago', icon: 'fa-shopping-bag', color: '#007bff' },
+                    { action: 'New order placed', user: 'Emma Wilson', time: '2 hours ago', icon: 'fa-shopping-bag', color: '#dc3545' },
                     { action: 'Product uploaded', user: 'Admin', time: '4 hours ago', icon: 'fa-upload', color: '#28a745' },
                     { action: 'Customer registered', user: 'Michael Brown', time: '5 hours ago', icon: 'fa-user-plus', color: '#17a2b8' },
                     { action: 'Payment received', user: 'Sophia Davis', time: '1 day ago', icon: 'fa-credit-card', color: '#ffc107' },
-                    { action: 'Inventory updated', user: 'Admin', time: '1 day ago', icon: 'fa-box', color: '#dc3545' }
+                    { action: 'Inventory updated', user: 'Admin', time: '1 day ago', icon: 'fa-box', color: '#6c757d' }
                   ].map((activity, index) => (
                     <div key={index} style={{
                       display: 'flex',

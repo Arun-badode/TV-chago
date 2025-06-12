@@ -1,0 +1,94 @@
+.bg-chago {
+  background-color: #d84a33 !important;
+  color: white;
+}
+
+.btn-chago {
+  background-color: #d84a33;
+  color: #fff;
+  border-color: #d84a33;
+}
+
+.btn-chago:hover {
+  background-color: #bf3f29;
+  border-color: #bf3f29;
+}
+
+.btn-outline-chago {
+  color: #d84a33;
+  border-color: #d84a33;
+}
+
+.btn-outline-chago:hover {
+  background-color: #d84a33;
+  color: #fff;
+}
+
+.btn-chago {
+  background-color: #d84a33;
+  color: #fff;
+  border-color: #d84a33;
+  transition: all 0.2s ease;
+}
+
+.btn-chago:hover,
+.btn-chago:focus {
+  background-color: #bf3f29;
+  border-color: #bf3f29;
+  color: #fff;
+}
+
+.btn-outline-chago {
+  color: #d84a33;
+  border-color: #d84a33;
+  background-color: transparent;
+  transition: all 0.2s ease;
+}
+
+.btn-outline-chago:hover,
+.btn-outline-chago:focus {
+  background-color: #d84a33;
+  color: #fff;
+  border-color: #d84a33;
+}
+
+
+.pagination .page-link {
+  color: #d84a33;
+
+  transition: background-color 0.2s, color 0.2s;
+}
+
+.pagination .page-link:hover {
+  background-color: #d84a33;
+  color: white;
+}
+
+.pagination .page-item.active .page-link {
+  background-color: #d84a33;
+
+  color: white;
+}
+
+
+.btn-chago {
+  background-color: #d84a33;
+  color: #fff;
+  border: none;
+}
+
+.btn-chago:hover {
+  background-color: #bb3c27;
+  color: #fff;
+}
+
+.btn-outline-chago {
+  color: #d84a33;
+  border: 1px solid #d84a33;
+  background-color: transparent;
+}
+
+.btn-outline-chago:hover {
+  background-color: #d84a33;
+  color: #fff;
+}

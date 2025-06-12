@@ -101,7 +101,7 @@ const CompletedOrders = () => {
   };
 
   return (
-    <div style={{ fontFamily: 'Arial, sans-serif', backgroundColor: '#f8f9fa', minHeight: '100vh' , marginTop: '78px'}}>
+    <div className='' style={{ fontFamily: 'Arial, sans-serif', backgroundColor: '#f8f9fa', maxHeight: 'auto' , marginTop: '78px'}}>
       {/* Bootstrap CSS */}
       <link 
         href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" 
@@ -192,7 +192,7 @@ const CompletedOrders = () => {
             </div>
           </div>
           <div className="col-md-3">
-            <div className="card bg-warning text-dark">
+            <div className="card bg-warning text-white">
               <div className="card-body">
                 <div className="d-flex justify-content-between align-items-center">
                   <div>
@@ -220,13 +220,13 @@ const CompletedOrders = () => {
               <button className="btn btn-outline-primary me-2">
                 <i className="fas fa-filter me-2"></i>Filter
               </button>
-              <button className="btn btn-success">
+              <button className="btn btn-success"  style={{backgroundColor: '#d84a33'}}>
                 <i className="fas fa-plus me-2"></i>Add New Order
               </button>
             </div>
           </div>
           <div className="card-body p-0">
-            <div className="table-responsive">
+            <div className="table-responsive" style={{ maxHeight: '400px', overflowY: 'auto' }}>
               <table className="table table-hover mb-0">
                 <thead className="table-light">
                   <tr>

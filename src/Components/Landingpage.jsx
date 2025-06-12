@@ -57,7 +57,8 @@ const LandingPage = () => {
           />
         </div>
         <div className="col-6 col-md-auto">
-          <button className="btn btn-warning w-100 py-3">Search</button>
+         <button className="btn btn-chago w-100 py-3">Search</button>
+
         </div>
         <div className="col-6 col-md-auto">
           <button className="btn btn-light text-dark w-100 py-3">All Products</button>
@@ -88,7 +89,8 @@ const LandingPage = () => {
                 <div className="d-flex justify-content-between align-items-center mt-3">
                   <span className="fw-bold text-dark">{prod.price}</span>
                   <Link to='/Ordertrack'>
-                  <button className="btn btn-warning btn-sm ">Buy Now</button>
+               <button className="btn btn-sm btn-chago">Buy Now</button>
+
                   </Link>
                 </div>
               </div>
