@@ -78,9 +78,9 @@ const Ordertrack = () => {
   };
 
   return (
-    <div>
-      <div className="container py-5">
-        <div className="order-form-card-unique mx-auto" style={{ maxWidth: 700 }}>
+    <di>
+      <div className="py-5">
+        <div className="order-form-card-unique mx-auto">
           {/* Stepper */}
           <div className="order-stepper-unique mb-4">
             <div
@@ -493,7 +493,7 @@ const Ordertrack = () => {
           </form>
         </div>
       </div>
-    </div>
+    </di>
   );
 };
 

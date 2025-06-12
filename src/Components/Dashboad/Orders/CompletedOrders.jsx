@@ -101,7 +101,7 @@ const CompletedOrders = () => {
   };
 
   return (
-    <div style={{ fontFamily: 'Arial, sans-serif', backgroundColor: '#f8f9fa', minHeight: '100vh' , marginTop: '78px'}}>
+    <div className='' style={{ fontFamily: 'Arial, sans-serif', backgroundColor: '#f8f9fa', maxHeight: 'auto' , marginTop: '78px'}}>
       {/* Bootstrap CSS */}
       <link 
         href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" 
@@ -226,7 +226,7 @@ const CompletedOrders = () => {
             </div>
           </div>
           <div className="card-body p-0">
-            <div className="table-responsive">
+            <div className="table-responsive" style={{ maxHeight: '400px', overflowY: 'auto' }}>
               <table className="table table-hover mb-0">
                 <thead className="table-light">
                   <tr>
