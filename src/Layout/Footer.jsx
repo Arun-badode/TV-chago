@@ -68,7 +68,6 @@ const Footer = () => {
             </p>
 
 
-
             <h6 className="fw-bold">We Accept</h6>
             <div className="d-flex gap-2">
               <img src="https://img.icons8.com/color/36/visa.png" alt="Visa" />
