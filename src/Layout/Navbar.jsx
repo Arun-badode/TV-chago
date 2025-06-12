@@ -7,17 +7,22 @@ const CustomNavbar = () => {
       expand="lg"
       className="fixed-top py-3 shadow-lg"
       style={{
-        background: 'linear-gradient(90deg, #fff7c2 0%, #ffe98a 100%)',
+       backgroundColor: ' #fffcec',
       }}
     >
       <Container className="d-flex justify-content-between align-items-center">
         {/* Brand Logo */}
-        <Navbar.Brand href="#" className="d-flex align-items-center">
-          <span className="fw-bold me-0" style={{ color: '#9acd32' }}>
-            FASHION
-          </span>
-          <span className="fw-bold text-dark">HUB</span>
-        </Navbar.Brand>
+      <Navbar.Brand href="#" className="d-flex align-items-center">
+  <img
+    src="https://i.postimg.cc/8CG6dNYw/Whats-App-Image-2025-06-12-at-11-59-46-c03b4354-removebg-preview.png"
+    alt="CHAGO TV Logo"
+    height="40"
+    width="90"
+
+    className="d-inline-block align-top"
+  />
+</Navbar.Brand>
+
 
         {/* Profile icon (small screens only) */}
         <div className="d-lg-none d-flex align-items-center gap-3">
