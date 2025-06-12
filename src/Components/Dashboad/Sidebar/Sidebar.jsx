@@ -13,7 +13,6 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
     const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
     const navigate = useNavigate();
 
-<<<<<<< HEAD
     const menuItems = [
         { id: 'dashboard', label: 'Dashboard', icon: Home, path: 'dashboardlayout' },
         {
@@ -30,7 +29,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
         { id: 'notifications', label: 'Notifications', icon: MessageSquare, path: 'dashboardlayout/notification', notificationCount: 5 },
         { id: 'settings', label: 'Settings', icon: Settings, path: 'dashboardlayout/setting' },
     ];
-=======
+
 const Sidebar = ({ sidebarOpen }) => {
   const [activeSection, setActiveSection] = useState('dashboard');
   const [ordersOpen, setOrdersOpen] = useState(false);
@@ -52,7 +51,7 @@ const navigate= useNavigate();
   { id: 'notifications', label: 'Notifications', icon: MessageSquare, path: 'dashboardlayout/notification', notificationCount: 5 },
   { id: 'settings', label: 'Settings', icon: Settings, path: 'dashboardlayout/setting' },
 ];
->>>>>>> 477bb4125122b54799094b5e9a629fcba7af59ed
+
 
     useEffect(() => {
         const handleResize = () => {
