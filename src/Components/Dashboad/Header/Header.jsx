@@ -1,82 +1,65 @@
 import React, { useEffect, useState } from 'react';
-import { Menu, Search, User } from 'lucide-react';
+import { Menu, User } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import "./Header.css";
 
 const Header = ({ setSidebarOpen }) => {
-    const [searchTerm, setSearchTerm] = useState('');
-    const [users, setUsers] = useState([]);
-    const [filteredUsers, setFilteredUsers] = useState([]);
+    const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
     const navigate = useNavigate();
 
     useEffect(() => {
-        const mockUsers = [
-            { id: 1, full_name: "John Doe", email: "john@example.com" },
-            { id: 2, full_name: "Jane Smith", email: "jane@example.com" },
-            { id: 3, full_name: "Robert Johnson", email: "robert@example.com" },
-            { id: 4, full_name: "Emily Davis", email: "emily@example.com" },
-            { id: 5, full_name: "Michael Wilson", email: "michael@example.com" },
-        ];
-        setUsers(mockUsers);
+        const handleResize = () => {
+            setIsMobile(window.innerWidth < 768);
+        };
+        window.addEventListener('resize', handleResize);
+        return () => window.removeEventListener('resize', handleResize);
     }, []);
 
-    useEffect(() => {
-        if (searchTerm.trim()) {
-            const results = users.filter(user =>
-                user.full_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                user.email.toLowerCase().includes(searchTerm.toLowerCase())
-            );
-            setFilteredUsers(results);
-        } else {
-            setFilteredUsers([]);
-        }
-    }, [searchTerm, users]);
-
-    const handleUserSelect = (user) => {
-        navigate('/dashboard/updateprofile', { state: { userData: user } });
-        setSearchTerm('');
-        setFilteredUsers([]);
+    const handleSidebarToggle = () => {
+        setSidebarOpen(prev => !prev);
     };
 
     return (
-        <header className="header-container">
-            <div className="header-content">
-
-                {/* Right Section */}
-
-                <div className="header-right ms-auto d-flex align-items-center gap-4">
-                    {/* Search Bar */}
-                    <div className="search-group d-flex align-items-center me-3">
-                        <span className="search-icon me-2">
-                            <Search size={16} />
-                        </span>
-                        <input
-                            type="text"
-                            className="search-input form-control"
-                            placeholder="Search users, reports..."
-                            value={searchTerm}
-                            onChange={(e) => setSearchTerm(e.target.value)}
-                            aria-label="Search users or reports"
-                            autoComplete="off"
-                            style={{ minWidth: '250px' }}
+        <header className="header-container bg-white shadow-sm py-4 py-md-3 py-lg-4">
+            <div className="container-fluid px-3 px-md-4">
+                <div className="row align-items-center gx-0">
+                    {/* Left: Logo and mobile menu button */}
+                    <div className="col-6 col-md-3 d-flex align-items-center">
+                        <button
+                            className="btn btn-outline-secondary d-md-none me-2 p-1"
+                            style={{ width: 36, height: 36 }}
+                            onClick={handleSidebarToggle}
+                            aria-label="Toggle sidebar"
+                        >
+                            <Menu size={22} className="text-dark" />
+                        </button>
+                        <img
+                            src="https://i.postimg.cc/8CG6dNYw/Whats-App-Image-2025-06-12-at-11-59-46-c03b4354-removebg-preview.png"
+                            alt="Logo"
+                            className="img-fluid"
+                            style={{
+                                height: isMobile ? 28 : 36,
+                                width: 'auto',
+                                maxWidth: isMobile ? 100 : 130,
+                            }}
                         />
                     </div>
 
-                    {/* Profile Button */}
-                    <button
-                        className=" profile-button align-items-center d-flex align-items-center border-0 bg-white px-3 py-1 rounded shadow-sm"
-                        style={{ height: '36px' }}
-                        type="button"
-                        onClick={() => navigate('/dashboard/adminprofile')}
-                    >
-                        <User size={18} className="me-2 profile-icon" />
-                        <span style={{  fontSize: '0.9rem', fontWeight: 500 }}>Admin</span>
-                    </button>
+                    {/* Empty space for centering on larger screens */}
+                    <div className="col-md-6 d-none d-md-flex"></div>
 
+                    {/* Right: Profile icon */}
+                    <div className="col-6 col-md-3 d-flex justify-content-end">
+                        <button
+                            className="profile-button d-flex align-items-center justify-content-center border-0 bg-transparent p-1"
+                            style={{ width: 36, height: 36 }}
+                            type="button"
+                            onClick={() => navigate('/dashboard/adminprofile')}
+                        >
+                            <User size={22} className="text-dark" />
+                        </button>
+                    </div>
                 </div>
-
-
-
             </div>
         </header>
     );

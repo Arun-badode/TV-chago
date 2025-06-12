@@ -9,17 +9,17 @@ const DashboardLayout = () => {
   const [sidebarOpen, setSidebarOpen] = useState(true);
 
   useEffect(() => {
-    const path = location.pathname.split('/')[2]; // e.g. 'allusers'
+    const path = location.pathname.split('/')[2];
     setActiveSection(path || 'admindashboard');
   }, [location]);
 
   return (
-    <div className="d-flex flex-column vh-100">
+    <div className="d-flex flex-column vh-100 overflow-hidden">
       {/* Header */}
       <Header setSidebarOpen={setSidebarOpen} />
 
-      {/* Body */}
-      <div className="d-flex flex-grow-1 position-relative">
+      {/* Main layout */}
+      <div className="d-flex flex-grow-1" style={{ minHeight: 0 }}>
         {/* Sidebar */}
         <Sidebar
           activeSection={activeSection}
@@ -28,13 +28,19 @@ const DashboardLayout = () => {
           setSidebarOpen={setSidebarOpen}
         />
 
-        {/* Content */}
-        <div
-          className="flex-grow-1 p-3 overflow-auto"
-          style={{ marginLeft: sidebarOpen ? '280px' : '0px', transition: 'margin-left 0.3s ease' }}
+        {/* Main content area */}
+        <main
+          className="flex-grow-1 d-flex flex-column"
+          style={{
+            minWidth: 0,
+            transition: 'all 0.3s ease',
+            overflow: 'auto',
+          }}
         >
-          <Outlet />
-        </div>
+          <div className="p-3">
+            <Outlet />
+          </div>
+        </main>
       </div>
     </div>
   );

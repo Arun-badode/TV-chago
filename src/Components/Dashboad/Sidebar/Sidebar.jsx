@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import {
-    Users, UserCheck, Settings, FileText, Activity, LogOut, Inbox, Send,
-    ChevronDown, ChevronUp, Home, ShoppingBag, CreditCard, BarChart2, MessageSquare, Menu
+    Users, Settings, LogOut, Inbox, Send,
+    ChevronDown, ChevronUp, Home, ShoppingBag, MessageSquare
 } from 'lucide-react';
-import "./Sidebar.css";
+import "./Sidebar.css"
 import { useNavigate } from 'react-router-dom';
 
-const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
+const Sidebar = ({ sidebarOpen: parentSidebarOpen, setSidebarOpen: setParentSidebarOpen }) => {
     const [activeSection, setActiveSection] = useState('dashboard');
     const [ordersOpen, setOrdersOpen] = useState(false);
-    const [reportsOpen, setReportsOpen] = useState(false);
+    const [isCollapsed, setIsCollapsed] = useState(false);
     const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
     const navigate = useNavigate();
 
@@ -20,8 +20,8 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
             label: 'Orders',
             icon: ShoppingBag,
             children: [
-                { id: 'pending-orders', label: 'Pending Orders', icon: Inbox, path: 'dashboardlayout/orders/pending' },
-                { id: 'completed-orders', label: 'Completed Orders', icon: Send, path: 'dashboardlayout/orders/completed' },
+                { id: 'pending-orders', label: 'Pending Orders', icon: Inbox, path: 'dashboardlayout/pendingorder' },
+                { id: 'completed-orders', label: 'Completed Orders', icon: Send, path: 'dashboardlayout/completedorder' },
             ],
         },
         { id: 'upload', label: 'Upload', icon: Users, path: 'dashboardlayout/Upload' },
@@ -30,152 +30,115 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
         { id: 'settings', label: 'Settings', icon: Settings, path: 'dashboardlayout/setting' },
     ];
 
-const Sidebar = ({ sidebarOpen }) => {
-  const [activeSection, setActiveSection] = useState('dashboard');
-  const [ordersOpen, setOrdersOpen] = useState(false);
-  const [reportsOpen, setReportsOpen] = useState(false);
-const navigate= useNavigate();
- const menuItems = [
-  { id: 'dashboard', label: 'Dashboard', icon: Home, path: 'dashboardlayout' },
-  {
-    id: 'orders',
-    label: 'Orders',
-    icon: ShoppingBag,
-    children: [
-      { id: 'pending-orders', label: 'Pending Orders', icon: Inbox, path: 'dashboardlayout/pendingorder' },
-      { id: 'completed-orders', label: 'Completed Orders', icon: Send, path: 'dashboardlayout/completedorder' },
-    ],
-  },
-  { id: 'upload', label: 'Upload', icon: Users, path: 'dashboardlayout/Upload' },
-  { id: 'customers', label: 'Customers', icon: Users, path: 'dashboardlayout/customer' },
-  { id: 'notifications', label: 'Notifications', icon: MessageSquare, path: 'dashboardlayout/notification', notificationCount: 5 },
-  { id: 'settings', label: 'Settings', icon: Settings, path: 'dashboardlayout/setting' },
-];
-
-
     useEffect(() => {
-        const handleResize = () => {
-            setIsMobile(window.innerWidth < 768);
-            if (window.innerWidth >= 768) {
-                setSidebarOpen(true);
-            }
-        };
+        const handleResize = () => setIsMobile(window.innerWidth < 768);
         window.addEventListener('resize', handleResize);
         return () => window.removeEventListener('resize', handleResize);
-    }, [setSidebarOpen]);
+    }, []);
+
+    useEffect(() => {
+        if (activeSection === 'pending-orders' || activeSection === 'completed-orders' || activeSection === 'returns') {
+            setOrdersOpen(true);
+        }
+    }, [activeSection]);
 
     const handleNavigation = (id, path) => {
         navigate(`/${path}`);
         setActiveSection(id);
-        if (isMobile) setSidebarOpen(false);
+        if (isMobile && setParentSidebarOpen) setParentSidebarOpen(false);
     };
 
-    const handleToggleSection = (id) => {
-        if (id === 'orders') setOrdersOpen(!ordersOpen);
-        if (id === 'reports') setReportsOpen(!reportsOpen);
-    };
+    const handleToggleSidebar = () => setIsCollapsed(!isCollapsed);
 
     return (
         <>
-            {/* Header (Mobile Only) */}
-            {isMobile && (
-                <div className="mobile-header d-flex align-items-center justify-content-between px-3 py-2 shadow-sm bg-white">
-                    <img
-                        src="https://i.postimg.cc/8CG6dNYw/Whats-App-Image-2025-06-12-at-11-59-46-c03b4354-removebg-preview.png"
-                        alt="Logo"
-                        height="36"
-                    />
-                    <button className="btn p-1" onClick={() => setSidebarOpen(!sidebarOpen)}>
-                        <Menu size={24} />
-                    </button>
-                </div>
-            )}
-
+            {/* Sidebar container without toggle button and logo, with lower z-index */}
             <div
-                className={`sidebar-container ${sidebarOpen ? 'open' : ''}`}
+                className={`sidebar-container bg-white border-end ${isMobile ? (parentSidebarOpen ? 'd-block' : 'd-none') : 'd-block'} ${isCollapsed && !isMobile ? 'collapsed' : ''}`}
                 style={{
-                    transform: sidebarOpen ? 'translateX(0)' : 'translateX(-100%)',
-                    transition: 'transform 0.3s ease-in-out',
+                    width: isMobile ? 220 : isCollapsed ? 60 : 220,
+                    position: isMobile ? 'fixed' : 'relative',
+                    height: '100vh',
+                    zIndex: 100, // Lower z-index so header is above
+                    top: isMobile ? 0 : undefined,
+                    left: 0,
+                    transition: 'width 0.2s',
+                    marginTop: '90px', // <-- Added margin top
                 }}
             >
-                <div className="sidebar">
-                    {/* Logo (Desktop) */}
-                    {!isMobile && (
-                        <div className="sidebar-header p-3">
-                            <img
-                                src="https://i.postimg.cc/8CG6dNYw/Whats-App-Image-2025-06-12-at-11-59-46-c03b4354-removebg-preview.png"
-                                alt="Logo"
-                                height="40"
-                                width="90"
-                            />
-                        </div>
-                    )}
-
-                    {/* Navigation */}
-                    <nav className="sidebar-nav">
-                        {menuItems.map(({ id, label, icon: Icon, path, children, notificationCount }) => (
-                            <React.Fragment key={id}>
-                                <div
-                                    className={`nav-item ${activeSection === id ? 'active' : ''}`}
-                                    onClick={() => {
-                                        if (children) {
-                                            handleToggleSection(id);
-                                        } else {
-                                            handleNavigation(id, path);
-                                        }
-                                    }}
-                                >
-                                    <Icon size={20} strokeWidth={1.8} />
-                                    {!isMobile && <span>{label}</span>}
-                                    {notificationCount && !isMobile && (
-                                        <span className="notification-badge">{notificationCount}</span>
-                                    )}
-                                    {children && !isMobile && (
-                                        <span className="chevron">
-                                            {(id === 'orders' && ordersOpen) || (id === 'reports' && reportsOpen)
-                                                ? <ChevronUp size={16} />
-                                                : <ChevronDown size={16} />}
-                                        </span>
-                                    )}
-                                </div>
-
-                                {children && !isMobile && (
-                                    (id === 'orders' && ordersOpen) || (id === 'reports' && reportsOpen)
-                                ) && (
-                                    <div className="submenu">
-                                        {children.map(({ id: childId, label: childLabel, icon: ChildIcon, path: childPath }) => (
-                                            <div
-                                                key={childId}
-                                                className={`submenu-item ${activeSection === childId ? 'active' : ''}`}
-                                                onClick={() => handleNavigation(childId, childPath)}
-                                            >
-                                                <ChildIcon size={16} strokeWidth={1.8} />
-                                                {childLabel}
-                                            </div>
-                                        ))}
-                                    </div>
+                {/* Collapse button for desktop (optional, can remove if not needed) */}
+              
+                {/* Navigation */}
+                <nav className="sidebar-nav">
+                    {menuItems.map(({ id, label, icon: Icon, path, children, notificationCount }) => (
+                        <React.Fragment key={id}>
+                            <div
+                                className={`nav-item d-flex align-items-center px-3 py-3 gap-2 mt-3 ${activeSection === id ? 'active' : ''}`}
+                                style={{ cursor: 'pointer' }}
+                                onClick={() => {
+                                    if (children && id === 'orders') setOrdersOpen(!ordersOpen);
+                                    else handleNavigation(id, path);
+                                }}
+                            >
+                                <Icon size={20} strokeWidth={1.8} />
+                                {!isCollapsed && (
+                                    <>
+                                        <span className="ms-2">{label}</span>
+                                        {notificationCount && (
+                                            <span className="notification-badge ms-auto">{notificationCount}</span>
+                                        )}
+                                        {children && (
+                                            <span className="chevron ms-2">
+                                                {id === 'orders' ? (ordersOpen ? <ChevronUp size={16} /> : <ChevronDown size={16} />) : null}
+                                            </span>
+                                        )}
+                                    </>
                                 )}
-                            </React.Fragment>
-                        ))}
-                    </nav>
-
-                    {/* Logout (Hide on Mobile) */}
-                    {!isMobile && (
-                        <div className="logout-section mt-auto">
-                            <div className="user-profile">
-                                <div className="avatar">JD</div>
-                                <div className="user-info">
-                                    <strong>John Doe</strong>
-                                    <span>Admin</span>
-                                </div>
                             </div>
-                            <button className="logout-button">
-                                <LogOut size={18} />
-                            </button>
-                        </div>
+                            {children && ordersOpen && id === 'orders' && !isCollapsed && (
+                                <div className="submenu ps-4">
+                                    {children.map(({ id: childId, label: childLabel, icon: ChildIcon, path: childPath }) => (
+                                        <div
+                                            key={childId}
+                                            className={`submenu-item d-flex align-items-center py-1 ${activeSection === childId ? 'active' : ''}`}
+                                            style={{ cursor: 'pointer' }}
+                                            onClick={() => handleNavigation(childId, childPath)}
+                                        >
+                                            <ChildIcon size={16} strokeWidth={1.8} />
+                                            <span className="ms-2">{childLabel}</span>
+                                        </div>
+                                    ))}
+                                </div>
+                            )}
+                        </React.Fragment>
+                    ))}
+                </nav>
+                {/* Logout */}
+                <div className="logout-section mt-auto p-3 d-flex align-items-center">
+                    <div className="user-profile d-flex align-items-center">
+                        <div className="avatar bg-secondary text-white rounded-circle d-flex align-items-center justify-content-center" style={{ width: 36, height: 36 }}>JD</div>
+                        {!isCollapsed && (
+                            <div className="user-info ms-2">
+                                <strong>John Doe</strong>
+                                <div style={{ fontSize: 12 }}>Admin</div>
+                            </div>
+                        )}
+                    </div>
+                    {!isCollapsed && (
+                        <button className="logout-button btn btn-link ms-auto">
+                            <LogOut size={18} />
+                        </button>
                     )}
                 </div>
             </div>
+            {/* Overlay for mobile */}
+            {isMobile && parentSidebarOpen && (
+                <div
+                    className="position-fixed top-0 start-0 w-100 h-100"
+                    style={{ background: 'rgba(0,0,0,0.3)', zIndex: 99 }}
+                    onClick={() => setParentSidebarOpen && setParentSidebarOpen(false)}
+                />
+            )}
         </>
     );
 };

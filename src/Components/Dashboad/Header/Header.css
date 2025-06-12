@@ -9,6 +9,7 @@
     box-shadow: 0 0 30px rgba(0, 0, 0, 0.1);
     padding: 0 20px;
     z-index: 500;
+    width: 100%;
 }
 
 .profile-button {
@@ -220,6 +221,20 @@
     .profile-button {
         padding: 10px;
     }
+}
+
+@media (max-width: 767.98px) {
+  .header-container img {
+    height: 28px !important;
+    max-width: 90px !important;
+  }
+  .search-input {
+    min-width: 90px !important;
+    font-size: 0.95rem;
+  }
+  .profile-button span {
+    display: none;
+  }
 }
 
 
