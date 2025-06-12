@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import {
     Users, Settings, LogOut, Inbox, Send,
-    ChevronDown, ChevronUp, Home, ShoppingBag, MessageSquare
+    ChevronDown, ChevronUp, Home, ShoppingBag, MessageSquare,
+    Link
 } from 'lucide-react';
 import "./Sidebar.css"
 import { useNavigate } from 'react-router-dom';
@@ -125,7 +126,10 @@ const Sidebar = ({ sidebarOpen: parentSidebarOpen, setSidebarOpen: setParentSide
                         )}
                     </div>
                     {!isCollapsed && (
-                        <button className="logout-button btn btn-link ms-auto">
+                        
+                        <button className="logout-button btn btn-link ms-auto"
+                            onClick={() => navigate('/login')}
+                        >
                             <LogOut size={18} />
                         </button>
                     )}

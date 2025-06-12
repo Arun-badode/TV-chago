@@ -81,7 +81,7 @@ const CustomNavbar = () => {
               >
                 <Dropdown.Item href="/profile">My Profile</Dropdown.Item>
                 <Dropdown.Item href="/login">Login</Dropdown.Item>
-                <Dropdown.Item href="/logout">Logout</Dropdown.Item>
+                
               </Dropdown.Menu>
             </Dropdown>
           </div>
