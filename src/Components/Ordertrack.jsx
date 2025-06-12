@@ -1,5 +1,5 @@
 import React, { useState, useRef } from 'react';
-import './Ordertrack.css'; // Assuming you have a CSS file for styling
+import './Order.css'; // Assuming you have a CSS file for styling
 
 const Ordertrack = () => {
   // Step state: 1 = Order, 2 = Payment, 3 = Confirmation
