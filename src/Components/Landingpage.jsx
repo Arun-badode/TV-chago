@@ -16,213 +16,216 @@ const products = [
 const LandingPage = () => {
   return (
     <>
-    <div>
+      <div>
 
-      {/* Hero Section */}
-    
-    <div id='home' style={{ position: 'relative', minHeight: '100vh', overflow: 'hidden' }}>
-  {/* Background Image */}
-  <div 
-    className="position-absolute top-0 start-0 w-100 h-100"
-    style={{
-      background: 'url(https://i.postimg.cc/Hnqc2bxF/904885a821d0846fd0ceb528f65b4190.jpg) center/cover no-repeat',
-      zIndex: 1,
-    }}
-  ></div>
+        {/* Hero Section */}
 
-  {/* Dark Overlay */}
-  <div
-    className="position-absolute top-0 start-0 w-100 h-100"
-    style={{
-      backgroundColor: 'rgba(0, 0, 0, 0.6)',
-      zIndex: 2,
-    }}
-  ></div>
+        <div id='home' style={{ position: 'relative', minHeight: '100vh', overflow: 'hidden' }}>
+          {/* Background Image */}
+          <div
+            className="position-absolute top-0 start-0 w-100 h-100"
+            style={{
+              background: 'url(https://i.postimg.cc/Hnqc2bxF/904885a821d0846fd0ceb528f65b4190.jpg) center/cover no-repeat',
+              zIndex: 1,
+            }}
+          ></div>
 
-  {/* Content */}
-  <div
-    className="text-white text-center d-flex align-items-center justify-content-center"
-    style={{ minHeight: '100vh', position: 'relative', zIndex: 3 }}
-  >
-    <div className="container px-3">
-      <h1 className="fw-bold mb-4 display-5">Find Your Perfect Style</h1>
+          {/* Dark Overlay */}
+          <div
+            className="position-absolute top-0 start-0 w-100 h-100"
+            style={{
+              backgroundColor: 'rgba(0, 0, 0, 0.6)',
+              zIndex: 2,
+            }}
+          ></div>
 
-      {/* Responsive Input + Buttons */}
-      <div className="row justify-content-center g-2">
-        <div className="col-12 col-md-6">
-          <input
-            type="text"
-            className="form-control py-3"
-            placeholder="Search for clothing, categories..."
-          />
-        </div>
-        <div className="col-6 col-md-auto">
-         <button className="btn btn-chago w-100 py-3">Search</button>
+          {/* Content */}
+          <div
+            className="text-white text-center d-flex align-items-center justify-content-center"
+            style={{ minHeight: '100vh', position: 'relative', zIndex: 3 }}
+          >
+            <div className="container px-3">
+              <h1 className="fw-bold mb-4 display-5">Find Your Perfect Style</h1>
 
-        </div>
-        <div className="col-6 col-md-auto">
-          <button className="btn btn-light text-dark w-100 py-3">All Products</button>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-
-
-      {/* Featured Products */}
-     <div id='allproduct' className="container py-5">
-      <h2 className="fw-bold mb-2 text-center">Featured Products</h2>
-      <p className="text-muted mb-4 text-center">Discover our latest collection of trendy clothing</p>
-      <div className="row">
-        {products.map((prod, idx) => (
-          <div className="col-sm-6 col-md-4 col-lg-3 mb-4" key={idx}>
-            <div className="card h-100 border-0 shadow-sm rounded">
-              <img
-                src={prod.img}
-                className="card-img-top"
-                alt={prod.title}
-                style={{ objectFit: 'cover', height: '250px' }}
-              />
-              <div className="card-body">
-                <h6 className="fw-bold">{prod.title}</h6>
-                <p className="text-muted small">{prod.desc}</p>
-                <div className="d-flex justify-content-between align-items-center mt-3">
-                  <span className="fw-bold text-dark">{prod.price}</span>
-                  <Link to='/Ordertrack'>
-               <button className="btn btn-sm btn-chago">Buy Now</button>
-
-                  </Link>
+              {/* Responsive Input + Buttons */}
+              <div className="row justify-content-center g-2">
+                <div className="col-12 col-md-6">
+                  <input
+                    type="text"
+                    className="form-control py-3"
+                    placeholder="Search for clothing, categories..."
+                  />
                 </div>
-              </div>
-            </div>
-          </div>
-        ))}
-      </div>
-      <div className="text-center mt-4">
-        <button className="btn btn-outline-warning">View All Products</button>
-      </div>
-    </div>
+                <div className="col-6 col-md-auto">
+                  <button className="btn btn-chago w-100 py-3">Search</button>
 
-      {/* blogs */}
- <div id='blog' className="bg-light py-5">
-  <div className="container">
-    <h2 className="fw-bold mb-2 text-center">Latest From Our Blog</h2>
-    <p className="text-muted mb-4 text-center">Stay updated with trends, tips & style inspiration</p>
-
-    <div className="row">
-      {[
-        {
-          title: "Top 5 Summer Fashion Essentials",
-          desc: "Discover must-have summer pieces that combine comfort and style, perfect for the hot season.",
-          img: "https://i.postimg.cc/nh6qHjtd/ww.jpg",
-          date: "June 10, 2025",
-        },
-        {
-          title: "How to Accessorize Like a Pro",
-          desc: "Accessories can elevate any outfit. Learn the art of mixing and matching like a stylist.",
-          img: "https://i.postimg.cc/1tKFcvVT/gg.png",
-          date: "June 7, 2025",
-        },
-        {
-          title: "Men’s Guide to Smart Casual Dressing",
-          desc: "Step up your game with this guide to effortless, sharp, and comfortable looks for men.",
-          img: "https://i.postimg.cc/0jWJhrf0/me.jpg",
-          date: "June 5, 2025",
-        },
-      ].map((blog, idx) => (
-        <div className="col-md-4 mb-4" key={idx}>
-          <div className="card shadow-sm border-0 rounded-4 h-100 overflow-hidden">
-            {/* Blog Image */}
-            <div style={{ height: "200px", backgroundColor: "#fefae0" }}>
-              <img
-                src={blog.img}
-                alt="Blog"
-                className="w-100 h-100 object-fit-cover"
-              />
-            </div>
-
-            {/* Blog Content */}
-            <div className="p-4">
-              <h5 className="fw-bold text-dark mb-2">{blog.title}</h5>
-              <p className="text-muted small mb-3">{blog.desc}</p>
-
-              {/* Author Info */}
-              <div className="d-flex align-items-center">
-                <div
-                  className="rounded-circle bg-warning bg-opacity-25 d-flex align-items-center justify-content-center me-3"
-                  style={{ width: "45px", height: "45px" }}
-                >
-                  <i className="bi bi-person-circle text-warning fs-5"></i>
                 </div>
-                <div>
-                  <div className="fw-semibold text-dark small">By FashionHub Team</div>
-                  <div className="text-muted small">{blog.date}</div>
+                <div className="col-6 col-md-auto">
+                  <button className="btn btn-light text-dark w-100 py-3">All Products</button>
                 </div>
               </div>
             </div>
           </div>
         </div>
-      ))}
-    </div>
-  </div>
-</div>
 
 
+        {/* Featured Products */}
+        <div id='allproduct' className="container py-5">
+          <h2 className="fw-bold mb-2 text-center">Featured Products</h2>
+          <p className="text-muted mb-4 text-center">Discover our latest collection of trendy clothing</p>
+          <div className="row">
+            {products.map((prod, idx) => (
+              <div className="col-sm-6 col-md-4 col-lg-3 mb-4" key={idx}>
+                <div className="card h-100 border-0 shadow-sm rounded">
+                  <img
+                    src={prod.img}
+                    className="card-img-top"
+                    alt={prod.title}
+                    style={{ objectFit: 'cover', height: '250px' }}
+                  />
+                  <div className="card-body">
+                    <h6 className="fw-bold">{prod.title}</h6>
+                    <p className="text-muted small">{prod.desc}</p>
+                    <div className="d-flex justify-content-between align-items-center mt-3">
+                      <span className="fw-bold text-dark">{prod.price}</span>
+                      <Link to='/Ordertrack'>
+                        <button className="btn btn-sm btn-chago">Buy Now</button>
 
-      {/* Why Choose Us */}
-      <div className="bg-light py-1 text-center">
-  <div className="container">
-    <h2 className="fw-bold mb-2">Why Choose Us</h2>
-    <p className="text-muted mb-5">Experience the best in fashion retail</p>
-    <div className="row justify-content-center">
-      <div className="col-md-3 mb-4">
-        <div className="mb-3 d-flex justify-content-center">
-          <div className="rounded-circle bg-warning bg-opacity-25 d-flex align-items-center justify-content-center" style={{ width: "80px", height: "80px" }}>
-            <i className="bi bi-truck text-warning fs-2"></i>
+                      </Link>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+          <div className="text-center mt-4">
+            <button
+              className="btn"
+              style={{
+                color: "#d84a33",
+                border: "1px solid #d84a33",
+                backgroundColor: "transparent"
+              }}
+            >
+              View All Products
+            </button>
+
           </div>
         </div>
-        <h5 className="fw-bold">Fast Delivery</h5>
-        <p className="text-muted">Free shipping on orders over $50</p>
-      </div>
-      <div className="col-md-3 mb-4">
-        <div className="mb-3 d-flex justify-content-center">
-          <div className="rounded-circle bg-warning bg-opacity-25 d-flex align-items-center justify-content-center" style={{ width: "80px", height: "80px" }}>
-            <i className="bi bi-award text-warning fs-2"></i>
+
+        {/* blogs */}
+        <div id='blog' className="bg-light py-5">
+          <div className="container">
+            <h2 className="fw-bold mb-2 text-center">Latest From Our Blog</h2>
+            <p className="text-muted mb-4 text-center">Stay updated with trends, tips & style inspiration</p>
+
+            <div className="row">
+              {[
+                {
+                  title: "Top 5 Summer Fashion Essentials",
+                  desc: "Discover must-have summer pieces that combine comfort and style, perfect for the hot season.",
+                  img: "https://i.postimg.cc/nh6qHjtd/ww.jpg",
+                  date: "June 10, 2025",
+                },
+                {
+                  title: "How to Accessorize Like a Pro",
+                  desc: "Accessories can elevate any outfit. Learn the art of mixing and matching like a stylist.",
+                  img: "https://i.postimg.cc/1tKFcvVT/gg.png",
+                  date: "June 7, 2025",
+                },
+                {
+                  title: "Men’s Guide to Smart Casual Dressing",
+                  desc: "Step up your game with this guide to effortless, sharp, and comfortable looks for men.",
+                  img: "https://i.postimg.cc/0jWJhrf0/me.jpg",
+                  date: "June 5, 2025",
+                },
+              ].map((blog, idx) => (
+                <div className="col-md-4 mb-4" key={idx}>
+                  <div className="card shadow-sm border-0 rounded-4 h-100 overflow-hidden">
+                    {/* Blog Image */}
+                    <div style={{ height: "200px", backgroundColor: "#fefae0" }}>
+                      <img
+                        src={blog.img}
+                        alt="Blog"
+                        className="w-100 h-100 object-fit-cover"
+                      />
+                    </div>
+
+                    {/* Blog Content */}
+                    <div className="p-4">
+                      <h5 className="fw-bold text-dark mb-2">{blog.title}</h5>
+                      <p className="text-muted small mb-3">{blog.desc}</p>
+
+                      {/* Author Info */}
+                      <div className="d-flex align-items-center">
+                        <div
+                          className="rounded-circle d-flex align-items-center justify-content-center me-3"
+                          style={{
+                            width: "45px",
+                            height: "45px",
+                            backgroundColor: "rgba(216, 74, 51, 0.25)"
+                          }}
+                        >
+                          <i className="bi bi-person-circle fs-5" style={{ color: "#d84a33" }}></i>
+                        </div>
+
+                        <div>
+                          <div className="fw-semibold text-dark small">By FashionHub Team</div>
+                          <div className="text-muted small">{blog.date}</div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
-        <h5 className="fw-bold">Quality Products</h5>
-        <p className="text-muted">Curated selection of premium brands</p>
-      </div>
-      <div className="col-md-3 mb-4">
-        <div className="mb-3 d-flex justify-content-center">
-          <div className="rounded-circle bg-warning bg-opacity-25 d-flex align-items-center justify-content-center" style={{ width: "80px", height: "80px" }}>
-            <i className="bi bi-arrow-left-right text-warning fs-2"></i>
+
+
+
+        {/* Why Choose Us */}
+        <div className="bg-light py-1 text-center">
+          <div className="container">
+            <h2 className="fw-bold mb-2">Why Choose Us</h2>
+            <p className="text-muted mb-5">Experience the best in fashion retail</p>
+            <div className="row justify-content-center">
+              {[
+                { icon: "bi-truck", title: "Fast Delivery", desc: "Free shipping on orders over $50" },
+                { icon: "bi-award", title: "Quality Products", desc: "Curated selection of premium brands" },
+                { icon: "bi-arrow-left-right", title: "Easy Returns", desc: "30-day return policy" },
+                { icon: "bi-headset", title: "24/7 Support", desc: "Always here to help you" },
+              ].map((item, index) => (
+                <div className="col-md-3 mb-4" key={index}>
+                  <div className="mb-3 d-flex justify-content-center">
+                    <div
+                      className="rounded-circle d-flex align-items-center justify-content-center"
+                      style={{
+                        width: "80px",
+                        height: "80px",
+                        backgroundColor: "rgba(216, 74, 51, 0.25)"
+                      }}
+                    >
+                      <i className={`bi ${item.icon} fs-2`} style={{ color: "#d84a33" }}></i>
+                    </div>
+                  </div>
+                  <h5 className="fw-bold">{item.title}</h5>
+                  <p className="text-muted">{item.desc}</p>
+                </div>
+              ))}
+            </div>
+
           </div>
         </div>
-        <h5 className="fw-bold">Easy Returns</h5>
-        <p className="text-muted">30-day return policy</p>
+
+
+
+
       </div>
-      <div className="col-md-3 mb-4">
-        <div className="mb-3 d-flex justify-content-center">
-          <div className="rounded-circle bg-warning bg-opacity-25 d-flex align-items-center justify-content-center" style={{ width: "80px", height: "80px" }}>
-            <i className="bi bi-headset text-warning fs-2"></i>
-          </div>
-        </div>
-        <h5 className="fw-bold">24/7 Support</h5>
-        <p className="text-muted">Always here to help you</p>
-      </div>
-    </div>
-  </div>
-</div>
 
-
-  
-
-    </div>
-
-    {/* footer */}
-      <Footer/>
-      </>
+      {/* footer */}
+      <Footer />
+    </>
   );
 };
 

@@ -92,3 +92,15 @@
   background-color: #d84a33;
   color: #fff;
 }
+
+
+
+.social-icon {
+  color: #d84a33;
+  font-size: 1.25rem;
+  transition: color 0.3s;
+  text-decoration: none;
+}
+.social-icon:hover {
+  color: #a8321f;
+}
