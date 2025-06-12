@@ -149,7 +149,7 @@ const PendingOrders = () => {
               <button className="btn btn-outline-secondary me-2">
                 <i className="fas fa-file-export me-2"></i>Export
               </button>
-              <button className="btn btn-primary">
+              <button className="btn text-white" style={{backgroundColor: '#d84a33'}} >
                 <i className="fas fa-plus me-2"></i>Add New Order
               </button>
             </div>
