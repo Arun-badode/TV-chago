@@ -220,9 +220,6 @@ const CompletedOrders = () => {
               <button className="btn btn-outline-primary me-2">
                 <i className="fas fa-filter me-2"></i>Filter
               </button>
-              <button className="btn btn-success"  style={{backgroundColor: '#d84a33'}}>
-                <i className="fas fa-plus me-2"></i>Add New Order
-              </button>
             </div>
           </div>
           <div className="card-body p-0">
@@ -365,14 +362,7 @@ const CompletedOrders = () => {
                             <i className="fas fa-print"></i>
                           </button>
                           <div className="dropdown">
-                            <button 
-                              className="btn btn-sm btn-outline-secondary dropdown-toggle" 
-                              type="button"
-                              data-bs-toggle="dropdown"
-                              aria-expanded="false"
-                            >
-                              <i className="fas fa-ellipsis-v"></i>
-                            </button>
+      
                             <ul className="dropdown-menu">
                               <li>
                                 <a className="dropdown-item" href="#">
