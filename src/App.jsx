@@ -2,13 +2,16 @@ import { BrowserRouter as Router, Route, Routes, useLocation } from 'react-route
 import CustomNavbar from './Layout/Navbar';
 import LandingPage from './Components/Landingpage';
 import LoginPage from './Auth/LoginPage';
-import Order from './Components/Order';
+import Order from './Components/Ordertrack';
 import DashboardLayout from './Components/Dashboad/DashboardLayout';
 import AdminDashboard from './Components/Dashboad/AdminDashboard/AdminDashboard';
 import Customers from './Components/Dashboad/Customers/Customers';
 import Notifications from './Components/Dashboad/Notifications/Notifications';
 import Uploads from './Components/Dashboad/Uploads/Uploads';
 import Setting from './Components/Dashboad/Settings/Settings';
+import PendingOrders from './Components/Dashboad/Orders/PendingOrders';
+import CompletedOrders from './Components/Dashboad/Orders/CompletedOrders';
+
 
 
 
@@ -27,11 +30,14 @@ function AppWrapper() {
       <Routes>
         <Route path="/" element={<LandingPage />} />
         <Route path="/login" element={<LoginPage />} />
-        <Route path="/Order" element={<Order />} />
+        <Route path="/Ordertrack" element={<Order />} />
 
         {/* Dashboard nested routes */}
         <Route path="/dashboardlayout" element={<DashboardLayout />}>
           <Route index element={<AdminDashboard />} />
+           
+<Route path="pendingorder" element={< PendingOrders/>} />
+<Route path="completedorder" element={< CompletedOrders/>} />
           <Route path="customer" element={<Customers />} />
           <Route path="notification" element={<Notifications />} />
           <Route path="Upload" element={<Uploads />} />

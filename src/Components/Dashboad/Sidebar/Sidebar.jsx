@@ -13,6 +13,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
     const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
     const navigate = useNavigate();
 
+<<<<<<< HEAD
     const menuItems = [
         { id: 'dashboard', label: 'Dashboard', icon: Home, path: 'dashboardlayout' },
         {
@@ -29,6 +30,29 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
         { id: 'notifications', label: 'Notifications', icon: MessageSquare, path: 'dashboardlayout/notification', notificationCount: 5 },
         { id: 'settings', label: 'Settings', icon: Settings, path: 'dashboardlayout/setting' },
     ];
+=======
+const Sidebar = ({ sidebarOpen }) => {
+  const [activeSection, setActiveSection] = useState('dashboard');
+  const [ordersOpen, setOrdersOpen] = useState(false);
+  const [reportsOpen, setReportsOpen] = useState(false);
+const navigate= useNavigate();
+ const menuItems = [
+  { id: 'dashboard', label: 'Dashboard', icon: Home, path: 'dashboardlayout' },
+  {
+    id: 'orders',
+    label: 'Orders',
+    icon: ShoppingBag,
+    children: [
+      { id: 'pending-orders', label: 'Pending Orders', icon: Inbox, path: 'dashboardlayout/pendingorder' },
+      { id: 'completed-orders', label: 'Completed Orders', icon: Send, path: 'dashboardlayout/completedorder' },
+    ],
+  },
+  { id: 'upload', label: 'Upload', icon: Users, path: 'dashboardlayout/Upload' },
+  { id: 'customers', label: 'Customers', icon: Users, path: 'dashboardlayout/customer' },
+  { id: 'notifications', label: 'Notifications', icon: MessageSquare, path: 'dashboardlayout/notification', notificationCount: 5 },
+  { id: 'settings', label: 'Settings', icon: Settings, path: 'dashboardlayout/setting' },
+];
+>>>>>>> 477bb4125122b54799094b5e9a629fcba7af59ed
 
     useEffect(() => {
         const handleResize = () => {
