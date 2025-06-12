@@ -7,7 +7,8 @@ const LoginPage = () => {
     <div
       className="min-vh-100 d-flex justify-content-center align-items-center"
       style={{
-        background: 'linear-gradient(135deg, #d6a4a4 0%, #deeccf 100%)',
+        background: 'linear-gradient(90deg, #fff7c2 0%,rgb(247, 239, 203) 100%)'
+,
       }}
     >
       <div

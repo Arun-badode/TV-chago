@@ -20,9 +20,9 @@ const LandingPage = () => {
 
       {/* Hero Section */}
     
-    <div style={{ position: 'relative', minHeight: '100vh', overflow: 'hidden' }}>
+    <div id='home' style={{ position: 'relative', minHeight: '100vh', overflow: 'hidden' }}>
   {/* Background Image */}
-  <div
+  <div 
     className="position-absolute top-0 start-0 w-100 h-100"
     style={{
       background: 'url(https://i.postimg.cc/Hnqc2bxF/904885a821d0846fd0ceb528f65b4190.jpg) center/cover no-repeat',
@@ -69,9 +69,9 @@ const LandingPage = () => {
 
 
       {/* Featured Products */}
-     <div className="container py-5">
-      <h4 className="fw-bold mb-2">Featured Products</h4>
-      <p className="text-muted mb-4">Discover our latest collection of trendy clothing</p>
+     <div id='allproduct' className="container py-5">
+      <h2 className="fw-bold mb-2 text-center">Featured Products</h2>
+      <p className="text-muted mb-4 text-center">Discover our latest collection of trendy clothing</p>
       <div className="row">
         {products.map((prod, idx) => (
           <div className="col-sm-6 col-md-4 col-lg-3 mb-4" key={idx}>
@@ -102,7 +102,7 @@ const LandingPage = () => {
     </div>
 
       {/* blogs */}
- <div className="bg-light py-5">
+ <div id='blog' className="bg-light py-5">
   <div className="container">
     <h2 className="fw-bold mb-2 text-center">Latest From Our Blog</h2>
     <p className="text-muted mb-4 text-center">Stay updated with trends, tips & style inspiration</p>
