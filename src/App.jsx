@@ -1,17 +1,19 @@
 import { BrowserRouter as Router, Route, Routes, useLocation } from 'react-router-dom';
 import CustomNavbar from './Layout/Navbar';
 import LandingPage from './Components/Landingpage';
-import LoginPage from './Auth/LoginPage'; // Your login page
+import LoginPage from './Auth/LoginPage';
 import Order from './Components/Order';
 import DashboardLayout from './Components/Dashboad/DashboardLayout';
 import AdminDashboard from './Components/Dashboad/AdminDashboard/AdminDashboard';
-// import Dashboard from './Components/Dashboard'; // Any other internal software route
+import Customers from './Components/Dashboad/Customers/Customers';
+
+
 
 function AppWrapper() {
   const location = useLocation();
 
-  // Hide Navbar on login and internal software routes
-  const hideNavbarRoutes = ['/login',  '/dashboardlayout'];
+  // Hide Navbar on login and dashboard layout root route
+  const hideNavbarRoutes = ['/login', '/dashboardlayout'];
 
   const shouldShowNavbar = !hideNavbarRoutes.includes(location.pathname);
 
@@ -23,16 +25,14 @@ function AppWrapper() {
         <Route path="/login" element={<LoginPage />} />
         <Route path="/Order" element={<Order />} />
 
-          <Route path="/dashboardlayout" element={<DashboardLayout />}>
-            <Route index element={<AdminDashboard />} />
-            {/* <Route path="allusers" element={<AllUsers />} />
-            <Route path="adminprofile" element={<AdminProfile />} />
-            <Route path="updateprofile" element={<UpdateProfile />} />
-            <Route path="plans" element={<Plans />} /> */}
-            {/* <Route path="createsubscription" element={<Submissions />} /> */}
-            {/* <Route path="systemreports" element={<SystemReports />} /> */}
-            {/* <Route path="submission" element={<Submissions />} /> */}
-          </Route>
+        {/* Nested routing for dashboard */}
+       <Route path="/dashboardlayout" element={<DashboardLayout />}>
+  <Route index element={<AdminDashboard />} />
+  <Route path="customer" element={<Customers />} />
+  {/* <Route path="orders/pending" element={<PendingOrders />} />
+  <Route path="orders/completed" element={<CompletedOrders />} /> */}
+  {/* Add other child components accordingly */}
+</Route>
 
       </Routes>
     </>

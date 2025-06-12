@@ -4,27 +4,29 @@ import {
   ChevronDown, ChevronUp, Home, ShoppingBag, CreditCard, BarChart2, MessageSquare
 } from 'lucide-react';
 import "./Sidebar.css"
+import { useNavigate } from 'react-router-dom';
+
 
 const Sidebar = ({ sidebarOpen }) => {
   const [activeSection, setActiveSection] = useState('dashboard');
   const [ordersOpen, setOrdersOpen] = useState(false);
   const [reportsOpen, setReportsOpen] = useState(false);
-
-  const menuItems = [
-    { id: 'dashboard', label: 'Dashboard', icon: Home, path: '' },
-    {
-      id: 'orders',
-      label: 'Orders',
-      icon: ShoppingBag,
-      children: [
-        { id: 'pending-orders', label: 'Pending Orders', icon: Inbox, path: 'orders/pending' },
-        { id: 'completed-orders', label: 'Completed Orders', icon: Send, path: 'orders/completed' },
-      ],
-    },
-    { id: 'customers', label: 'Customers', icon: Users, path: 'customers' },
-    { id: 'notifications', label: 'Notifications', icon: MessageSquare, path: 'notifications', notificationCount: 5 },
-    { id: 'settings', label: 'Settings', icon: Settings, path: 'settings' },
-  ];
+const navigate= useNavigate();
+ const menuItems = [
+  { id: 'dashboard', label: 'Dashboard', icon: Home, path: 'dashboardlayout' },
+  {
+    id: 'orders',
+    label: 'Orders',
+    icon: ShoppingBag,
+    children: [
+      { id: 'pending-orders', label: 'Pending Orders', icon: Inbox, path: 'dashboardlayout/orders/pending' },
+      { id: 'completed-orders', label: 'Completed Orders', icon: Send, path: 'dashboardlayout/orders/completed' },
+    ],
+  },
+  { id: 'customers', label: 'Customers', icon: Users, path: 'dashboardlayout/customer' },
+  { id: 'notifications', label: 'Notifications', icon: MessageSquare, path: 'dashboardlayout/notifications', notificationCount: 5 },
+  { id: 'settings', label: 'Settings', icon: Settings, path: 'dashboardlayout/settings' },
+];
 
   useEffect(() => {
     if (activeSection === 'pending-orders' || activeSection === 'completed-orders' || activeSection === 'returns') {
@@ -36,7 +38,11 @@ const Sidebar = ({ sidebarOpen }) => {
   }, [activeSection]);
 
   const handleNavigation = (id, path) => {
+    
+navigate(`/${path}`);
+    
     setActiveSection(id);
+
   };
 
   return (
