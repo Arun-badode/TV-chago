@@ -9,15 +9,20 @@ const Footer = () => {
         <Row className="gy-4">
           {/* Brand */}
           <Col md={3}>
-            <h5 className="fw-bold">
-              FASHION<span className="text-warning">HUB</span>
-            </h5>
-            <p>Your one-stop destination for trendy and high-quality fashion products.</p>
+            <img
+    src="https://i.postimg.cc/8CG6dNYw/Whats-App-Image-2025-06-12-at-11-59-46-c03b4354-removebg-preview.png"
+    alt="CHAGO TV Logo"
+    height="40"
+    width="90"
+
+    className="d-inline-block align-top bg-white"
+  />
+            <p className='text-white'>Your one-stop destination for trendy and high-quality fashion products.</p>
             <div className="d-flex gap-3 mt-3">
-              <FaFacebookF />
-              <FaTwitter />
-              <FaInstagram />
-              <FaPinterestP />
+              <FaFacebookF style={{ color: '#d84a33' }}/>
+              <FaTwitter  style={{ color: '#d84a33' }}  />
+              <FaInstagram style={{ color: '#d84a33' }} />
+              <FaPinterestP  style={{ color: '#d84a33' }}/>
             </div>
           </Col>
 
@@ -48,9 +53,19 @@ const Footer = () => {
           {/* Contact */}
           <Col md={3}>
             <h6 className="fw-bold">Contact</h6>
-            <p className="mb-1"><FaMapMarkerAlt className="me-2 text-warning" />123 Fashion Street, New York, NY 10001</p>
-            <p className="mb-1"><FaPhoneAlt className="me-2 text-warning" />+1 (555) 123-4567</p>
-            <p className="mb-3"><FaEnvelope className="me-2 text-warning" />info@fashionhub.com</p>
+           <p className="mb-1 text-white">
+  <FaMapMarkerAlt className="me-2" style={{ color: '#d84a33' }} />
+  123 Fashion Street, New York, NY 10001
+</p>
+<p className="mb-1 text-white">
+  <FaPhoneAlt className="me-2" style={{ color: '#d84a33' }} />
+  +1 (555) 123-4567
+</p>
+<p className="mb-3 text-white">
+  <FaEnvelope className="me-2" style={{ color: '#d84a33' }} />
+  info@fashionhub.com
+</p>
+
 
             <h6 className="fw-bold">We Accept</h6>
             <div className="d-flex gap-2">

@@ -7,7 +7,7 @@ const LoginPage = () => {
     <div
       className="min-vh-100 d-flex justify-content-center align-items-center"
       style={{
-        background: 'linear-gradient(90deg, #fff7c2 0%,rgb(247, 239, 203) 100%)'
+        background: '#fffcec'
 ,
       }}
     >
@@ -26,9 +26,9 @@ const LoginPage = () => {
           style={{
             width: '80px',
             height: '80px',
-            backgroundColor: '#0d3b66',
+            backgroundColor: '#d84a33',
             border: '4px solid white',
-            marginTop: '-50px',
+            
           }}
         >
           <i className="bi bi-person text-white fs-1"></i>
@@ -71,7 +71,7 @@ const LoginPage = () => {
           <button
             className="w-100 rounded-pill border-0 mt-3"
             style={{
-              background: 'linear-gradient(to right, #1c3a67, #5e8dd1)',
+              background: '#d84a33',
               color: 'white',
               padding: '10px 0',
               letterSpacing: '1px',
