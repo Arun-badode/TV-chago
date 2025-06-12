@@ -3,11 +3,21 @@ import { Menu, User, LogOut } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import "./Header.css";
 
+const user = {
+    name: "John Doe",
+    email: "john.doe@email.com",
+    phone: "+91 9876543210",
+    address: "123, Fashion Street, Mumbai",
+    role: "Admin",
+};
+
 const Header = ({ setSidebarOpen }) => {
     const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
     const [dropdownOpen, setDropdownOpen] = useState(false);
+    const [showProfileCard, setShowProfileCard] = useState(false);
     const navigate = useNavigate();
     const dropdownRef = useRef(null);
+    const profileCardRef = useRef(null);
 
     useEffect(() => {
         const handleResize = () => {
@@ -20,17 +30,22 @@ const Header = ({ setSidebarOpen }) => {
     // Close dropdown on outside click
     useEffect(() => {
         const handleClickOutside = (event) => {
-            if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+            if (
+                dropdownRef.current &&
+                !dropdownRef.current.contains(event.target) &&
+                (!profileCardRef.current || !profileCardRef.current.contains(event.target))
+            ) {
                 setDropdownOpen(false);
+                setShowProfileCard(false);
             }
         };
-        if (dropdownOpen) {
+        if (dropdownOpen || showProfileCard) {
             document.addEventListener('mousedown', handleClickOutside);
         } else {
             document.removeEventListener('mousedown', handleClickOutside);
         }
         return () => document.removeEventListener('mousedown', handleClickOutside);
-    }, [dropdownOpen]);
+    }, [dropdownOpen, showProfileCard]);
 
     const handleSidebarToggle = () => {
         setSidebarOpen(prev => !prev);
@@ -38,17 +53,17 @@ const Header = ({ setSidebarOpen }) => {
 
     const handleProfileClick = () => {
         setDropdownOpen((prev) => !prev);
+        setShowProfileCard(false);
     };
 
     const handleProfile = () => {
-        setDropdownOpen(false);
-        navigate('/dashboard/adminprofile');
+        setShowProfileCard((prev) => !prev);
     };
 
     const handleLogout = () => {
         setDropdownOpen(false);
-        // Add your logout logic here
-        navigate('/')
+        setShowProfileCard(false);
+        navigate('/');
     };
 
     return (
@@ -73,14 +88,9 @@ const Header = ({ setSidebarOpen }) => {
                                 height: isMobile ? 28 : 36,
                                 width: 'auto',
                                 maxWidth: isMobile ? 100 : 130,
-                            }}
-                            onClick={() => navigate('/dashboardlayout')}
-                            style={{ 
-                                height: isMobile ? 28 : 36,
-                                width: 'auto',
-                                maxWidth: isMobile ? 100 : 130,
                                 cursor: 'pointer'
                             }}
+                            onClick={() => navigate('/dashboardlayout')}
                         />
                     </div>
 
@@ -115,10 +125,9 @@ const Header = ({ setSidebarOpen }) => {
                                 >
                                     <User size={16} /> Profile
                                 </button>
-                                  <button
+                                <button
                                     className="dropdown-item d-flex align-items-center gap-2"
                                     onClick={() => navigate('/dashboardlayout/setting')}
-                                    
                                     type="button"
                                 >
                                     <LogOut size={16} /> Setting
@@ -130,6 +139,44 @@ const Header = ({ setSidebarOpen }) => {
                                 >
                                     <LogOut size={16} /> Logout
                                 </button>
+                            </div>
+                        )}
+                        {/* Profile Card */}
+                        {showProfileCard && (
+                            <div
+                                ref={profileCardRef}
+                                className="card shadow border-0"
+                                style={{
+                                    position: 'absolute',
+                                    top: 70,
+                                    left: '50%',
+                                    transform: 'translateX(-50%)',
+                                    minWidth: 260,
+                                    zIndex: 10000,
+                                    padding: 0,
+                                    background: '#fff',
+                                }}
+                            >
+                                <div className="card-body d-flex flex-column align-items-center p-3">
+                                    <div className="rounded-circle bg-secondary text-white d-flex align-items-center justify-content-center mb-2" style={{ width: 56, height: 56, fontSize: 24 }}>
+                                        {user.name.split(' ').map(n => n[0]).join('').toUpperCase()}
+                                    </div>
+                                    <div className="fw-bold mb-1">{user.name}</div>
+                                    <div className="text-muted small mb-1">{user.role}</div>
+                                    <div className="w-100 mb-1">
+                                        <span className="fw-semibold">Email:</span>
+                                        <div className="text-break small">{user.email}</div>
+                                    </div>
+                                    <div className="w-100 mb-1">
+                                        <span className="fw-semibold">Phone:</span>
+                                        <div className="text-break small">{user.phone}</div>
+                                    </div>
+                                    <div className="w-100 mb-2">
+                                        <span className="fw-semibold">Address:</span>
+                                        <div className="text-break small">{user.address}</div>
+                                    </div>
+                                  
+                                </div>
                             </div>
                         )}
                     </div>
