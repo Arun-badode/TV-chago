@@ -1,0 +1,43 @@
+import React, { useEffect, useState } from 'react';
+import Header from '../Dashboad/Header/Header';
+import Sidebar from '../Dashboad/Sidebar/Sidebar';
+import { Outlet, useLocation } from 'react-router-dom';
+
+const DashboardLayout = () => {
+  const location = useLocation();
+  const [activeSection, setActiveSection] = useState('admindashboard');
+  const [sidebarOpen, setSidebarOpen] = useState(true);
+
+  useEffect(() => {
+    const path = location.pathname.split('/')[2]; // e.g. 'allusers'
+    setActiveSection(path || 'admindashboard');
+  }, [location]);
+
+  return (
+    <div className="d-flex flex-column vh-100">
+      {/* Header */}
+      <Header setSidebarOpen={setSidebarOpen} />
+
+      {/* Body */}
+      <div className="d-flex flex-grow-1 position-relative">
+        {/* Sidebar */}
+        <Sidebar
+          activeSection={activeSection}
+          setActiveSection={setActiveSection}
+          sidebarOpen={sidebarOpen}
+          setSidebarOpen={setSidebarOpen}
+        />
+
+        {/* Content */}
+        <div
+          className="flex-grow-1 p-3 overflow-auto"
+          style={{ marginLeft: sidebarOpen ? '280px' : '0px', transition: 'margin-left 0.3s ease' }}
+        >
+          <Outlet />
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default DashboardLayout;
