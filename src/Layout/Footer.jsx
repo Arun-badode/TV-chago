@@ -9,16 +9,22 @@ const Footer = () => {
         <Row className="gy-4">
           {/* Brand */}
           <Col md={3}>
-            <h5 className="fw-bold">
-              FASHION<span className="text-warning">HUB</span>
-            </h5>
-            <p>Your one-stop destination for trendy and high-quality fashion products.</p>
+            <img
+              src="https://i.ibb.co/hQXHbxq/Whats-App-Image-2025-06-12-at-11-36-54-4b11e3ec.jpg"
+              alt="CHAGO TV Logo"
+              height="40"
+              width="90"
+
+              className="d-inline-block align-top"
+            />
+            <p className='terxt-white-50'>Your one-stop destination for trendy and high-quality fashion products.</p>
             <div className="d-flex gap-3 mt-3">
-              <FaFacebookF />
-              <FaTwitter />
-              <FaInstagram />
-              <FaPinterestP />
+              <a href="#" className="social-icon"><FaFacebookF /></a>
+              <a href="#" className="social-icon"><FaTwitter /></a>
+              <a href="#" className="social-icon"><FaInstagram /></a>
+              <a href="#" className="social-icon"><FaPinterestP /></a>
             </div>
+
           </Col>
 
           {/* Shop */}
@@ -48,9 +54,20 @@ const Footer = () => {
           {/* Contact */}
           <Col md={3}>
             <h6 className="fw-bold">Contact</h6>
-            <p className="mb-1"><FaMapMarkerAlt className="me-2 text-warning" />123 Fashion Street, New York, NY 10001</p>
-            <p className="mb-1"><FaPhoneAlt className="me-2 text-warning" />+1 (555) 123-4567</p>
-            <p className="mb-3"><FaEnvelope className="me-2 text-warning" />info@fashionhub.com</p>
+           <p className="mb-1 text-white">
+  <FaMapMarkerAlt className="me-2" style={{ color: '#d84a33' }} />
+  123 Fashion Street, New York, NY 10001
+</p>
+<p className="mb-1 text-white">
+  <FaPhoneAlt className="me-2" style={{ color: '#d84a33' }} />
+  +1 (555) 123-4567
+</p>
+<p className="mb-3 text-white">
+  <FaEnvelope className="me-2" style={{ color: '#d84a33' }} />
+  info@fashionhub.com
+</p>
+
+
 
             <h6 className="fw-bold">We Accept</h6>
             <div className="d-flex gap-2">
