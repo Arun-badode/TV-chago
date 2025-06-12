@@ -73,14 +73,10 @@ const Header = ({ setSidebarOpen }) => {
                                 height: isMobile ? 28 : 36,
                                 width: 'auto',
                                 maxWidth: isMobile ? 100 : 130,
+                                  cursor: 'pointer'
                             }}
                             onClick={() => navigate('/dashboardlayout')}
-                            style={{ 
-                                height: isMobile ? 28 : 36,
-                                width: 'auto',
-                                maxWidth: isMobile ? 100 : 130,
-                                cursor: 'pointer'
-                            }}
+                           
                         />
                     </div>
 

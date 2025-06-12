@@ -17,7 +17,7 @@ const Footer = () => {
 
               className="d-inline-block align-top"
             />
-            <p className='terxt-white-50'>Your one-stop destination for trendy and high-quality fashion products.</p>
+            <p className='text-white'>Your one-stop destination for trendy and high-quality fashion products.</p>
             <div className="d-flex gap-3 mt-3">
               <a href="#" className="social-icon"><FaFacebookF /></a>
               <a href="#" className="social-icon"><FaTwitter /></a>
@@ -54,18 +54,18 @@ const Footer = () => {
           {/* Contact */}
           <Col md={3}>
             <h6 className="fw-bold">Contact</h6>
-           <p className="mb-1 text-white">
-  <FaMapMarkerAlt className="me-2" style={{ color: '#d84a33' }} />
-  123 Fashion Street, New York, NY 10001
-</p>
-<p className="mb-1 text-white">
-  <FaPhoneAlt className="me-2" style={{ color: '#d84a33' }} />
-  +1 (555) 123-4567
-</p>
-<p className="mb-3 text-white">
-  <FaEnvelope className="me-2" style={{ color: '#d84a33' }} />
-  info@fashionhub.com
-</p>
+            <p className="mb-1 text-white">
+              <FaMapMarkerAlt className="me-2" style={{ color: '#d84a33' }} />
+              123 Fashion Street, New York, NY 10001
+            </p>
+            <p className="mb-1 text-white">
+              <FaPhoneAlt className="me-2" style={{ color: '#d84a33' }} />
+              +1 (555) 123-4567
+            </p>
+            <p className="mb-3 text-white">
+              <FaEnvelope className="me-2" style={{ color: '#d84a33' }} />
+              info@fashionhub.com
+            </p>
 
 
 
