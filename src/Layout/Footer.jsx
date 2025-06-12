@@ -4,7 +4,7 @@ import { FaFacebookF, FaTwitter, FaInstagram, FaPinterestP, FaMapMarkerAlt, FaPh
 
 const Footer = () => {
   return (
-    <footer className="bg-dark text-light pt-5 pb-3">
+    <footer id='contact' className="bg-dark text-light pt-5 pb-3">
       <Container>
         <Row className="gy-4">
           {/* Brand */}
