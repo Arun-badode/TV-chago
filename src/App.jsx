@@ -11,6 +11,7 @@ import Uploads from './Components/Dashboad/Uploads/Uploads';
 import Setting from './Components/Dashboad/Settings/Settings';
 import PendingOrders from './Components/Dashboad/Orders/PendingOrders';
 import CompletedOrders from './Components/Dashboad/Orders/CompletedOrders';
+import UserProfile from './Components/UserProfile';
 
 
 
@@ -35,7 +36,7 @@ function AppWrapper() {
         {/* Dashboard nested routes */}
         <Route path="/dashboardlayout" element={<DashboardLayout />}>
           <Route index element={<AdminDashboard />} />
-           
+           <Route path="userprofile" element={< UserProfile/>} />
 <Route path="pendingorder" element={< PendingOrders/>} />
 <Route path="completedorder" element={< CompletedOrders/>} />
           <Route path="customer" element={<Customers />} />
