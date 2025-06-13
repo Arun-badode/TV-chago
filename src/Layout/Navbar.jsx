@@ -48,16 +48,16 @@ const CustomNavbar = () => {
     >
       <div className="card-body p-4 d-flex flex-column align-items-center text-center">
         <div
-  className="rounded-circle text-white d-flex align-items-center justify-content-center mb-2"
-  style={{
-    width: 56,
-    height: 56,
-    fontSize: 24,
-    backgroundColor: '#d84a33',
-  }}
->
-  {user.name.split(' ').map(n => n[0]).join('').toUpperCase()}
-</div>
+          className="rounded-circle text-white d-flex align-items-center justify-content-center mb-2"
+          style={{
+            width: 56,
+            height: 56,
+            fontSize: 24,
+            backgroundColor: '#d84a33',
+          }}
+        >
+          {user.name.split(' ').map(n => n[0]).join('').toUpperCase()}
+        </div>
 
         <h5 className="mb-1 fw-semibold">{user.name}</h5>
         <p className="text-muted mb-3 small">{user.role}</p>
@@ -73,9 +73,12 @@ const CustomNavbar = () => {
           <strong>Address:</strong>
           <div className="text-muted small">{user.address}</div>
         </div>
-        <a href="/dashboardlayout/userprofile" className="btn btn-sm btn-outline-primary w-100">
+        {/* <button className="profile1-button rounded-2">
           View Profile
-        </a>
+        </button> */}
+
+
+
       </div>
     </div>
   );
@@ -90,12 +93,12 @@ const CustomNavbar = () => {
         {/* Brand Logo */}
         <Navbar.Brand href="#" className="d-flex align-items-center">
           <Link to="/">
-          <img
-            src="https://i.postimg.cc/8CG6dNYw/Whats-App-Image-2025-06-12-at-11-59-46-c03b4354-removebg-preview.png"
-            alt="Logo"
-            height="40"
-            width="90"
-          />
+            <img
+              src="https://i.postimg.cc/8CG6dNYw/Whats-App-Image-2025-06-12-at-11-59-46-c03b4354-removebg-preview.png"
+              alt="Logo"
+              height="40"
+              width="90"
+            />
           </Link>
         </Navbar.Brand>
 

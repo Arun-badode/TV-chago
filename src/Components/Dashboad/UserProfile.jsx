@@ -41,12 +41,24 @@ const UserProfile = () => {
         <div className="card-body">
           <div className="row align-items-center">
             <div className="col-md-4 text-center">
-              <div 
-                className="rounded-circle bg-dark text-white d-flex align-items-center justify-content-center mx-auto" 
-                style={{ width: 100, height: 100, fontSize: 32 }}
+              <div
+                className="rounded-circle d-flex align-items-center justify-content-center mx-auto fw-bold shadow-sm"
+                style={{
+                  width: 100,
+                  height: 100,
+                  fontSize: 32,
+                  backgroundColor: 'white', // Bootstrap dark
+                  color: 'black',
+                }}
+                onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#d84a33'}
               >
-                {(isEditing ? editedUser.name : user.name).split(' ').map(n => n[0]).join('').toUpperCase()}
+                {(isEditing ? editedUser.name : user.name)
+                  .split(' ')
+                  .map(n => n[0])
+                  .join('')
+                  .toUpperCase()}
               </div>
+
               <h5 className="mt-3 fw-bold">
                 {isEditing ? editedUser.name : user.name}
               </h5>
@@ -54,7 +66,7 @@ const UserProfile = () => {
                 {isEditing ? editedUser.role : user.role}
               </p>
             </div>
-            
+
             <div className="col-md-8">
               <h5 className="fw-semibold mb-4">User Information</h5>
               <div className="row">
@@ -71,7 +83,7 @@ const UserProfile = () => {
                     <div className="text-muted">{user.name}</div>
                   )}
                 </div>
-                
+
                 <div className="col-sm-6 mb-3">
                   <strong>Role:</strong>
                   {isEditing ? (
@@ -89,7 +101,7 @@ const UserProfile = () => {
                     <div className="text-muted">{user.role}</div>
                   )}
                 </div>
-                
+
                 <div className="col-sm-6 mb-3">
                   <strong>Email:</strong>
                   {isEditing ? (
@@ -103,7 +115,7 @@ const UserProfile = () => {
                     <div className="text-muted">{user.email}</div>
                   )}
                 </div>
-                
+
                 <div className="col-sm-6 mb-3">
                   <strong>Phone:</strong>
                   {isEditing ? (
@@ -117,7 +129,7 @@ const UserProfile = () => {
                     <div className="text-muted">{user.phone}</div>
                   )}
                 </div>
-                
+
                 <div className="col-sm-6 mb-3">
                   <strong>Address:</strong>
                   {isEditing ? (
@@ -131,7 +143,7 @@ const UserProfile = () => {
                     <div className="text-muted">{user.address}</div>
                   )}
                 </div>
-                
+
                 <div className="col-sm-6 mb-3">
                   <strong>Joined:</strong>
                   {isEditing ? (
@@ -147,17 +159,23 @@ const UserProfile = () => {
                   )}
                 </div>
               </div>
-              
+
               <div className="mt-3">
                 {isEditing ? (
                   <div>
-                    <button 
-                      className="btn btn-success me-2"
+                    <button
+                      className="btn me-2"
                       onClick={handleSave}
+                      style={{
+                        backgroundColor: '#d84a33',
+                        borderColor: '#d84a33',
+                        color: '#fff',
+                      }}
                     >
                       Save Changes
                     </button>
-                    <button 
+
+                    <button
                       className="btn btn-secondary"
                       onClick={handleCancel}
                     >
@@ -165,7 +183,7 @@ const UserProfile = () => {
                     </button>
                   </div>
                 ) : (
-                  <button 
+                  <button
                     className="btn btn-outline-primary"
                     onClick={handleEdit}
                   >

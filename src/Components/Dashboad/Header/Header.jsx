@@ -147,71 +147,69 @@ const Header = ({ setSidebarOpen }) => {
               </div>
             )}
             {/* Profile Card */}
-         {showProfileCard && (
-  <div
-    ref={profileCardRef}
-    className="card shadow border-0"
-    style={{
-      position: "absolute",
-      top: 70,
-      left: "50%",
-      transform: "translateX(-50%)",
-      minWidth: 260,
-      zIndex: 10000,
-      padding: 0,
-      background: "#fff",
-      borderRadius: 12,
-    }}
-  >
-    <div className="card-body d-flex flex-column align-items-center p-4">
-      {/* Avatar */}
-      <div
-        className="rounded-circle text-white d-flex align-items-center justify-content-center mb-3"
-        style={{
-          width: 64,
-          height: 64,
-          fontSize: 22,
-          backgroundColor: "#d84a33",
-        }}
-      >
-        {user.name
-          .split(" ")
-          .map((n) => n[0])
-          .join("")
-          .toUpperCase()}
-      </div>
+            {showProfileCard && (
+              <div
+                ref={profileCardRef}
+                className="card shadow border-0"
+                style={{
+                  position: "absolute",
+                  top: 70,
+                  left: "50%",
+                  transform: "translateX(-50%)",
+                  minWidth: 260,
+                  zIndex: 10000,
+                  padding: 0,
+                  background: "#fff",
+                  borderRadius: 12,
+                }}
+              >
+                <div className="card-body d-flex flex-column align-items-center p-4">
+                  {/* Avatar */}
+                  <div
+                    className="rounded-circle text-white d-flex align-items-center justify-content-center mb-3"
+                    style={{
+                      width: 64,
+                      height: 64,
+                      fontSize: 22,
+                      backgroundColor: "#d84a33",
+                    }}
+                  >
+                    {user.name
+                      .split(" ")
+                      .map((n) => n[0])
+                      .join("")
+                      .toUpperCase()}
+                  </div>
 
-      {/* Name & Role */}
-      <div className="fw-bold fs-5 mb-1">{user.name}</div>
-      <div className="text-muted small mb-3">Customer</div>
+                  {/* Name & Role */}
+                  <div className="fw-bold fs-5 mb-1">{user.name}</div>
+                  <div className="text-muted small mb-3">Customer</div>
 
-      {/* Details */}
-      <div className="w-100 mb-2">
-        <div className="fw-semibold small mb-1">Email:</div>
-        <div className="text-break small">{user.email}</div>
-      </div>
-      <div className="w-100 mb-2">
-        <div className="fw-semibold small mb-1">Phone:</div>
-        <div className="text-break small">{user.phone}</div>
-      </div>
-      <div className="w-100 mb-3">
-        <div className="fw-semibold small mb-1">Address:</div>
-        <div className="text-break small">{user.address}</div>
-      </div>
+                  {/* Details */}
+                  <div className="w-100 mb-2">
+                    <div className="fw-semibold small mb-1">Email:</div>
+                    <div className="text-break small">{user.email}</div>
+                  </div>
+                  <div className="w-100 mb-2">
+                    <div className="fw-semibold small mb-1">Phone:</div>
+                    <div className="text-break small">{user.phone}</div>
+                  </div>
+                  <div className="w-100 mb-3">
+                    <div className="fw-semibold small mb-1">Address:</div>
+                    <div className="text-break small">{user.address}</div>
+                  </div>
 
-      {/* View Profile Button */}
-      <button
-        className="btn btn-outline-danger btn-sm w-100"
-        onClick={() => {
-          setShowProfileCard(false);
-          navigate("/dashboardlayout/profile");
-        }}
-      >
-        View Profile
-      </button>
-    </div>
-  </div>
-)}
+                  {/* View Profile Button */}
+                  <Link to="userprofile">
+                    <button
+                      className="btn btn-outline-danger btn-sm w-100"
+                    >
+                      View Profile
+                    </button>
+                  </Link>
+                </div>
+              </div>
+            )}
 
           </div>
         </div>
