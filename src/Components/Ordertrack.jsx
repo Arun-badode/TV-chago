@@ -1,5 +1,6 @@
 import React, { useState, useRef } from 'react';
 import './Order.css';
+import { useNavigate } from 'react-router-dom';
 
 const Ordertrack = () => {
   const [step, setStep] = useState(1);
@@ -47,9 +48,9 @@ const Ordertrack = () => {
   const canCompletePayment =
     payment.method === 'card'
       ? payment.cardName.trim() !== '' &&
-        payment.cardNumber.trim() !== '' &&
-        payment.cardExpiry.trim() !== '' &&
-        payment.cardCVV.trim() !== ''
+      payment.cardNumber.trim() !== '' &&
+      payment.cardExpiry.trim() !== '' &&
+      payment.cardCVV.trim() !== ''
       : true;
 
   const handlePaymentMethod = (method) => {
@@ -64,10 +65,22 @@ const Ordertrack = () => {
     window.location.href = '/';
   };
 
+  const navigate = useNavigate();
+
+
   return (
     <div className="order-track-container mt-5">
       <div className="py-4 py-md-5">
         <div className="order-form-card-unique mx-auto">
+          <div className="mb-3">
+
+            <button className="custom-back-button btn" onClick={() => navigate(-1)}>
+              ← Back
+            </button>
+
+
+          </div>
+
           {/* Stepper */}
           <div className="order-stepper-unique mb-4">
             <div
@@ -422,8 +435,8 @@ const Ordertrack = () => {
                           {payment.method === 'card'
                             ? `Credit Card (**** ${payment.cardNumber.slice(-4)})`
                             : payment.method === 'paypal'
-                            ? 'PayPal'
-                            : 'Bank Transfer'}
+                              ? 'PayPal'
+                              : 'Bank Transfer'}
                         </span>
                       </div>
                     </div>

@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Container, Navbar, Nav, Dropdown } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 
 const user = {
   name: "John Doe",
@@ -42,6 +43,7 @@ const CustomNavbar = () => {
       <Container className="d-flex justify-content-between align-items-center">
         {/* Brand Logo */}
         <Navbar.Brand href="#" className="d-flex align-items-center">
+          <Link to="/">
           <img
             src="https://i.postimg.cc/8CG6dNYw/Whats-App-Image-2025-06-12-at-11-59-46-c03b4354-removebg-preview.png"
             alt="CHAGO TV Logo"
@@ -49,6 +51,7 @@ const CustomNavbar = () => {
             width="90"
             className="d-inline-block align-top"
           />
+          </Link>
         </Navbar.Brand>
 
         {/* Profile icon (small screens only) */}

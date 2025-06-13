@@ -99,29 +99,32 @@ const Sidebar = ({ sidebarOpen: parentSidebarOpen, setSidebarOpen: setParentSide
                             </div>
                             {children && ordersOpen && id === 'orders' && !isCollapsed && (
                                 <div
-                                    className="submenu ps-4"
+                                    className="submenu"
                                     style={{
-                                        display: 'flex',
+                                        // display: 'flex',
                                         flexDirection: 'column',
                                         alignItems: 'center', // Center children horizontally
-                                        gap: 6,
+                                        gap: 3,
                                         paddingLeft: 0, // Remove extra left padding
+                                        marginLeft: 0
                                     }}
                                 >
                                     {children.map(({ id: childId, label: childLabel, icon: ChildIcon, path: childPath }) => (
                                         <div
                                             key={childId}
-                                            className={`submenu-item d-flex align-items-center py-1 ${activeSection === childId ? 'active' : ''}`}
+                                            className={`submenu-item align-items-center ${activeSection === childId ? 'active' : ''}`}
                                             style={{
+                                                marginTop: '10px',
                                                 cursor: 'pointer',
-                                                justifyContent: 'center', // Center icon+label
-                                                width: '100%',
-                                                textAlign: 'center',
+                                                justifyContent: 'left', // Center icon+label
+                                                width: 'auto',
+                                                textAlign: 'left',
+                                                height: 'auto',
                                             }}
                                             onClick={() => handleNavigation(childId, childPath)}
                                         >
-                                            <ChildIcon size={16} strokeWidth={1.8} />
-                                            <span className="ms-2">{childLabel}</span>
+                                            <ChildIcon size={23} strokeWidth={1.8} />
+                                            <span className="">{childLabel}</span>
                                         </div>
                                     ))}
                                 </div>
