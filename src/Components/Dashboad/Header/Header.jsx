@@ -2,6 +2,7 @@ import React, { useEffect, useState, useRef } from "react";
 import { Menu, User, LogOut } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import "./Header.css";
+import { Link } from "react-router-dom";
 
 const user = {
   name: "John Doe",
@@ -146,55 +147,72 @@ const Header = ({ setSidebarOpen }) => {
               </div>
             )}
             {/* Profile Card */}
-            {showProfileCard && (
-              <div
-                ref={profileCardRef}
-                className="card shadow border-0"
-                style={{
-                  position: "absolute",
-                  top: 70,
-                  left: "50%",
-                  transform: "translateX(-50%)",
-                  minWidth: 260,
-                  zIndex: 10000,
-                  padding: 0,
-                  background: "#fff",
-                }}
-              >
-                <div className="card-body d-flex flex-column align-items-center p-3">
-                  <div
-                    className="rounded-circle text-white d-flex align-items-center justify-content-center mb-2"
-                    style={{
-                      width: 56,
-                      height: 56,
-                      fontSize: 24,
-                      backgroundColor: "#d84a33",
-                    }}
-                  >
-                    {user.name
-                      .split(" ")
-                      .map((n) => n[0])
-                      .join("")
-                      .toUpperCase()}
-                  </div>
+         {showProfileCard && (
+  <div
+    ref={profileCardRef}
+    className="card shadow border-0"
+    style={{
+      position: "absolute",
+      top: 70,
+      left: "50%",
+      transform: "translateX(-50%)",
+      minWidth: 260,
+      zIndex: 10000,
+      padding: 0,
+      background: "#fff",
+      borderRadius: 12,
+    }}
+  >
+    <div className="card-body d-flex flex-column align-items-center p-4">
+      {/* Avatar */}
+      <div
+        className="rounded-circle text-white d-flex align-items-center justify-content-center mb-3"
+        style={{
+          width: 64,
+          height: 64,
+          fontSize: 22,
+          backgroundColor: "#d84a33",
+        }}
+      >
+        {user.name
+          .split(" ")
+          .map((n) => n[0])
+          .join("")
+          .toUpperCase()}
+      </div>
 
-                  <div className="fw-bold mb-1">{user.name}</div>
-                  <div className="text-muted small mb-1">{user.role}</div>
-                  <div className="w-100 mb-1">
-                    <span className="fw-semibold">Email:</span>
-                    <div className="text-break small">{user.email}</div>
-                  </div>
-                  <div className="w-100 mb-1">
-                    <span className="fw-semibold">Phone:</span>
-                    <div className="text-break small">{user.phone}</div>
-                  </div>
-                  <div className="w-100 mb-2">
-                    <span className="fw-semibold">Address:</span>
-                    <div className="text-break small">{user.address}</div>
-                  </div>
-                </div>
-              </div>
-            )}
+      {/* Name & Role */}
+      <div className="fw-bold fs-5 mb-1">{user.name}</div>
+      <div className="text-muted small mb-3">Customer</div>
+
+      {/* Details */}
+      <div className="w-100 mb-2">
+        <div className="fw-semibold small mb-1">Email:</div>
+        <div className="text-break small">{user.email}</div>
+      </div>
+      <div className="w-100 mb-2">
+        <div className="fw-semibold small mb-1">Phone:</div>
+        <div className="text-break small">{user.phone}</div>
+      </div>
+      <div className="w-100 mb-3">
+        <div className="fw-semibold small mb-1">Address:</div>
+        <div className="text-break small">{user.address}</div>
+      </div>
+
+      {/* View Profile Button */}
+      <button
+        className="btn btn-outline-danger btn-sm w-100"
+        onClick={() => {
+          setShowProfileCard(false);
+          navigate("/dashboardlayout/profile");
+        }}
+      >
+        View Profile
+      </button>
+    </div>
+  </div>
+)}
+
           </div>
         </div>
       </div>
