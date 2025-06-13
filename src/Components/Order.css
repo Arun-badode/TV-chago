@@ -124,4 +124,16 @@
         }
 
 
+        .custom-back-button {
+  border: 1px solid #d84a33;
+  color: #d84a33;
+  background-color: transparent;
+  transition: all 0.3s ease;
+}
+
+.custom-back-button:hover {
+  background-color: #d84a33;
+  color: #fff;
+}
+
   
