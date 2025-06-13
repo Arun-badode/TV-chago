@@ -55,8 +55,9 @@ const Sidebar = ({ sidebarOpen: parentSidebarOpen, setSidebarOpen: setParentSide
         <>
             {/* Sidebar container without toggle button and logo, with lower z-index */}
             <div
-                className={`sidebar-container bg-white border-end ${isMobile ? (parentSidebarOpen ? 'd-block' : 'd-none') : 'd-block'} ${isCollapsed && !isMobile ? 'collapsed' : ''}`}
+                className={`sidebar-container border-end ${isMobile ? (parentSidebarOpen ? 'd-block' : 'd-none') : 'd-block'} ${isCollapsed && !isMobile ? 'collapsed' : ''}`}
                 style={{
+                    backgroundColor: '#fffef8',
                     width: isMobile ? 220 : isCollapsed ? 60 : 220,
                     position: isMobile ? 'fixed' : 'relative',
                     height: '100vh',

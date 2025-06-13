@@ -67,7 +67,7 @@ const Header = ({ setSidebarOpen }) => {
     };
 
     return (
-        <header className="header-container bg-white shadow-sm py-4 py-md-3 py-lg-4">
+        <header className="header-container shadow-sm py-4 py-md-3 py-lg-4">
             <div className="container-fluid px-3 px-md-4">
                 <div className="row align-items-center gx-0">
                     {/* Left: Logo and mobile menu button */}
