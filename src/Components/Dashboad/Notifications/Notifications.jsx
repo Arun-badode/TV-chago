@@ -71,7 +71,7 @@ const Notifications = () => {
       animate={{ opacity: 1 }}
       transition={{ duration: 0.5 }}
       style={{
-        marginTop: '80px',
+        marginTop: '10px',
         padding: '20px'
       }}
     >
