@@ -312,7 +312,9 @@ const Ordermanagement = () => {
                   </span>
                 </td>
                 <td>
+                    <div className='d-flex align-items-center justify-content-center mt-4'>
                 <i class="fa-solid fa-file-arrow-up"></i>
+                </div>
                 </td>
                 <td>{order.notes.length > 50 ? `${order.notes.substring(0, 50)}...` : order.notes}</td>
                 <td>
