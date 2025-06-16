@@ -357,7 +357,7 @@
             background: white;
             border-radius: 20px;
             padding: 2rem;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            box-shadow: 0 10px 40px rgba(218, 73, 73, 0.1);
             border: 2px solid transparent;
             transition: all 0.4s ease;
             margin-bottom: 2rem;
@@ -377,8 +377,8 @@
 
         .tv-package-card:hover {
             transform: translateY(-10px);
-            border-color: var(--tv-primary);
-            box-shadow: 0 20px 60px rgba(26, 35, 126, 0.2);
+            border-color: var(--tv-accent);
+            box-shadow: 0 5px 20px hsla(15, 93%, 51%, 0.934);
         }
 
         .tv-package-radio {
@@ -425,7 +425,7 @@
             background: white;
             border-radius: 20px;
             padding: 2.5rem;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            box-shadow: 0 5px 20px #f03902ee;
             margin-top: 3rem;
         }
 
@@ -469,7 +469,7 @@
         }
 
         .tv-radio-item:hover {
-            border-color: var(--tv-primary);
+            border-color: var(--tv-accent);
             background: rgba(26, 35, 126, 0.05);
         }
 

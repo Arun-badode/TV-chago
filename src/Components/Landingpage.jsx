@@ -193,7 +193,7 @@ top: '25%' ,
           <div className="row justify-content-center">
             <div className="col-lg-10">
               <div className="text-center mb-5">
-                <h1 className="tv-hero-title">Order Your TV Package</h1>
+                <h1 className="tv-hero-title">Order Your  <span style={{color:"red"}}> TV Package</span></h1>
                 <p className="tv-hero-subtitle">
                   Choose from our premium TV service packages and get instant access
                   to unlimited entertainment
