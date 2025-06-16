@@ -203,8 +203,8 @@ Notes: ${order.notes}
   };
 
   return (
-    <div className="container-fluid min-vh-100 p-4 ">
-      <div className="container">
+    <div className="container-flud min-vh-100 p-4 ">
+      <div >
         {/* Header */}
         <div className="mb-4">
           <h4 className=" text-dark mb-2">Orders Management</h4>
