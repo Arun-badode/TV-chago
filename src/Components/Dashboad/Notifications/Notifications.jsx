@@ -71,7 +71,11 @@ const Notifications = () => {
       animate={{ opacity: 1 }}
       transition={{ duration: 0.5 }}
       style={{
+<<<<<<< HEAD
       
+=======
+        marginTop: '10px',
+>>>>>>> 3a024ec2d939168f61efd18bb0148fbd069e7cb1
         padding: '20px'
       }}
     >

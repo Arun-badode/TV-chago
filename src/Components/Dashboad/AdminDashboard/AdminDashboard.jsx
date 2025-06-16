@@ -6,6 +6,8 @@ import {
   FileEarmarkArrowDown,
   Pencil,
   ThreeDotsVertical,
+  Eye,
+  Trash,
 } from "react-bootstrap-icons";
 import { Bar, Pie } from "react-chartjs-2";
 import {
@@ -106,6 +108,7 @@ const AdminDashboard = () => {
   const [statusFilter, setStatusFilter] = useState("All");
   const [dateFilter, setDateFilter] = useState("");
   const [showEditModal, setShowEditModal] = useState(false);
+  const [showViewModal, setShowViewModal] = useState(false);
   const [currentOrder, setCurrentOrder] = useState(null);
   const [editPrice, setEditPrice] = useState("");
   const [editNotes, setEditNotes] = useState("");
@@ -247,11 +250,23 @@ const AdminDashboard = () => {
     setFilteredOrders(result);
   }, [searchTerm, statusFilter, dateFilter, orders]);
 
+  const handleViewClick = (order) => {
+    setCurrentOrder(order);
+    setShowViewModal(true);
+  };
+
   const handleEditClick = (order) => {
     setCurrentOrder(order);
     setEditPrice(order.price);
     setEditNotes(order.notes);
     setShowEditModal(true);
+  };
+
+  const handleDeleteClick = (orderId) => {
+    if (window.confirm("Are you sure you want to delete this order?")) {
+      const updatedOrders = orders.filter((order) => order.id !== orderId);
+      setOrders(updatedOrders);
+    }
   };
 
   const handleSaveChanges = () => {
@@ -310,8 +325,6 @@ const AdminDashboard = () => {
 
   return (
     <div className="container-fluid py-4">
-      
-
       {/* Summary Cards */}
       <div className="row">
         <div className="col-md-3 mb-3">
@@ -482,7 +495,7 @@ const AdminDashboard = () => {
           <div className="table-responsive">
             <Table striped bordered hover>
               <thead>
-                <tr>
+                <tr style={{ textWrap: "nowrap", textAlign: "center" }}>
                   <th>Order ID</th>
                   <th>Date/Time</th>
                   <th>Customer Name</th>
@@ -550,19 +563,36 @@ const AdminDashboard = () => {
                         {order.notes}
                       </td>
                       <td>
-                        <Dropdown>
-                          <Dropdown.Toggle variant="link" id="dropdown-actions">
-                            <ThreeDotsVertical />
-                          </Dropdown.Toggle>
-                          <Dropdown.Menu>
-                            <Dropdown.Item
-                              onClick={() => handleEditClick(order)}
-                            >
-                              <Pencil className="me-2" />
-                              Edit
-                            </Dropdown.Item>
-                          </Dropdown.Menu>
-                        </Dropdown>
+                        <div className="d-flex">
+                          <Button
+                            variant="link"
+                            size="sm"
+                            onClick={() => handleViewClick(order)}
+                            className="me-1"
+                          >
+                            <Eye />
+                          </Button>
+                          <Dropdown>
+                            <Dropdown.Toggle variant="link" id="dropdown-actions">
+                              <ThreeDotsVertical />
+                            </Dropdown.Toggle>
+                            <Dropdown.Menu>
+                              <Dropdown.Item
+                                onClick={() => handleEditClick(order)}
+                              >
+                                <Pencil className="me-2" />
+                                Edit
+                              </Dropdown.Item>
+                              <Dropdown.Item
+                                onClick={() => handleDeleteClick(order.id)}
+                                className="text-danger"
+                              >
+                                <Trash className="me-2" />
+                                Delete
+                              </Dropdown.Item>
+                            </Dropdown.Menu>
+                          </Dropdown>
+                        </div>
                       </td>
                     </tr>
                   ))
@@ -674,6 +704,116 @@ const AdminDashboard = () => {
           </Button>
           <Button variant="primary" onClick={handleSaveChanges}>
             Save Changes
+          </Button>
+        </Modal.Footer>
+      </Modal>
+
+      {/* View Modal */}
+      <Modal show={showViewModal} onHide={() => setShowViewModal(false)} size="lg">
+        <Modal.Header closeButton>
+          <Modal.Title>Order Details #{currentOrder?.id}</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          {currentOrder && (
+            <div className="row">
+              <div className="col-md-6">
+                <div className="mb-3">
+                  <h6>Customer Information</h6>
+                  <hr className="mt-1 mb-2" />
+                  <p>
+                    <strong>Name:</strong> {currentOrder.customerName}
+                  </p>
+                  <p>
+                    <strong>Username:</strong> {currentOrder.username}
+                  </p>
+                  <p>
+                    <strong>Email:</strong> {currentOrder.email}
+                  </p>
+                </div>
+
+                <div className="mb-3">
+                  <h6>Order Information</h6>
+                  <hr className="mt-1 mb-2" />
+                  <p>
+                    <strong>Date/Time:</strong> {currentOrder.dateTime}
+                  </p>
+                  <p>
+                    <strong>Service Package:</strong> {currentOrder.servicePackage}
+                  </p>
+                  <p>
+                    <strong>Price:</strong> ${currentOrder.price.toFixed(2)}
+                  </p>
+                </div>
+              </div>
+
+              <div className="col-md-6">
+                <div className="mb-3">
+                  <h6>Status Information</h6>
+                  <hr className="mt-1 mb-2" />
+                  <p>
+                    <strong>Order Status:</strong>{" "}
+                    <span
+                      className={`badge ${
+                        currentOrder.status === "Completed"
+                          ? "bg-success"
+                          : currentOrder.status === "Pending"
+                          ? "bg-warning"
+                          : "bg-danger"
+                      }`}
+                    >
+                      {currentOrder.status}
+                    </span>
+                  </p>
+                  <p>
+                    <strong>Payment Status:</strong>{" "}
+                    <span
+                      className={`badge ${
+                        currentOrder.paymentStatus === "Paid"
+                          ? "bg-success"
+                          : "bg-danger"
+                      }`}
+                    >
+                      {currentOrder.paymentStatus}
+                    </span>
+                  </p>
+                </div>
+
+                <div className="mb-3">
+                  <h6>File & Notes</h6>
+                  <hr className="mt-1 mb-2" />
+                  <p>
+                    <strong>File:</strong>{" "}
+                    <Button
+                      variant="link"
+                      size="sm"
+                      href={currentOrder.fileUrl}
+                      download
+                      className="p-0"
+                    >
+                      <Download className="me-1" />
+                      Download
+                    </Button>
+                  </p>
+                  <p>
+                    <strong>Notes:</strong>
+                  </p>
+                  <div className="border p-2 rounded bg-light">
+                    {currentOrder.notes || "No notes available"}
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={() => setShowViewModal(false)}>
+            Close
+          </Button>
+          <Button variant="primary" onClick={() => {
+            setShowViewModal(false);
+            handleEditClick(currentOrder);
+          }}>
+            Edit Order
           </Button>
         </Modal.Footer>
       </Modal>
