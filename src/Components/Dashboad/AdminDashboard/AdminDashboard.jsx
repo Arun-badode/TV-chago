@@ -334,6 +334,10 @@ const AdminDashboard = () => {
                 <div>
                   <h5>Total Orders</h5>
                   <h3>{totalOrders}</h3>
+                  <small className="text-success">
+                    <i className="fas fa-arrow-up me-1"></i>
+                    +28.8% from last month
+                  </small>
                 </div>
                 <div
                   className="text-white p-3 rounded-circle d-flex align-items-center justify-content-center"
@@ -360,6 +364,10 @@ const AdminDashboard = () => {
                 <div>
                   <h5>Completed</h5>
                   <h3>{completedOrders}</h3>
+                   <small className="text-success">
+                    <i className="fas fa-arrow-up me-1"></i>
+                    +20.8% from last month
+                  </small>
                 </div>
                 <div
                   className="text-white p-3 rounded-circle d-flex align-items-center justify-content-center"
@@ -386,6 +394,10 @@ const AdminDashboard = () => {
                 <div>
                   <h5>Pending</h5>
                   <h3>{pendingOrders}</h3>
+                   <small className="text-success">
+                    <i className="fas fa-arrow-up me-1"></i>
+                    +10.8% from last month
+                  </small>
                 </div>
                 <div
                   className="text-white p-3 rounded-circle d-flex align-items-center justify-content-center"
@@ -412,6 +424,10 @@ const AdminDashboard = () => {
                 <div>
                   <h5>Cancelled</h5>
                   <h3>{cancelledOrders}</h3>
+                   <small className="text-success">
+                    <i className="fas fa-arrow-up me-1"></i>
+                    +5.8% from last month
+                  </small>
                 </div>
                 <div
                   className="text-white p-3 rounded-circle d-flex align-items-center justify-content-center"
@@ -573,7 +589,10 @@ const AdminDashboard = () => {
                             <Eye />
                           </Button>
                           <Dropdown>
-                            <Dropdown.Toggle variant="link" id="dropdown-actions">
+                            <Dropdown.Toggle
+                              variant="link"
+                              id="dropdown-actions"
+                            >
                               <ThreeDotsVertical />
                             </Dropdown.Toggle>
                             <Dropdown.Menu>
@@ -620,7 +639,10 @@ const AdminDashboard = () => {
         </div>
         <div className="col-md-6 mb-4">
           <div className="card h-100">
-            <div className="card-body d-flex align-items-center justify-content-center" style={{ height: "400px" }}>
+            <div
+              className="card-body d-flex align-items-center justify-content-center"
+              style={{ height: "400px" }}
+            >
               <Pie options={pieOptions} data={statusChartData} />
             </div>
           </div>
@@ -709,7 +731,11 @@ const AdminDashboard = () => {
       </Modal>
 
       {/* View Modal */}
-      <Modal show={showViewModal} onHide={() => setShowViewModal(false)} size="lg">
+      <Modal
+        show={showViewModal}
+        onHide={() => setShowViewModal(false)}
+        size="lg"
+      >
         <Modal.Header closeButton>
           <Modal.Title>Order Details #{currentOrder?.id}</Modal.Title>
         </Modal.Header>
@@ -738,7 +764,8 @@ const AdminDashboard = () => {
                     <strong>Date/Time:</strong> {currentOrder.dateTime}
                   </p>
                   <p>
-                    <strong>Service Package:</strong> {currentOrder.servicePackage}
+                    <strong>Service Package:</strong>{" "}
+                    {currentOrder.servicePackage}
                   </p>
                   <p>
                     <strong>Price:</strong> ${currentOrder.price.toFixed(2)}
@@ -809,10 +836,13 @@ const AdminDashboard = () => {
           <Button variant="secondary" onClick={() => setShowViewModal(false)}>
             Close
           </Button>
-          <Button variant="primary" onClick={() => {
-            setShowViewModal(false);
-            handleEditClick(currentOrder);
-          }}>
+          <Button
+            variant="primary"
+            onClick={() => {
+              setShowViewModal(false);
+              handleEditClick(currentOrder);
+            }}
+          >
             Edit Order
           </Button>
         </Modal.Footer>

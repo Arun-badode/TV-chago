@@ -103,7 +103,7 @@ function LoginPage() {
           <div className="login-container">
             <div className="login-box">
               <div className="login-header">
-                <h1>🔐 Login</h1>
+                <h1 >🔐 Login</h1>
                 <p>Access your TV Package System</p>
               </div>
 
