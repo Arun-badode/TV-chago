@@ -1,97 +1,155 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
+import { Button, Card, Form, Row, Col } from "react-bootstrap";
 
 const Settings = () => {
-  const [isEditing, setIsEditing] = useState(false);
-  const [admin, setAdmin] = useState({
-    name: 'John Admin',
-    email: 'admin@example.com',
-    contact: '1234567890',
-    password: 'admin@123',
+  const [servicePricing, setServicePricing] = useState({
+    service1: 100,
+    service2: 200,
+    both: 250,
   });
 
-  const handleChange = (e) => {
-    setAdmin({ ...admin, [e.target.name]: e.target.value });
+  const [adminUsers, setAdminUsers] = useState(["User 1", "User 2"]);
+  const [smsEmailTemplate, setSmsEmailTemplate] = useState({
+    sms: "Default SMS template",
+    email: "Default Email template",
+  });
+
+  const handleServicePricingChange = (e, service) => {
+    setServicePricing({ ...servicePricing, [service]: e.target.value });
   };
 
-  const handleSave = () => {
-    setIsEditing(false);
-    // ✅ You can connect this to your backend here
-    console.log('Updated Admin Profile:', admin);
+  const handleAdminUserChange = (e, index) => {
+    const updatedUsers = [...adminUsers];
+    updatedUsers[index] = e.target.value;
+    setAdminUsers(updatedUsers);
+  };
+
+  const handleTemplateChange = (e, type) => {
+    setSmsEmailTemplate({ ...smsEmailTemplate, [type]: e.target.value });
+  };
+
+  const handleSaveChanges = () => {
+    alert("Changes saved successfully!");
+    // You can add API calls or state management actions here
   };
 
   return (
-    <div style={{ marginTop: '80px' }}>
-      <h2 className="mb-4">Profile Settings</h2>
-      <div className="card">
-        <div className="card-header">
-          <h5>Admin Profile</h5>
-        </div>
-        <div className="card-body">
+    <div className="container py-5 mt-5">
+      <h2 className="mb-4">Settings Panel</h2>
 
-          {/* Name */}
-          <div className="mb-3">
-            <label className="form-label">Name</label>
-            <input
-              type="text"
-              className="form-control"
-              name="name"
-              value={admin.name}
-              onChange={handleChange}
-              disabled={!isEditing}
-            />
-          </div>
+      {/* Pricing Section */}
+      <Card className="mb-4">
+        <Card.Header>Change Pricing for Services</Card.Header>
+        <Card.Body>
+          <Row>
+            <Col md={4}>
+              <Form.Group>
+                <Form.Label>Service 1 Pricing</Form.Label>
+                <Form.Control
+                  type="number"
+                  value={servicePricing.service1}
+                  onChange={(e) => handleServicePricingChange(e, "service1")}
+                />
+              </Form.Group>
+            </Col>
+            <Col md={4}>
+              <Form.Group>
+                <Form.Label>Service 2 Pricing</Form.Label>
+                <Form.Control
+                  type="number"
+                  value={servicePricing.service2}
+                  onChange={(e) => handleServicePricingChange(e, "service2")}
+                />
+              </Form.Group>
+            </Col>
+            <Col md={4}>
+              <Form.Group>
+                <Form.Label>Both Services Pricing</Form.Label>
+                <Form.Control
+                  type="number"
+                  value={servicePricing.both}
+                  onChange={(e) => handleServicePricingChange(e, "both")}
+                />
+              </Form.Group>
+            </Col>
+          </Row>
+        </Card.Body>
+      </Card>
 
-          {/* Email */}
-          <div className="mb-3">
-            <label className="form-label">Email</label>
-            <input
-              type="email"
-              className="form-control"
-              name="email"
-              value={admin.email}
-              onChange={handleChange}
-              disabled={!isEditing}
-            />
-          </div>
+      {/* Admin Users Section */}
+      <Card className="mb-4">
+        <Card.Header>Manage Admin Users</Card.Header>
+        <Card.Body>
+          {adminUsers.map((user, index) => (
+            <Row key={index} className="mb-3">
+              <Col md={8}>
+                <Form.Group>
+                  <Form.Label>Admin User {index + 1}</Form.Label>
+                  <Form.Control
+                    type="text"
+                    value={user}
+                    onChange={(e) => handleAdminUserChange(e, index)}
+                  />
+                </Form.Group>
+              </Col>
+              <Col md={4}>
+                <Button
+                  variant="danger"
+                  onClick={() => {
+                    const updatedUsers = adminUsers.filter((_, i) => i !== index);
+                    setAdminUsers(updatedUsers);
+                  }}
+                  style={{ marginTop: "30px" }}
+                >
+                  Delete
+                </Button>
+              </Col>
+            </Row>
+          ))}
+          <Button
+            variant="danger"
+            onClick={() => setAdminUsers([...adminUsers, "New Admin User"])}
+          >
+            Add Admin User
+          </Button>
+        </Card.Body>
+      </Card>
 
-          {/* Contact */}
-          <div className="mb-3">
-            <label className="form-label">Contact</label>
-            <input
-              type="text"
-              className="form-control"
-              name="contact"
-              value={admin.contact}
-              onChange={handleChange}
-              disabled={!isEditing}
-            />
-          </div>
+      {/* SMS/Email Templates Section */}
+      <Card className="mb-4">
+        <Card.Header>Edit SMS / Email Templates</Card.Header>
+        <Card.Body>
+          <Row>
+            <Col md={6}>
+              <Form.Group>
+                <Form.Label>SMS Template</Form.Label>
+                <Form.Control
+                  as="textarea"
+                  rows={5}
+                  value={smsEmailTemplate.sms}
+                  onChange={(e) => handleTemplateChange(e, "sms")}
+                />
+              </Form.Group>
+            </Col>
+            <Col md={6}>
+              <Form.Group>
+                <Form.Label>Email Template</Form.Label>
+                <Form.Control
+                  as="textarea"
+                  rows={5}
+                  value={smsEmailTemplate.email}
+                  onChange={(e) => handleTemplateChange(e, "email")}
+                />
+              </Form.Group>
+            </Col>
+          </Row>
+        </Card.Body>
+      </Card>
 
-          {/* Password */}
-          <div className="mb-3">
-            <label className="form-label">Password</label>
-            <input
-              type="password"
-              className="form-control"
-              name="password"
-              value={admin.password}
-              onChange={handleChange}
-              disabled={!isEditing}
-            />
-          </div>
-
-          {/* Buttons */}
-          {isEditing ? (
-            <button className="btn btn-primary" onClick={handleSave}>
-              Save
-            </button>
-          ) : (
-            <button className="btn btn-primary" onClick={() => setIsEditing(true)}>
-              Edit
-            </button>
-          )}
-        </div>
-      </div>
+      {/* Save Changes Button */}
+      <Button variant="primary" onClick={handleSaveChanges}>
+        Save Changes
+      </Button>
     </div>
   );
 };
