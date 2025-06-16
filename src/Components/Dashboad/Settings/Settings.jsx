@@ -34,7 +34,7 @@ const Settings = () => {
   };
 
   return (
-    <div className="container py-5 mt-5">
+    <div className="container py-5 ">
       <h2 className="mb-4">Settings Panel</h2>
 
       {/* Pricing Section */}

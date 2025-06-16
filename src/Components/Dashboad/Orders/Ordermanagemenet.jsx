@@ -11,6 +11,7 @@ import {
   Eye,
   Edit3
 } from 'lucide-react';
+import { Modal } from 'react-bootstrap'; // If using react-bootstrap, otherwise use plain Bootstrap modal
 
 const Ordermanagement = () => {
   const [orders, setOrders] = useState([
@@ -93,6 +94,8 @@ const Ordermanagement = () => {
   const [statusFilter, setStatusFilter] = useState('All');
   const [dateFilter, setDateFilter] = useState('');
   const [usernameFilter, setUsernameFilter] = useState('');
+  const [showModal, setShowModal] = useState(false);
+  const [selectedOrder, setSelectedOrder] = useState(null);
 
   useEffect(() => {
     filterOrders();
@@ -158,9 +161,28 @@ const Ordermanagement = () => {
     window.URL.revokeObjectURL(url);
   };
 
-  const handleFileDownload = (fileName) => {
-    // Simulate file download
-    alert(`Downloading: ${fileName}`);
+  const handleFileDownload = (order) => {
+    // Simulate file content with order details
+    const fileContent = `
+Order ID: ${order.id}
+Date/Time: ${order.dateTime}
+Customer Name: ${order.customerName}
+Email: ${order.email}
+Username: ${order.username}
+Service Package: ${order.servicePackage}
+Status: ${order.status}
+Payment Status: ${order.paymentStatus}
+File Upload: ${order.fileUpload}
+Notes: ${order.notes}
+  `.trim();
+
+    const blob = new Blob([fileContent], { type: 'text/plain' });
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = order.fileUpload; // Use the file name from order
+    a.click();
+    window.URL.revokeObjectURL(url);
   };
 
   const clearFilters = () => {
@@ -170,208 +192,239 @@ const Ordermanagement = () => {
     setUsernameFilter('');
   };
 
+  const handleView = (order) => {
+    setSelectedOrder(order);
+    setShowModal(true);
+  };
+
+  const handleCloseModal = () => {
+    setShowModal(false);
+    setSelectedOrder(null);
+  };
+
   return (
-   <div className="container-fluid min-vh-100 p-4 mt-5">
-  <div className="container">
-    {/* Header */}
-    <div className="mb-4">
-      <h1 className="display-4 text-dark mb-2">Orders Management</h1>
-      <p className="" style={{fontSize:"15px"}}>Manage and monitor all customer orders</p>
-    </div>
-
-    {/* Search and Filter Section */}
-    <div className="bg-white rounded shadow-sm p-4 mb-4">
-      <div className="row g-4">
-        {/* Search Bar */}
-        <div className="col-md-4">
-          <label className="form-label">
-            <i className="bi bi-search me-2"></i>
-            Search Orders
-          </label>
-          <input
-            type="text"
-            placeholder="Search by customer name, email, username, or order ID..."
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            className="form-control"
-          />
+    <div className="container-fluid min-vh-100 p-4 ">
+      <div className="container">
+        {/* Header */}
+        <div className="mb-4">
+          <h4 className=" text-dark mb-2">Orders Management</h4>
+          <p className="" style={{fontSize:"15px"}}>Manage and monitor all customer orders</p>
         </div>
 
-        {/* Status Filter */}
-        <div className="col-md-3">
-          <label className="form-label">
-            <i className="bi bi-funnel me-2"></i>
-            Filter by Status
-          </label>
-          <select
-            value={statusFilter}
-            onChange={(e) => setStatusFilter(e.target.value)}
-            className="form-select"
-          >
-            <option value="All">All Status</option>
-            <option value="Pending">Pending</option>
-            <option value="Completed">Completed</option>
-          </select>
+        {/* Search and Filter Section */}
+        <div className="bg-white rounded shadow-sm p-4 mb-4">
+          <div className="row g-4">
+            {/* Search Bar */}
+            <div className="col-md-4">
+              <label className="form-label">
+                <i className="bi bi-search me-2"></i>
+                Search Orders
+              </label>
+              <input
+                type="text"
+                placeholder="Search by customer name, email, username, or order ID..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="form-control"
+              />
+            </div>
+
+            {/* Status Filter */}
+            <div className="col-md-3">
+              <label className="form-label">
+                <i className="bi bi-funnel me-2"></i>
+                Filter by Status
+              </label>
+              <select
+                value={statusFilter}
+                onChange={(e) => setStatusFilter(e.target.value)}
+                className="form-select"
+              >
+                <option value="All">All Status</option>
+                <option value="Pending">Pending</option>
+                <option value="Completed">Completed</option>
+              </select>
+            </div>
+
+            {/* Date Filter */}
+            <div className="col-md-3">
+              <label className="form-label">
+                <i className="bi bi-calendar me-2"></i>
+                Filter by Date
+              </label>
+              <input
+                type="date"
+                value={dateFilter}
+                onChange={(e) => setDateFilter(e.target.value)}
+                className="form-control"
+              />
+            </div>
+
+            {/* Username Filter */}
+            <div className="col-md-2">
+              <label className="form-label">
+                <i className="bi bi-person me-2"></i>
+                Filter by Username
+              </label>
+              <input
+                type="text"
+                placeholder="Enter username..."
+                value={usernameFilter}
+                onChange={(e) => setUsernameFilter(e.target.value)}
+                className="form-control"
+              />
+            </div>
+          </div>
+
+          {/* Action Buttons */}
+          <div className="d-flex gap-3 mt-4 pt-4 border-top">
+            <button
+              onClick={exportToCSV}
+              className="btn  text-white"
+              style={{ backgroundColor: '#d83631' }} // Bootstrap primary color
+            >
+              <i className="bi bi-download me-2"></i> Export to CSV
+            </button>
+            <button
+              onClick={clearFilters}
+              className="btn btn-secondary text-white"
+            >
+              Clear Filters
+            </button>
+            <div className="ms-auto text-muted">
+              Showing {filteredOrders.length} of {orders.length} orders
+            </div>
+          </div>
         </div>
 
-        {/* Date Filter */}
-        <div className="col-md-3">
-          <label className="form-label">
-            <i className="bi bi-calendar me-2"></i>
-            Filter by Date
-          </label>
-          <input
-            type="date"
-            value={dateFilter}
-            onChange={(e) => setDateFilter(e.target.value)}
-            className="form-control"
-          />
-        </div>
-
-        {/* Username Filter */}
-        <div className="col-md-2">
-          <label className="form-label">
-            <i className="bi bi-person me-2"></i>
-            Filter by Username
-          </label>
-          <input
-            type="text"
-            placeholder="Enter username..."
-            value={usernameFilter}
-            onChange={(e) => setUsernameFilter(e.target.value)}
-            className="form-control"
-          />
-        </div>
-      </div>
-
-      {/* Action Buttons */}
-      <div className="d-flex gap-3 mt-4 pt-4 border-top">
-        <button
-          onClick={exportToCSV}
-          className="btn  text-white"
-          style={{ backgroundColor: '#d83631' }} // Bootstrap primary color
-        >
-          <i className="bi bi-download me-2"></i> Export to CSV
-        </button>
-        <button
-          onClick={clearFilters}
-          className="btn btn-secondary text-white"
-        >
-          Clear Filters
-        </button>
-        <div className="ms-auto text-muted">
-          Showing {filteredOrders.length} of {orders.length} orders
-        </div>
-      </div>
-    </div>
-
-    {/* Orders Table */}
-    <div className="bg-white rounded shadow-sm overflow-hidden">
-      <div className="table-responsive">
-        <table className="table table-striped table-bordered">
-          <thead className="bg-light">
-            <tr>
-              <th>Order ID</th>
-              <th>Date/Time</th>
-              <th>Customer Details</th>
-              <th>Service Package</th>
-              <th>Status</th>
-              <th>Payment Status</th>
-              <th>File Upload</th>
-              <th>Notes</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {filteredOrders.map((order) => (
-              <tr key={order.id}>
-                <td>{order.id}</td>
-                <td>{order.dateTime.split(' ')[0]}</td>
-                <td>
-                  <div>{order.customerName}</div>
-                  <div>{order.email}</div>
-                  <div>@{order.username}</div>
-                </td>
-                <td>{order.servicePackage}</td>
-                <td>
-                  <span
-                    className={`badge ${
-                      order.status === 'Completed' ? 'bg-success' : 'bg-warning'
-                    }`}
-                  >
-                    {order.status}
-                  </span>
-                </td>
-                <td>
-                  <span
-                    className={`badge ${
-                      order.paymentStatus === 'Paid' ? 'bg-success' : 'bg-danger'
-                    }`}
-                  >
-                    {order.paymentStatus}
-                  </span>
-                </td>
-                <td>
-                    <div className='d-flex align-items-center justify-content-center mt-4'>
-                <i class="fa-solid fa-file-arrow-up"></i>
-                </div>
-                </td>
-                <td>{order.notes.length > 50 ? `${order.notes.substring(0, 50)}...` : order.notes}</td>
-                <td>
-                  <div className="btn-group">
-                    <button className="btn btn-primary" onClick={() => alert(`Viewing ${order.id}`)}>
-                      View
-                    </button>
-                    {/* <button className="btn btn-success" onClick={() => alert(`Editing ${order.id}`)}>
-                      Edit
-                    </button> */}
-                  </div>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-
-      {filteredOrders.length === 0 && (
-        <div className="text-center py-5">
-          <i className="bi bi-box" style={{ fontSize: "2rem" }}></i>
-          <h5>No orders found</h5>
-          <p>Try adjusting your search criteria or filters.</p>
-        </div>
-      )}
-    </div>
-
-    {/* Summary Statistics */}
-    {/* <div className="mt-4 row">
-      <div className="col-md-3">
-        <div className="bg-light p-3 rounded">
-          <h3>{orders.length}</h3>
-          <p>Total Orders</p>
-        </div>
-      </div>
-      <div className="col-md-3">
-        <div className="bg-success text-white p-3 rounded">
-          <h3>{orders.filter(o => o.status === 'Completed').length}</h3>
-          <p>Completed</p>
-        </div>
-      </div>
-      <div className="col-md-3">
-        <div className="bg-warning text-dark p-3 rounded">
-          <h3>{orders.filter(o => o.status === 'Pending').length}</h3>
-          <p>Pending</p>
-        </div>
-      </div>
-      <div className="col-md-3">
-        <div className="bg-danger text-white p-3 rounded">
-          <h3>{orders.filter(o => o.paymentStatus === 'Failed').length}</h3>
-          <p>Failed Payments</p>
-        </div>
-      </div>
-    </div> */}
+        {/* Orders Table */}
+        <div className="bg-white rounded shadow-sm overflow-hidden">
+          <div className="table-responsive">
+            <table className="table table-striped table-bordered">
+              <thead className="bg-light">
+                <tr style={{textWrap:"nowrap"}}>
+                  <th>Order ID</th>
+                  <th>Date/Time</th>
+                  <th>Customer Details</th>
+                  <th>Service Package</th>
+                  <th>Status</th>
+                  <th>Payment Status</th>
+                  <th>File Upload</th>
+                  <th>Notes</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                {filteredOrders.map((order) => (
+                  <tr key={order.id}>
+                    <td>{order.id}</td>
+                    <td>{order.dateTime.split(' ')[0]}</td>
+                    <td>
+                      <div>{order.customerName}</div>
+                      <div>{order.email}</div>
+                      <div>@{order.username}</div>
+                    </td>
+                    <td>{order.servicePackage}</td>
+                    <td>
+                      <span
+                        className={`badge ${
+                          order.status === 'Completed' ? 'bg-success' : 'bg-warning'
+                        }`}
+                      >
+                        {order.status}
+                      </span>
+                    </td>
+                    <td>
+                      <span
+                        className={`badge ${
+                          order.paymentStatus === 'Paid' ? 'bg-success' : 'bg-danger'
+                        }`}
+                      >
+                        {order.paymentStatus}
+                      </span>
+                    </td>
+                    <td>
+                        <div className='d-flex align-items-center justify-content-center mt-4'>
+    <button
+      className="btn btn-link p-0"
+      title="Download File"
+      onClick={() => handleFileDownload(order)}
+      style={{ color: '#d83631' }}
+    >
+      <i className="fa-solid fa-file-arrow-down fa-lg"></i>
+    </button>
   </div>
-</div>
+                    </td>
+                    <td>{order.notes.length > 50 ? `${order.notes.substring(0, 50)}...` : order.notes}</td>
+                    <td>
+                      <div className="btn-group">
+                        <button
+                          className="btn btn-primary"
+                          onClick={() => handleView(order)}
+                        >
+                          View
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
 
+          {filteredOrders.length === 0 && (
+            <div className="text-center py-5">
+              <i className="bi bi-box" style={{ fontSize: "2rem" }}></i>
+              <h5>No orders found</h5>
+              <p>Try adjusting your search criteria or filters.</p>
+            </div>
+          )}
+        </div>
+
+        {/* Modal for order details */}
+        {showModal && selectedOrder && (
+          <div
+            className="modal fade show"
+            style={{ display: "block", background: "rgba(0,0,0,0.5)" }}
+            tabIndex="-1"
+            role="dialog"
+          >
+            <div className="modal-dialog modal-lg" role="document">
+              <div className="modal-content">
+                <div className="modal-header">
+                  <h5 className="modal-title">Order Details - {selectedOrder.id}</h5>
+                  <button
+                    type="button"
+                    className="btn-close"
+                    onClick={handleCloseModal}
+                  ></button>
+                </div>
+                <div className="modal-body">
+                  <p><strong>Date/Time:</strong> {selectedOrder.dateTime}</p>
+                  <p><strong>Customer Name:</strong> {selectedOrder.customerName}</p>
+                  <p><strong>Email:</strong> {selectedOrder.email}</p>
+                  <p><strong>Username:</strong> @{selectedOrder.username}</p>
+                  <p><strong>Service Package:</strong> {selectedOrder.servicePackage}</p>
+                  <p><strong>Status:</strong> {selectedOrder.status}</p>
+                  <p><strong>Payment Status:</strong> {selectedOrder.paymentStatus}</p>
+                  <p><strong>File Upload:</strong> {selectedOrder.fileUpload}</p>
+                  <p><strong>Notes:</strong> {selectedOrder.notes}</p>
+                </div>
+                <div className="modal-footer">
+                  <button
+                    type="button"
+                    className="btn btn-secondary"
+                    onClick={handleCloseModal}
+                  >
+                    Close
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
+    </div>
   );
 };
 

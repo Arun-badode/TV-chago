@@ -39,7 +39,7 @@ const AdminDashboard = () => {
       customerName: "John Doe",
       email: "john@example.com",
       username: "johndoe",
-      servicePackage: "Premium",
+      servicePackage: "1 Services",
       status: "Completed",
       paymentStatus: "Paid",
       fileUrl: "/files/order1.pdf",
@@ -52,7 +52,7 @@ const AdminDashboard = () => {
       customerName: "Jane Smith",
       email: "jane@example.com",
       username: "janesmith",
-      servicePackage: "Basic",
+      servicePackage: "2 Sevices",
       status: "Pending",
       paymentStatus: "Paid",
       fileUrl: "/files/order2.pdf",
@@ -65,7 +65,7 @@ const AdminDashboard = () => {
       customerName: "Robert Johnson",
       email: "robert@example.com",
       username: "robj",
-      servicePackage: "Standard",
+      servicePackage: "Both Services",
       status: "Cancelled",
       paymentStatus: "Failed",
       fileUrl: "/files/order3.pdf",
@@ -78,7 +78,7 @@ const AdminDashboard = () => {
       customerName: "Sarah Williams",
       email: "sarah@example.com",
       username: "sarahw",
-      servicePackage: "Premium",
+      servicePackage: "1 Services",
       status: "Completed",
       paymentStatus: "Paid",
       fileUrl: "/files/order4.pdf",
@@ -91,7 +91,7 @@ const AdminDashboard = () => {
       customerName: "Michael Brown",
       email: "michael@example.com",
       username: "michaelb",
-      servicePackage: "Standard",
+      servicePackage: "Both Services",
       status: "Completed",
       paymentStatus: "Paid",
       fileUrl: "/files/order5.pdf",
@@ -310,23 +310,30 @@ const AdminDashboard = () => {
 
   return (
     <div className="container-fluid py-4">
-      <h1 className="mb-4">Orders Management</h1>
+      
 
       {/* Summary Cards */}
       <div className="row">
         <div className="col-md-3 mb-3">
-          <div className="card shadow-lg ">
+          <div className="card shadow-lg">
             <div className="card-body">
-              <div className="d-flex justify-content-between align-items-center ">
+              <div className="d-flex justify-content-between align-items-center">
                 <div>
                   <h5>Total Orders</h5>
                   <h3>{totalOrders}</h3>
                 </div>
                 <div
-                  className="text-white p-3 rounded-circle"
-                  style={{ backgroundColor: "#d84a33" }}
+                  className="text-white p-3 rounded-circle d-flex align-items-center justify-content-center"
+                  style={{
+                    backgroundColor: "#d84a33",
+                    width: "50px",
+                    height: "50px",
+                  }}
                 >
-                  <i className="fas fa-users fa-lg"></i>
+                  <i
+                    className="fas fa-users fa-lg"
+                    style={{ fontSize: "1.25rem" }}
+                  ></i>
                 </div>
               </div>
             </div>
@@ -342,10 +349,17 @@ const AdminDashboard = () => {
                   <h3>{completedOrders}</h3>
                 </div>
                 <div
-                  className="text-white p-3 rounded-circle"
-                  style={{ backgroundColor: "#d84a33" }}
+                  className="text-white p-3 rounded-circle d-flex align-items-center justify-content-center"
+                  style={{
+                    backgroundColor: "#d84a33",
+                    width: "50px",
+                    height: "50px",
+                  }}
                 >
-                 <i class="fa-solid fa-check"></i>
+                  <i
+                    className="fa-solid fa-check"
+                    style={{ fontSize: "1.25rem" }}
+                  ></i>
                 </div>
               </div>
             </div>
@@ -361,10 +375,17 @@ const AdminDashboard = () => {
                   <h3>{pendingOrders}</h3>
                 </div>
                 <div
-                  className="text-white p-3 rounded-circle"
-                  style={{ backgroundColor: "#d84a33" }}
+                  className="text-white p-3 rounded-circle d-flex align-items-center justify-content-center"
+                  style={{
+                    backgroundColor: "#d84a33",
+                    width: "50px",
+                    height: "50px",
+                  }}
                 >
-                  <i class="fa-solid fa-hourglass-half  w-100"></i>
+                  <i
+                    className="fa-solid fa-hourglass-half"
+                    style={{ fontSize: "1.25rem" }}
+                  ></i>
                 </div>
               </div>
             </div>
@@ -379,11 +400,18 @@ const AdminDashboard = () => {
                   <h5>Cancelled</h5>
                   <h3>{cancelledOrders}</h3>
                 </div>
-                 <div
-                  className="text-white p-3 rounded-circle "
-                  style={{ backgroundColor: "#d84a33" }}
+                <div
+                  className="text-white p-3 rounded-circle d-flex align-items-center justify-content-center"
+                  style={{
+                    backgroundColor: "#d84a33",
+                    width: "50px",
+                    height: "50px",
+                  }}
                 >
-               <i class="fa-solid fa-ban "></i>
+                  <i
+                    className="fa-solid fa-ban"
+                    style={{ fontSize: "1.25rem" }}
+                  ></i>
                 </div>
               </div>
             </div>
@@ -562,7 +590,7 @@ const AdminDashboard = () => {
         </div>
         <div className="col-md-6 mb-4">
           <div className="card h-100">
-            <div className="card-body" style={{ height: "400px" }}>
+            <div className="card-body d-flex align-items-center justify-content-center" style={{ height: "400px" }}>
               <Pie options={pieOptions} data={statusChartData} />
             </div>
           </div>
@@ -570,7 +598,7 @@ const AdminDashboard = () => {
         <div className="col-md-6 mb-4">
           <div className="card h-100">
             <div
-              className="card-body justify-content-center"
+              className="card-body d-flex align-items-center justify-content-center"
               style={{ height: "400px" }}
             >
               <Bar
@@ -592,7 +620,7 @@ const AdminDashboard = () => {
         <div className="col-md-6 mb-4">
           <div className="card h-100">
             <div
-              className="card-body align-content-center text-center justify-content-center"
+              className="card-body d-flex align-items-center justify-content-center"
               style={{ height: "400px" }}
             >
               <Pie
