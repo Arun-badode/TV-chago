@@ -26,7 +26,7 @@ function AppWrapper() {
 
   return (
     <>
-      {shouldShowNavbar && <CustomNavbar />}
+     
       <Routes>
         <Route path="/" element={<LandingPage />} />
         <Route path="/login" element={<LoginPage />} />
