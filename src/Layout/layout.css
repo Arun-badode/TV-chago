@@ -1,0 +1,26 @@
+  .tvp-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+           
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+           
+        }
+        
+        .tvp-logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            text-decoration: none;
+            color: white;
+        }
+        
+        .tvp-nav-link {
+            color: white !important;
+            text-decoration: none;
+            margin: 0 1rem;
+            transition: opacity 0.3s ease;
+        }
+        
+        .tvp-nav-link:hover {
+            opacity: 0.8;
+            color: white !important;
+        }

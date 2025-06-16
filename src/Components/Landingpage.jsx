@@ -1,232 +1,486 @@
-import React from 'react';
-import Footer from '../Layout/Footer';
-import { Link } from 'react-router-dom';
+import React, { useState, useRef } from 'react';
+import "./Landingpage.css";
 
-const products = [
-  { title: 'Classic White T-Shirt', price: '$29.99', desc: 'Essential cotton tee for everyday comfort', img: 'https://readdy.ai/api/search-image?query=A%20professional%20product%20photography%20of%20a%20classic%20white%20t-shirt%20on%20a%20minimalist%20light%20gray%20background%2C%20clean%20styling%2C%20high-quality%20fabric%20texture%20visible%2C%20fashion%20product%20photography%2C%20commercial%20quality%2C%20soft%20lighting&width=400&height=400&seq=1&orientation=squarish' },
-  { title: 'Slim Fit Jeans', price: '$59.99', desc: 'Modern slim fit with stretch comfort', img: 'https://readdy.ai/api/search-image?query=A%20professional%20product%20photography%20of%20slim%20fit%20blue%20jeans%20on%20a%20minimalist%20light%20gray%20background%2C%20detailed%20denim%20texture%2C%20fashion%20product%20photography%2C%20commercial%20quality%2C%20soft%20lighting%2C%20no%20people&width=400&height=400&seq=2&orientation=squarish' },
-  { title: 'Casual Blazer', price: '$89.99', desc: 'Versatile blazer for work and weekends', img: 'https://readdy.ai/api/search-image?query=A%20professional%20product%20photography%20of%20a%20casual%20navy%20blue%20blazer%20on%20a%20minimalist%20light%20gray%20background%2C%20detailed%20fabric%20texture%2C%20fashion%20product%20photography%2C%20commercial%20quality%2C%20soft%20lighting%2C%20no%20people&width=400&height=400&seq=3&orientation=squarish' },
-  { title: 'Summer Dress', price: '$49.99', desc: 'Light floral pattern for warm days', img: 'https://readdy.ai/api/search-image?query=A%20professional%20product%20photography%20of%20a%20light%20floral%20summer%20dress%20on%20a%20minimalist%20light%20gray%20background%2C%20flowing%20fabric%2C%20fashion%20product%20photography%2C%20commercial%20quality%2C%20soft%20lighting%2C%20no%20people&width=400&height=400&seq=4&orientation=squarish' },
-  { title: 'Leather Jacket', price: '$129.99', desc: 'Classic style with modern details', img: 'https://readdy.ai/api/search-image?query=A%20professional%20product%20photography%20of%20a%20black%20leather%20jacket%20on%20a%20minimalist%20light%20gray%20background%2C%20detailed%20texture%2C%20fashion%20product%20photography%2C%20commercial%20quality%2C%20soft%20lighting%2C%20no%20people&width=400&height=400&seq=5&orientation=squarish' },
-  { title: 'Knit Sweater', price: '$69.99', desc: 'Cozy knit for chilly evenings', img: 'https://readdy.ai/api/search-image?query=A%20professional%20product%20photography%20of%20a%20cozy%20knit%20sweater%20in%20beige%20on%20a%20minimalist%20light%20gray%20background%2C%20detailed%20texture%2C%20fashion%20product%20photography%2C%20commercial%20quality%2C%20soft%20lighting%2C%20no%20people&width=400&height=400&seq=6&orientation=squarish' },
-  { title: 'Cargo Pants', price: '$74.99', desc: 'Functional design with multiple pockets', img: 'https://readdy.ai/api/search-image?query=A%20professional%20product%20photography%20of%20khaki%20cargo%20pants%20on%20a%20minimalist%20light%20gray%20background%2C%20detailed%20fabric%20texture%2C%20fashion%20product%20photography%2C%20commercial%20quality%2C%20soft%20lighting%2C%20no%20people&width=400&height=400&seq=7&orientation=squarish' },
-  { title: 'Silk Blouse', price: '$79.99', desc: 'Elegant blouse for professional settings', img: 'https://readdy.ai/api/search-image?query=A%20professional%20product%20photography%20of%20an%20elegant%20silk%20blouse%20in%20cream%20color%20on%20a%20minimalist%20light%20gray%20background%2C%20luxurious%20fabric%20texture%2C%20fashion%20product%20photography%2C%20commercial%20quality%2C%20soft%20lighting%2C%20no%20people&width=400&height=400&seq=8&orientation=squarish' },
-];
+const Landingpage = () => {
+  // Package pricing
+  const packagePrices = {
+    'service1': 299,
+    'service2': 399,
+    'both': 599
+  };
 
-const LandingPage = () => {
+  // State management
+  const [selectedPackage, setSelectedPackage] = useState('service1');
+  const [customerType, setCustomerType] = useState('new');
+  const [totalPrice, setTotalPrice] = useState(packagePrices['service1']);
+  const [username, setUsername] = useState('');
+  const [fullName, setFullName] = useState('');
+  const [email, setEmail] = useState('');
+  const [phone, setPhone] = useState('');
+  const [address, setAddress] = useState('');
+  const [notes, setNotes] = useState('');
+  const [uploadedFile, setUploadedFile] = useState(null);
+  const [currentSection, setCurrentSection] = useState('orderForm');
+  const [orderId, setOrderId] = useState('');
+
+  const fileInputRef = useRef(null);
+
+  // Handle package selection
+  const handlePackageChange = (e) => {
+    const value = e.target.value;
+    setSelectedPackage(value);
+    setTotalPrice(packagePrices[value]);
+  };
+
+  // Handle customer type change
+  const handleCustomerTypeChange = (e) => {
+    setCustomerType(e.target.value);
+  };
+
+  // Handle file upload
+  const handleFileUpload = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setUploadedFile(file);
+    }
+  };
+
+  // Proceed to payment
+  const proceedToPayment = () => {
+    // Validation
+    if (!username) {
+      alert('Please enter your username');
+      return;
+    }
+
+    setCurrentSection('paymentSection');
+  };
+
+  // Process payment
+  const processPayment = () => {
+    // Validation
+    if (!fullName || !email || !phone) {
+      alert('Please fill in all required billing details');
+      return;
+    }
+
+    // Simulate payment processing
+    setTimeout(() => {
+      // Generate order ID
+      const newOrderId = 'TVP-' + new Date().getFullYear() + '-' + String(Math.floor(Math.random() * 10000)).padStart(4, '0');
+      setOrderId(newOrderId);
+      setCurrentSection('successSection');
+    }, 3000);
+  };
+
+  // Trigger file input click
+  const triggerFileInput = () => {
+    fileInputRef.current.click();
+  };
+
   return (
-    <>
-      <div>
+    <div>
+      <div className="position-relative mt-5 p-4 d-flex align-items-center justify-content-center overflow-hidden"
+      >
 
-        {/* Hero Section */}
-
-        <div id='home' style={{ position: 'relative', minHeight: '100vh', overflow: 'hidden' }}>
-          {/* Background Image */}
+        {/* Background with gradient overlay */}
+        {/* <div
+          className="position-absolute top-0 start-0 w-100 h-100"
+          style={{
+            backgroundColor: '#0f172a', // Dark blue background
+            backgroundImage: 'url(https://images.unsplash.com/photo-1574375927938-d5a98e8ffe85?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80)',
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+            zIndex: 1
+          }}
+        >
           <div
             className="position-absolute top-0 start-0 w-100 h-100"
+            style={{ backgroundColor: 'rgba(0, 0, 0, 0.7)', zIndex: 2 }}
+          ></div>
+        </div> */}
+
+        {/* Animated background elements */}
+        <div className="position-absolute top-0 start-0 w-100 h-100 overflow-hidden" style={{ zIndex: 3 }}>
+          <div
+            className="position-absolute rounded-circle"
             style={{
-              background: 'url(https://i.postimg.cc/Hnqc2bxF/904885a821d0846fd0ceb528f65b4190.jpg) center/cover no-repeat',
-              zIndex: 1,
+top: '25%' ,
+              left: '25%',
+              width: '24rem',
+              height: '24rem',
+              background: '#d84a33', // Your brand color
+              mixBlendMode: 'screen',
+              filter: 'blur(40px)',
+              opacity: 0.2,
+              animation: 'pulse 3s ease-in-out infinite'
             }}
           ></div>
-
-          {/* Dark Overlay */}
           <div
-            className="position-absolute top-0 start-0 w-100 h-100"
+            className="position-absolute rounded-circle"
             style={{
-              backgroundColor: 'rgba(0, 0, 0, 0.6)',
-              zIndex: 2,
+top: '25%' ,
+              right: '25%',
+              width: '24rem',
+              height: '24rem',
+              background: '#1e40af', // Blue accent
+              mixBlendMode: 'screen',
+              filter: 'blur(40px)',
+              opacity: 0.2,
+              animation: 'pulse 3s ease-in-out infinite 2s'
             }}
           ></div>
+        </div>
 
-          {/* Content */}
-          <div
-            className="text-white text-center d-flex align-items-center justify-content-center"
-            style={{ minHeight: '100vh', position: 'relative', zIndex: 3 }}
-          >
-            <div className="container px-3">
-              <h1 className="fw-bold mb-4 display-5">Find Your Perfect Style</h1>
+        {/* Hero Content */}
+        <div className="position-relative text-center text-white px-4" style={{ marginTop: 0, zIndex: 10, maxWidth: '60rem' }}>
+          <div className="mb-5">
+            <h1 className="display-1 fw-bold mb-3 text-dark" >
+              Premium TV Packages
+            </h1>
+            <h2 className="display-4 fw-light text-dark-50 mb-4" style={{ opacity: 0.9 }}>
+              Unlimited Entertainment
+            </h2>
+          </div>
 
-              {/* Responsive Input + Buttons */}
-              <div className="row justify-content-center g-2">
-                <div className="col-12 col-md-6">
-                  <input
-                    type="text"
-                    className="form-control py-3"
-                    placeholder="Search for clothing, categories..."
-                  />
-                </div>
-                <div className="col-6 col-md-auto">
-                  <button className="btn btn-chago w-100 py-3">Search</button>
+          <p className="fs-4 mb-5 text-dark" style={{ opacity: 0.8, maxWidth: '40rem', margin: '0 auto', lineHeight: 1.6 }}>
+            Experience crystal-clear HD channels, premium sports, and on-demand content
+            with our exclusive TV packages. Subscribe now for the ultimate viewing experience.
+          </p>
 
-                </div>
-                <div className="col-6 col-md-auto">
-                  <button className="btn btn-light text-dark w-100 py-3">All Products</button>
-                </div>
+          <div className="d-flex flex-column align-items-center gap-4">
+
+            {/* <button
+        onClick={() => setCurrentSection('orderForm')}
+        className="btn btn-lg px-5 py-3 fs-5 fw-semibold rounded-pill shadow-lg"
+        style={{
+          background: '#d84a33', // Your brand color
+          border: 'none',
+          color: 'white',
+          transition: 'all 0.3s ease',
+          transform: 'scale(1)'
+        }}
+        onMouseEnter={(e) => e.target.style.transform = 'scale(1.05)'}
+        onMouseLeave={(e) => e.target.style.transform = 'scale(1)'}
+      >
+        Order Your Package Now
+      </button> */}
+
+            <div className="d-flex justify-content-center mt-4 mb-4 gap-4 small" style={{ color: 'black', opacity: 0.75 }}>
+              <div className="d-flex align-items-center gap-2">
+                <i className="fas fa-hd me-1"></i>
+                <span>HD Channels</span>
+              </div>
+              <div className="d-flex align-items-center gap-2">
+                <i className="fas fa-shield-alt me-1"></i>
+                <span>Secure Payment</span>
+              </div>
+              <div className="d-flex align-items-center gap-2">
+                <i className="fas fa-headset me-1"></i>
+                <span>24/7 Support</span>
               </div>
             </div>
           </div>
         </div>
 
-
-        {/* Featured Products */}
-        <div id='allproduct' className="container py-5">
-          <h2 className="fw-bold mb-2 text-center">Featured Products</h2>
-          <p className="text-muted mb-4 text-center">Discover our latest collection of trendy clothing</p>
-          <div className="row">
-            {products.map((prod, idx) => (
-              <div className="col-sm-6 col-md-4 col-lg-3 mb-4" key={idx}>
-                <div className="card h-100 border-0 shadow-sm rounded">
-                  <img
-                    src={prod.img}
-                    className="card-img-top"
-                    alt={prod.title}
-                    style={{ objectFit: 'cover', height: '250px' }}
-                  />
-                  <div className="card-body">
-                    <h6 className="fw-bold">{prod.title}</h6>
-                    <p className="text-muted small">{prod.desc}</p>
-                    <div className="d-flex justify-content-between align-items-center mt-3">
-                      <span className="fw-bold text-dark">{prod.price}</span>
-                      <Link to='/Ordertrack'>
-                        <button className="btn btn-sm btn-chago">Buy Now</button>
-
-                      </Link>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-          <div className="text-center mt-4">
-            <button
-              className="btn"
-              style={{
-                color: "#d84a33",
-                border: "1px solid #d84a33",
-                backgroundColor: "transparent"
-              }}
-            >
-              View All Products
-            </button>
-
-          </div>
-        </div>
-
-        {/* blogs */}
-        <div id='blog' className="bg-light py-5">
-          <div className="container">
-            <h2 className="fw-bold mb-2 text-center">Latest From Our Blog</h2>
-            <p className="text-muted mb-4 text-center">Stay updated with trends, tips & style inspiration</p>
-
-            <div className="row">
-              {[
-                {
-                  title: "Top 5 Summer Fashion Essentials",
-                  desc: "Discover must-have summer pieces that combine comfort and style, perfect for the hot season.",
-                  img: "https://i.postimg.cc/nh6qHjtd/ww.jpg",
-                  date: "June 10, 2025",
-                },
-                {
-                  title: "How to Accessorize Like a Pro",
-                  desc: "Accessories can elevate any outfit. Learn the art of mixing and matching like a stylist.",
-                  img: "https://i.postimg.cc/1tKFcvVT/gg.png",
-                  date: "June 7, 2025",
-                },
-                {
-                  title: "Men’s Guide to Smart Casual Dressing",
-                  desc: "Step up your game with this guide to effortless, sharp, and comfortable looks for men.",
-                  img: "https://i.postimg.cc/0jWJhrf0/me.jpg",
-                  date: "June 5, 2025",
-                },
-              ].map((blog, idx) => (
-                <div className="col-md-4 mb-4" key={idx}>
-                  <div className="card shadow-sm border-0 rounded-4 h-100 overflow-hidden">
-                    {/* Blog Image */}
-                    <div style={{ height: "200px", backgroundColor: "#fefae0" }}>
-                      <img
-                        src={blog.img}
-                        alt="Blog"
-                        className="w-100 h-100 object-fit-cover"
-                      />
-                    </div>
-
-                    {/* Blog Content */}
-                    <div className="p-4">
-                      <h5 className="fw-bold text-dark mb-2">{blog.title}</h5>
-                      <p className="text-muted small mb-3">{blog.desc}</p>
-
-                      {/* Author Info */}
-                      <div className="d-flex align-items-center">
-                        <div
-                          className="rounded-circle d-flex align-items-center justify-content-center me-3"
-                          style={{
-                            width: "45px",
-                            height: "45px",
-                            backgroundColor: "rgba(216, 74, 51, 0.25)"
-                          }}
-                        >
-                          <i className="bi bi-person-circle fs-5" style={{ color: "#d84a33" }}></i>
-                        </div>
-
-                        <div>
-                          <div className="fw-semibold text-dark small">By FashionHub Team</div>
-                          <div className="text-muted small">{blog.date}</div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-
-
-
-        {/* Why Choose Us */}
-        <div className="bg-light py-1 text-center">
-          <div className="container">
-            <h2 className="fw-bold mb-2">Why Choose Us</h2>
-            <p className="text-muted mb-5">Experience the best in fashion retail</p>
-            <div className="row justify-content-center">
-              {[
-                { icon: "bi-truck", title: "Fast Delivery", desc: "Free shipping on orders over $50" },
-                { icon: "bi-award", title: "Quality Products", desc: "Curated selection of premium brands" },
-                { icon: "bi-arrow-left-right", title: "Easy Returns", desc: "30-day return policy" },
-                { icon: "bi-headset", title: "24/7 Support", desc: "Always here to help you" },
-              ].map((item, index) => (
-                <div className="col-md-3 mb-4" key={index}>
-                  <div className="mb-3 d-flex justify-content-center">
-                    <div
-                      className="rounded-circle d-flex align-items-center justify-content-center"
-                      style={{
-                        width: "80px",
-                        height: "80px",
-                        backgroundColor: "rgba(216, 74, 51, 0.25)"
-                      }}
-                    >
-                      <i className={`bi ${item.icon} fs-2`} style={{ color: "#d84a33" }}></i>
-                    </div>
-                  </div>
-                  <h5 className="fw-bold">{item.title}</h5>
-                  <p className="text-muted">{item.desc}</p>
-                </div>
-              ))}
-            </div>
-
-          </div>
-        </div>
-
-
-
+        {/* Scroll indicator */}
 
       </div>
 
-      {/* footer */}
-      <Footer />
-    </>
+      {/* Hero Section */}
+      <section className="tv-hero-section">
+        <div className="container">
+          <div className="row justify-content-center">
+            <div className="col-lg-10">
+              <div className="text-center mb-5">
+                <h1 className="tv-hero-title">Order Your TV Package</h1>
+                <p className="tv-hero-subtitle">
+                  Choose from our premium TV service packages and get instant access
+                  to unlimited entertainment
+                </p>
+              </div>
+
+              {/* Package Selection */}
+              <div className="row mb-4">
+                <div className="col-lg-4 mb-3">
+                  <div className="tv-package-card">
+                    <input
+                      type="radio"
+                      name="package"
+                      value="service1"
+                      id="service1"
+                      className="tv-package-radio"
+                      checked={selectedPackage === 'service1'}
+                      onChange={handlePackageChange}
+                    />
+                    <label htmlFor="service1" className="w-100 cursor-pointer">
+                      <div className="tv-package-title">12 Months Service 1</div>
+                      <div className="tv-package-price">$299</div>
+                      <ul className="tv-package-features">
+                        <li>100+ HD Channels</li>
+                        <li>24/7 Customer Support</li>
+                        <li>Free Installation</li>
+                        <li>Mobile App Access</li>
+                      </ul>
+                    </label>
+                  </div>
+                </div>
+                <div className="col-lg-4 mb-3">
+                  <div className="tv-package-card">
+                    <input
+                      type="radio"
+                      name="package"
+                      value="service2"
+                      id="service2"
+                      className="tv-package-radio"
+                      checked={selectedPackage === 'service2'}
+                      onChange={handlePackageChange}
+                    />
+                    <label htmlFor="service2" className="w-100 cursor-pointer">
+                      <div className="tv-package-title">12 Months Service 2</div>
+                      <div className="tv-package-price">$399</div>
+                      <ul className="tv-package-features">
+                        <li>200+ HD Channels</li>
+                        <li>Premium Sports Package</li>
+                        <li>DVR Recording</li>
+                        <li>Multiple Device Access</li>
+                      </ul>
+                    </label>
+                  </div>
+                </div>
+                <div className="col-lg-4 mb-3">
+                  <div className="tv-package-card">
+                    <input
+                      type="radio"
+                      name="package"
+                      value="both"
+                      id="both"
+                      className="tv-package-radio"
+                      checked={selectedPackage === 'both'}
+                      onChange={handlePackageChange}
+                    />
+                    <label htmlFor="both" className="w-100 cursor-pointer">
+                      <div className="tv-package-title">
+                        12 Months Both Services
+                      </div>
+                      <div className="tv-package-price">$599</div>
+                      <ul className="tv-package-features">
+                        <li>300+ HD Channels</li>
+                        <li>All Premium Content</li>
+                        <li>Advanced DVR</li>
+                        <li>Unlimited Devices</li>
+                      </ul>
+                    </label>
+                  </div>
+                </div>
+              </div>
+
+              {/* Order Form */}
+              <div className="tv-form-section" style={{ display: currentSection === 'orderForm' ? 'block' : 'none' }} id="orderForm">
+                <h2 className="tv-form-title">Complete Your Order</h2>
+
+                {/* Customer Type */}
+                <div className="tv-customer-type-wrapper">
+                  <label className="tv-customer-type-label">Customer Type</label>
+                  <div className="tv-radio-group">
+                    <div className="tv-radio-item">
+                      <input
+                        type="radio"
+                        name="customerType"
+                        value="new"
+                        id="newCustomer"
+                        checked={customerType === 'new'}
+                        onChange={handleCustomerTypeChange}
+                      />
+                      <label htmlFor="newCustomer">New Customer</label>
+                    </div>
+                    <div className="tv-radio-item">
+                      <input
+                        type="radio"
+                        name="customerType"
+                        value="existing"
+                        id="existingCustomer"
+                        checked={customerType === 'existing'}
+                        onChange={handleCustomerTypeChange}
+                      />
+                      <label htmlFor="existingCustomer">Existing Customer</label>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Username Input */}
+                <div className="tv-input-group">
+                  <label className="tv-input-label" htmlFor="username">
+                    Username
+                  </label>
+                  <input
+                    type="text"
+                    className="form-control tv-form-control"
+                    id="username"
+                    placeholder={customerType === 'new' ? 'Enter your desired username' : 'Enter your existing username'}
+                    value={username}
+                    onChange={(e) => setUsername(e.target.value)}
+                  />
+                  <small className="text-muted">
+                    For new customers: choose your desired username. For existing
+                    customers: enter your current username.
+                  </small>
+                </div>
+
+                {/* File Upload */}
+                <div className="tv-input-group">
+                  <label className="tv-input-label">File Upload (Optional)</label>
+                  <div
+                    className="tv-file-upload-area"
+                    onClick={triggerFileInput}
+                  >
+                    {uploadedFile ? (
+                      <>
+                        <i className="fas fa-file-check tv-file-upload-icon" style={{ color: 'var(--tv-success)' }} />
+                        <p className="mb-0">File uploaded: {uploadedFile.name}</p>
+                        <small className="text-muted">Click to change file</small>
+                      </>
+                    ) : (
+                      <>
+                        <i className="fas fa-cloud-upload-alt tv-file-upload-icon" />
+                        <p className="mb-0">
+                          Click to upload ID proof or special documents
+                        </p>
+                        <small className="text-muted">Max file size: 10MB</small>
+                      </>
+                    )}
+                  </div>
+                  <input
+                    type="file"
+                    id="fileUpload"
+                    ref={fileInputRef}
+                    style={{ display: "none" }}
+                    accept=".pdf,.jpg,.jpeg,.png,.doc,.docx"
+                    onChange={handleFileUpload}
+                  />
+                </div>
+
+                {/* Notes */}
+                <div className="tv-input-group">
+                  <label className="tv-input-label" htmlFor="notes">
+                    Additional Notes (Optional)
+                  </label>
+                  <textarea
+                    className="form-control tv-form-control"
+                    id="notes"
+                    rows={4}
+                    placeholder="Any special requests or additional information..."
+                    value={notes}
+                    onChange={(e) => setNotes(e.target.value)}
+                  />
+                </div>
+
+                {/* Price Display */}
+                <div className="tv-price-display">
+                  <div className="tv-price-label">Total Amount</div>
+                  <div className="tv-price-amount">
+                    ${totalPrice}
+                  </div>
+                </div>
+
+                {/* Checkout Button */}
+                <button className="tv-checkout-btn" onClick={proceedToPayment}>
+                  <i className="fas fa-credit-card me-2" />
+                  Proceed to Checkout
+                </button>
+              </div>
+
+              {/* Payment Section */}
+              <div className="tv-payment-section" style={{ display: currentSection === 'paymentSection' ? 'block' : 'none' }} id="paymentSection">
+                <h2 className="tv-payment-title">Payment Details</h2>
+                <div className="tv-billing-grid">
+                  <div className="tv-input-group">
+                    <label className="tv-input-label" htmlFor="fullName">
+                      Full Name
+                    </label>
+                    <input
+                      type="text"
+                      className="form-control tv-form-control"
+                      id="fullName"
+                      placeholder="Enter your full name"
+                      value={fullName}
+                      onChange={(e) => setFullName(e.target.value)}
+                    />
+                  </div>
+                  <div className="tv-input-group">
+                    <label className="tv-input-label" htmlFor="email">
+                      Email Address
+                    </label>
+                    <input
+                      type="email"
+                      className="form-control tv-form-control"
+                      id="email"
+                      placeholder="Enter your email"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                    />
+                  </div>
+                  <div className="tv-input-group">
+                    <label className="tv-input-label" htmlFor="phone">
+                      Phone Number
+                    </label>
+                    <input
+                      type="tel"
+                      className="form-control tv-form-control"
+                      id="phone"
+                      placeholder="Enter your phone number"
+                      value={phone}
+                      onChange={(e) => setPhone(e.target.value)}
+                    />
+                  </div>
+                  <div className="tv-input-group">
+                    <label className="tv-input-label" htmlFor="address">
+                      Address
+                    </label>
+                    <input
+                      type="text"
+                      className="form-control tv-form-control"
+                      id="address"
+                      placeholder="Enter your address"
+                      value={address}
+                      onChange={(e) => setAddress(e.target.value)}
+                    />
+                  </div>
+                </div>
+                <div className="text-center">
+                  <p className="mb-3">
+                    <i className="fas fa-lock me-2" />
+                    Secure payment powered by Stripe &amp; PayPal
+                  </p>
+                  <button className="tv-payment-btn" onClick={processPayment}>
+                    <i className="fas fa-shield-alt me-2" />
+                    Confirm Payment
+                  </button>
+                </div>
+              </div>
+
+              {/* Success Section */}
+              <div className="tv-success-section" style={{ display: currentSection === 'successSection' ? 'block' : 'none' }} id="successSection">
+                <i className="fas fa-check-circle tv-success-icon" />
+                <h2 className="tv-success-title">Order Completed Successfully!</h2>
+                <p className="mb-3">
+                  Thank you for your order. We've sent confirmation details to your
+                  email and SMS.
+                </p>
+                <div className="tv-order-id">
+                  Order ID: <span>#{orderId}</span>
+                </div>
+                <p className="mt-3">
+                  Our team will process your order and contact you within 24 hours
+                  for installation scheduling.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
   );
 };
 
-export default LandingPage;
+export default Landingpage;

@@ -87,7 +87,7 @@ const Header = ({ setSidebarOpen }) => {
               alt="Logo"
               className="img-fluid"
               style={{
-                height: isMobile ? 28 : 36,
+                height: isMobile ? 28 : 60,
                 width: "auto",
                 maxWidth: isMobile ? 100 : 130,
                 cursor: "pointer",
@@ -137,13 +137,14 @@ const Header = ({ setSidebarOpen }) => {
                 >
                   <LogOut size={16} /> Setting
                 </button>
-                <button
-                  className="dropdown-item d-flex align-items-center gap-2"
+                <Link
+                  to="/"
                   onClick={handleLogout}
-                  type="button"
+                  className="dropdown-item d-flex align-items-center gap-2 text-decoration-none"
                 >
                   <LogOut size={16} /> Logout
-                </button>
+                </Link>
+
               </div>
             )}
             {/* Profile Card */}
@@ -183,7 +184,7 @@ const Header = ({ setSidebarOpen }) => {
 
                   {/* Name & Role */}
                   <div className="fw-bold fs-5 mb-1">{user.name}</div>
-                  <div className="text-muted small mb-3">Customer</div>
+                  <div className="text-muted small mb-3">Admin</div>
 
                   {/* Details */}
                   <div className="w-100 mb-2">
@@ -200,13 +201,13 @@ const Header = ({ setSidebarOpen }) => {
                   </div>
 
                   {/* View Profile Button */}
-                  <Link to="userprofile">
+                  {/* <Link to="userprofile">
                     <button
                       className="btn btn-outline-danger btn-sm w-100"
                     >
                       View Profile
                     </button>
-                  </Link>
+                  </Link> */}
                 </div>
               </div>
             )}

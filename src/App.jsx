@@ -9,9 +9,8 @@ import Customers from './Components/Dashboad/Customers/Customers';
 import Notifications from './Components/Dashboad/Notifications/Notifications';
 import Uploads from './Components/Dashboad/Uploads/Uploads';
 import Setting from './Components/Dashboad/Settings/Settings';
-import PendingOrders from './Components/Dashboad/Orders/PendingOrders';
-import CompletedOrders from './Components/Dashboad/Orders/CompletedOrders';
 import UserProfile from './Components/Dashboad/UserProfile';
+import Ordermanagemenet from './Components/Dashboad/Orders/Ordermanagemenet';
 
 
 
@@ -37,8 +36,10 @@ function AppWrapper() {
         <Route path="/dashboardlayout" element={<DashboardLayout />}>
           <Route index element={<AdminDashboard />} />
           <Route path="userprofile" element={< UserProfile />} />
-          <Route path="pendingorder" element={< PendingOrders />} />
-          <Route path="completedorder" element={< CompletedOrders />} />
+           <Route path="ordermanagement" element={<Ordermanagemenet />} />
+
+          {/* <Route path="pendingorder" element={< PendingOrders />} />
+          <Route path="completedorder" element={< CompletedOrders />} /> */}
           <Route path="customer" element={<Customers />} />
           <Route path="notification" element={<Notifications />} />
           <Route path="Upload" element={<Uploads />} />

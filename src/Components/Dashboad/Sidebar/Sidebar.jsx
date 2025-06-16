@@ -16,17 +16,17 @@ const Sidebar = ({ sidebarOpen: parentSidebarOpen, setSidebarOpen: setParentSide
 
     const menuItems = [
         { id: 'dashboard', label: 'Dashboard', icon: Home, path: 'dashboardlayout' },
-        {
-            id: 'orders',
-            label: 'Orders',
-            icon: ShoppingBag,
-            children: [
-                { id: 'pending-orders', label: 'Pending Orders', icon: Inbox, path: 'dashboardlayout/pendingorder' },
-                { id: 'completed-orders', label: 'Completed Orders', icon: Send, path: 'dashboardlayout/completedorder' },
-            ],
-        },
-        { id: 'upload', label: 'Order Upload', icon: Users, path: 'dashboardlayout/Upload' },
-        { id: 'customers', label: 'Customers', icon: Users, path: 'dashboardlayout/customer' },
+        // {
+        //     id: 'orders',
+        //     label: 'Orders',
+        //     icon: ShoppingBag,
+        //     children: [
+        //         { id: 'pending-orders', label: 'Pending Orders', icon: Inbox, path: 'dashboardlayout/pendingorder' },
+        //         { id: 'completed-orders', label: 'Completed Orders', icon: Send, path: 'dashboardlayout/completedorder' },
+        //     ],
+        // },
+        { id: 'upload', label: 'Orders Management', icon: Users, path: 'dashboardlayout/ordermanagement' },
+        { id: 'customers', label: 'Export Orders', icon: Users, path: 'dashboardlayout/customer' },
         { id: 'notifications', label: 'Notifications', icon: MessageSquare, path: 'dashboardlayout/notification', notificationCount: 5 },
         { id: 'settings', label: 'Settings', icon: Settings, path: 'dashboardlayout/setting' },
     ];
