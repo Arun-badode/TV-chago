@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Table, Form, Button, Modal, Dropdown } from "react-bootstrap";
+import { Table, Form, Button, Modal, Dropdown, Badge } from "react-bootstrap";
 import {
   Download,
   Search,
@@ -8,6 +8,8 @@ import {
   ThreeDotsVertical,
   Eye,
   Trash,
+  PlusCircle,
+  ArrowRepeat,
 } from "react-bootstrap-icons";
 import { Bar, Pie } from "react-chartjs-2";
 import {
@@ -33,7 +35,7 @@ ChartJS.register(
 );
 
 const AdminDashboard = () => {
-  // Sample orders data
+  // Sample orders data with enhanced information
   const initialOrders = [
     {
       id: 1,
@@ -41,6 +43,9 @@ const AdminDashboard = () => {
       customerName: "John Doe",
       email: "john@example.com",
       username: "johndoe",
+      orderType: "new", // 'new' or 'extension'
+      service: "Instagram Growth", // Service name
+      quantity: 1000, // Quantity of service
       servicePackage: "1 Services",
       status: "Completed",
       paymentStatus: "Paid",
@@ -54,11 +59,14 @@ const AdminDashboard = () => {
       customerName: "Jane Smith",
       email: "jane@example.com",
       username: "janesmith",
+      orderType: "extension",
+      service: "YouTube Subscribers",
+      quantity: 5000,
       servicePackage: "2 Sevices",
       status: "Pending",
       paymentStatus: "Paid",
       fileUrl: "/files/order2.pdf",
-      price: 49.99,
+      price: 199.99,
       notes: "",
     },
     {
@@ -67,11 +75,14 @@ const AdminDashboard = () => {
       customerName: "Robert Johnson",
       email: "robert@example.com",
       username: "robj",
+      orderType: "new",
+      service: "Both Services",
+      quantity: 2000,
       servicePackage: "Both Services",
       status: "Cancelled",
       paymentStatus: "Failed",
       fileUrl: "/files/order3.pdf",
-      price: 79.99,
+      price: 299.99,
       notes: "Payment retry needed",
     },
     {
@@ -80,11 +91,14 @@ const AdminDashboard = () => {
       customerName: "Sarah Williams",
       email: "sarah@example.com",
       username: "sarahw",
+      orderType: "extension",
+      service: "Instagram Growth",
+      quantity: 3000,
       servicePackage: "1 Services",
       status: "Completed",
       paymentStatus: "Paid",
       fileUrl: "/files/order4.pdf",
-      price: 99.99,
+      price: 249.99,
       notes: "Special instructions",
     },
     {
@@ -93,11 +107,14 @@ const AdminDashboard = () => {
       customerName: "Michael Brown",
       email: "michael@example.com",
       username: "michaelb",
+      orderType: "new",
+      service: "YouTube Views",
+      quantity: 10000,
       servicePackage: "Both Services",
       status: "Completed",
       paymentStatus: "Paid",
       fileUrl: "/files/order5.pdf",
-      price: 79.99,
+      price: 399.99,
       notes: "",
     },
   ];
@@ -107,6 +124,8 @@ const AdminDashboard = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [statusFilter, setStatusFilter] = useState("All");
   const [dateFilter, setDateFilter] = useState("");
+  const [orderTypeFilter, setOrderTypeFilter] = useState("All");
+  const [serviceFilter, setServiceFilter] = useState("All");
   const [showEditModal, setShowEditModal] = useState(false);
   const [showViewModal, setShowViewModal] = useState(false);
   const [currentOrder, setCurrentOrder] = useState(null);
@@ -124,6 +143,13 @@ const AdminDashboard = () => {
   const cancelledOrders = orders.filter(
     (order) => order.status === "Cancelled"
   ).length;
+  const newOrders = orders.filter((order) => order.orderType === "new").length;
+  const extensionOrders = orders.filter(
+    (order) => order.orderType === "extension"
+  ).length;
+
+  // Get unique services for filter dropdown
+  const uniqueServices = [...new Set(orders.map((order) => order.service))];
 
   // Prepare data for charts
   const servicePackageData = orders.reduce((acc, order) => {
@@ -135,6 +161,11 @@ const AdminDashboard = () => {
     Completed: completedOrders,
     Pending: pendingOrders,
     Cancelled: cancelledOrders,
+  };
+
+  const orderTypeData = {
+    New: newOrders,
+    Extension: extensionOrders,
   };
 
   const paymentStatusData = orders.reduce((acc, order) => {
@@ -213,6 +244,19 @@ const AdminDashboard = () => {
     ],
   };
 
+  const orderTypeChartData = {
+    labels: Object.keys(orderTypeData),
+    datasets: [
+      {
+        label: "Number of Orders",
+        data: Object.values(orderTypeData),
+        backgroundColor: ["rgba(54, 162, 235, 0.5)", "rgba(255, 159, 64, 0.5)"],
+        borderColor: ["rgba(54, 162, 235, 1)", "rgba(255, 159, 64, 1)"],
+        borderWidth: 1,
+      },
+    ],
+  };
+
   const paymentStatusChartData = {
     labels: Object.keys(paymentStatusData),
     datasets: [
@@ -247,8 +291,16 @@ const AdminDashboard = () => {
       result = result.filter((order) => order.dateTime.startsWith(dateFilter));
     }
 
+    if (orderTypeFilter !== "All") {
+      result = result.filter((order) => order.orderType === orderTypeFilter.toLowerCase());
+    }
+
+    if (serviceFilter !== "All") {
+      result = result.filter((order) => order.service === serviceFilter);
+    }
+
     setFilteredOrders(result);
-  }, [searchTerm, statusFilter, dateFilter, orders]);
+  }, [searchTerm, statusFilter, dateFilter, orderTypeFilter, serviceFilter, orders]);
 
   const handleViewClick = (order) => {
     setCurrentOrder(order);
@@ -287,6 +339,9 @@ const AdminDashboard = () => {
       "Customer Name",
       "Email",
       "Username",
+      "Order Type",
+      "Service",
+      "Quantity",
       "Service Package",
       "Status",
       "Payment Status",
@@ -302,6 +357,9 @@ const AdminDashboard = () => {
           `"${order.customerName}"`,
           `"${order.email}"`,
           `"${order.username}"`,
+          `"${order.orderType}"`,
+          `"${order.service}"`,
+          order.quantity,
           `"${order.servicePackage}"`,
           `"${order.status}"`,
           `"${order.paymentStatus}"`,
@@ -326,133 +384,187 @@ const AdminDashboard = () => {
   return (
     <div className="container-fluid py-4">
       {/* Summary Cards */}
-      <div className="row">
-        <div className="col-md-3 mb-3">
-          <div className="card shadow-lg">
-            <div className="card-body">
-              <div className="d-flex justify-content-between align-items-center">
-                <div>
-                  <h5>Total Orders</h5>
-                  <h3>{totalOrders}</h3>
-                  <small className="text-success">
-                    <i className="fas fa-arrow-up me-1"></i>
-                    +28.8% from last month
-                  </small>
-                </div>
-                <div
-                  className="text-white p-3 rounded-circle d-flex align-items-center justify-content-center"
-                  style={{
-                    backgroundColor: "#d84a33",
-                    width: "50px",
-                    height: "50px",
-                  }}
-                >
-                  <i
-                    className="fas fa-users fa-lg"
-                    style={{ fontSize: "1.25rem" }}
-                  ></i>
-                </div>
-              </div>
-            </div>
+  <div className="row">
+  <div className="col-xl-2 col-md-4 mb-3 d-flex">
+    <div className="card shadow-lg flex-fill">
+      <div className="card-body">
+        <div className="d-flex justify-content-between align-items-center">
+          <div>
+            <h5>Total Orders</h5>
+            <h3>{totalOrders}</h3>
+            <small className="text-success">
+              <i className="fas fa-arrow-up me-1"></i>
+              +28.8% from last month
+            </small>
           </div>
-        </div>
-
-        <div className="col-md-3 mb-3">
-          <div className="card shadow-lg">
-            <div className="card-body">
-              <div className="d-flex justify-content-between align-items-center">
-                <div>
-                  <h5>Completed</h5>
-                  <h3>{completedOrders}</h3>
-                   <small className="text-success">
-                    <i className="fas fa-arrow-up me-1"></i>
-                    +20.8% from last month
-                  </small>
-                </div>
-                <div
-                  className="text-white p-3 rounded-circle d-flex align-items-center justify-content-center"
-                  style={{
-                    backgroundColor: "#d84a33",
-                    width: "50px",
-                    height: "50px",
-                  }}
-                >
-                  <i
-                    className="fa-solid fa-check"
-                    style={{ fontSize: "1.25rem" }}
-                  ></i>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div className="col-md-3 mb-3">
-          <div className="card shadow-lg">
-            <div className="card-body">
-              <div className="d-flex justify-content-between align-items-center">
-                <div>
-                  <h5>Pending</h5>
-                  <h3>{pendingOrders}</h3>
-                   <small className="text-success">
-                    <i className="fas fa-arrow-up me-1"></i>
-                    +10.8% from last month
-                  </small>
-                </div>
-                <div
-                  className="text-white p-3 rounded-circle d-flex align-items-center justify-content-center"
-                  style={{
-                    backgroundColor: "#d84a33",
-                    width: "50px",
-                    height: "50px",
-                  }}
-                >
-                  <i
-                    className="fa-solid fa-hourglass-half"
-                    style={{ fontSize: "1.25rem" }}
-                  ></i>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div className="col-md-3 mb-3">
-          <div className="card shadow-lg">
-            <div className="card-body">
-              <div className="d-flex justify-content-between align-items-center">
-                <div>
-                  <h5>Cancelled</h5>
-                  <h3>{cancelledOrders}</h3>
-                   <small className="text-success">
-                    <i className="fas fa-arrow-up me-1"></i>
-                    +5.8% from last month
-                  </small>
-                </div>
-                <div
-                  className="text-white p-3 rounded-circle d-flex align-items-center justify-content-center"
-                  style={{
-                    backgroundColor: "#d84a33",
-                    width: "50px",
-                    height: "50px",
-                  }}
-                >
-                  <i
-                    className="fa-solid fa-ban"
-                    style={{ fontSize: "1.25rem" }}
-                  ></i>
-                </div>
-              </div>
-            </div>
+          <div
+            className="text-white p-3 rounded-circle d-flex align-items-center justify-content-center"
+            style={{
+              backgroundColor: "#d84a33",
+              width: "50px",
+              height: "50px",
+            }}
+          >
+            <i
+              className="fas fa-users fa-lg"
+              style={{ fontSize: "1.25rem" }}
+            ></i>
           </div>
         </div>
       </div>
+    </div>
+  </div>
+
+  <div className="col-xl-2 col-md-4 mb-3 d-flex">
+    <div className="card shadow-lg flex-fill">
+      <div className="card-body">
+        <div className="d-flex justify-content-between align-items-center">
+          <div>
+            <h5>Completed</h5>
+            <h3>{completedOrders}</h3>
+            <small className="text-success">
+              <i className="fas fa-arrow-up me-1"></i>
+              +20.8% from last month
+            </small>
+          </div>
+          <div
+            className="text-white p-3 rounded-circle d-flex align-items-center justify-content-center"
+            style={{
+              backgroundColor: "#d84a33",
+              width: "50px",
+              height: "50px",
+            }}
+          >
+            <i
+              className="fa-solid fa-check"
+              style={{ fontSize: "1.25rem" }}
+            ></i>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div className="col-xl-2 col-md-4 mb-3 d-flex">
+    <div className="card shadow-lg flex-fill">
+      <div className="card-body">
+        <div className="d-flex justify-content-between align-items-center">
+          <div>
+            <h5>Pending</h5>
+            <h3>{pendingOrders}</h3>
+            <small className="text-success">
+              <i className="fas fa-arrow-up me-1"></i>
+              +10.8% from last month
+            </small>
+          </div>
+          <div
+            className="text-white p-3 rounded-circle d-flex align-items-center justify-content-center"
+            style={{
+              backgroundColor: "#d84a33",
+              width: "50px",
+              height: "50px",
+            }}
+          >
+            <i
+              className="fa-solid fa-hourglass-half"
+              style={{ fontSize: "1.25rem" }}
+            ></i>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div className="col-xl-2 col-md-4 mb-3 d-flex">
+    <div className="card shadow-lg flex-fill">
+      <div className="card-body">
+        <div className="d-flex justify-content-between align-items-center">
+          <div>
+            <h5>Cancelled</h5>
+            <h3>{cancelledOrders}</h3>
+            <small className="text-success">
+              <i className="fas fa-arrow-up me-1"></i>
+              +5.8% from last month
+            </small>
+          </div>
+          <div
+            className="text-white p-3 rounded-circle d-flex align-items-center justify-content-center"
+            style={{
+              backgroundColor: "#d84a33",
+              width: "50px",
+              height: "50px",
+            }}
+          >
+            <i
+              className="fa-solid fa-ban"
+              style={{ fontSize: "1.25rem" }}
+            ></i>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div className="col-xl-2 col-md-4 mb-3 d-flex">
+    <div className="card shadow-lg flex-fill">
+      <div className="card-body">
+        <div className="d-flex justify-content-between align-items-center">
+          <div>
+            <h5>New Orders</h5>
+            <h3>{newOrders}</h3>
+            <small className="text-success">
+              <i className="fas fa-arrow-up me-1"></i>
+              +15.2% from last month
+            </small>
+          </div>
+          <div
+            className="text-white p-3 rounded-circle d-flex align-items-center justify-content-center"
+            style={{
+              backgroundColor: "#d84a33",
+              width: "50px",
+              height: "50px",
+            }}
+          >
+            <PlusCircle style={{ fontSize: "1.25rem" }} />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div className="col-xl-2 col-md-4 mb-3 d-flex">
+    <div className="card shadow-lg flex-fill">
+      <div className="card-body">
+        <div className="d-flex justify-content-between align-items-center">
+          <div>
+            <h5>Extensions</h5>
+            <h3>{extensionOrders}</h3>
+            <small className="text-success">
+              <i className="fas fa-arrow-up me-1"></i>
+              +8.5% from last month
+            </small>
+          </div>
+          <div
+            className="text-white p-3 rounded-circle d-flex align-items-center justify-content-center"
+            style={{
+              backgroundColor: "#d84a33",
+              width: "50px",
+              height: "50px",
+            }}
+          >
+            <ArrowRepeat style={{ fontSize: "1.25rem" }} />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 
       {/* Search and Filter Section */}
       <div className="card mb-4">
         <div className="card-body">
           <div className="row">
-            <div className="col-md-4 mb-3">
+            <div className="col-md-3 mb-3">
               <Form.Group>
                 <Form.Label>Search</Form.Label>
                 <div className="input-group">
@@ -469,7 +581,7 @@ const AdminDashboard = () => {
               </Form.Group>
             </div>
 
-            <div className="col-md-3 mb-3">
+            <div className="col-md-2 mb-3">
               <Form.Group>
                 <Form.Label>Status</Form.Label>
                 <Form.Select
@@ -484,7 +596,38 @@ const AdminDashboard = () => {
               </Form.Group>
             </div>
 
-            <div className="col-md-3 mb-3">
+            <div className="col-md-2 mb-3">
+              <Form.Group>
+                <Form.Label>Order Type</Form.Label>
+                <Form.Select
+                  value={orderTypeFilter}
+                  onChange={(e) => setOrderTypeFilter(e.target.value)}
+                >
+                  <option value="All">All Types</option>
+                  <option value="New">New</option>
+                  <option value="Extension">Extension</option>
+                </Form.Select>
+              </Form.Group>
+            </div>
+
+            <div className="col-md-2 mb-3">
+              <Form.Group>
+                <Form.Label>Service</Form.Label>
+                <Form.Select
+                  value={serviceFilter}
+                  onChange={(e) => setServiceFilter(e.target.value)}
+                >
+                  <option value="All">All Services</option>
+                  {uniqueServices.map((service) => (
+                    <option key={service} value={service}>
+                      {service}
+                    </option>
+                  ))}
+                </Form.Select>
+              </Form.Group>
+            </div>
+
+            <div className="col-md-2 mb-3">
               <Form.Group>
                 <Form.Label>Date</Form.Label>
                 <Form.Control
@@ -495,10 +638,10 @@ const AdminDashboard = () => {
               </Form.Group>
             </div>
 
-            <div className="col-md-2 d-flex align-items-end mb-3">
+            <div className="col-md-1 d-flex align-items-end mb-3">
               <Button variant="primary" onClick={exportToCSV} className="w-100">
                 <FileEarmarkArrowDown className="me-2" />
-                Export CSV
+                Export
               </Button>
             </div>
           </div>
@@ -514,15 +657,15 @@ const AdminDashboard = () => {
                 <tr style={{ textWrap: "nowrap", textAlign: "center" }}>
                   <th>Order ID</th>
                   <th>Date/Time</th>
-                  <th>Customer Name</th>
-                  <th>Email</th>
+                  <th>Customer</th>
                   <th>Username</th>
-                  <th>Service Package</th>
+                  <th>Type</th>
+                  <th>Service</th>
+                  <th>Quantity</th>
                   <th>Status</th>
-                  <th>Payment Status</th>
+                  <th>Payment</th>
                   <th>Price</th>
                   <th>File</th>
-                  <th>Notes</th>
                   <th>Actions</th>
                 </tr>
               </thead>
@@ -532,10 +675,31 @@ const AdminDashboard = () => {
                     <tr key={order.id}>
                       <td>{order.id}</td>
                       <td>{order.dateTime}</td>
-                      <td>{order.customerName}</td>
-                      <td>{order.email}</td>
+                      <td>
+                        <div>{order.customerName}</div>
+                        <small className="text-muted">{order.email}</small>
+                      </td>
                       <td>{order.username}</td>
-                      <td>{order.servicePackage}</td>
+                      <td>
+                        <Badge
+                          bg={order.orderType === "new" ? "primary" : "info"}
+                          className="d-flex align-items-center justify-content-center"
+                        >
+                          {order.orderType === "new" ? (
+                            <>
+                              <PlusCircle className="me-1" />
+                              New
+                            </>
+                          ) : (
+                            <>
+                              <ArrowRepeat className="me-1" />
+                              Extension
+                            </>
+                          )}
+                        </Badge>
+                      </td>
+                      <td>{order.service}</td>
+                      <td>{order.quantity.toLocaleString()}</td>
                       <td>
                         <span
                           className={`badge ${
@@ -570,13 +734,6 @@ const AdminDashboard = () => {
                         >
                           <Download />
                         </Button>
-                      </td>
-                      <td
-                        className="text-truncate"
-                        style={{ maxWidth: "150px" }}
-                        title={order.notes}
-                      >
-                        {order.notes}
                       </td>
                       <td>
                         <div className="d-flex">
@@ -660,11 +817,11 @@ const AdminDashboard = () => {
                     ...barOptions.plugins,
                     title: {
                       ...barOptions.plugins.title,
-                      text: "Orders by Payment Status",
+                      text: "Orders by Order Type",
                     },
                   },
                 }}
-                data={paymentStatusChartData}
+                data={orderTypeChartData}
               />
             </div>
           </div>
@@ -682,11 +839,11 @@ const AdminDashboard = () => {
                     ...pieOptions.plugins,
                     title: {
                       ...pieOptions.plugins.title,
-                      text: "Orders by Service Package",
+                      text: "Orders by Payment Status",
                     },
                   },
                 }}
-                data={servicePackageChartData}
+                data={paymentStatusChartData}
               />
             </div>
           </div>
@@ -762,6 +919,21 @@ const AdminDashboard = () => {
                   <hr className="mt-1 mb-2" />
                   <p>
                     <strong>Date/Time:</strong> {currentOrder.dateTime}
+                  </p>
+                  <p>
+                    <strong>Order Type:</strong>{" "}
+                    <Badge
+                      bg={currentOrder.orderType === "new" ? "primary" : "info"}
+                    >
+                      {currentOrder.orderType === "new" ? "New" : "Extension"}
+                    </Badge>
+                  </p>
+                  <p>
+                    <strong>Service:</strong> {currentOrder.service}
+                  </p>
+                  <p>
+                    <strong>Quantity:</strong>{" "}
+                    {currentOrder.quantity.toLocaleString()}
                   </p>
                   <p>
                     <strong>Service Package:</strong>{" "}
