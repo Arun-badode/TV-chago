@@ -189,7 +189,7 @@ const TVChagoApp = () => {
           </Navbar.Brand>
 
           <Navbar.Toggle aria-controls="basic-navbar-nav" className="border-0">
-            <span className="navbar-toggler-icon"></span>
+            <span className="navbar-toggler-icon  "></span>
           </Navbar.Toggle>
 
           <Navbar.Collapse id="basic-navbar-nav">
@@ -219,7 +219,7 @@ const TVChagoApp = () => {
                 textDecoration:"none"
               }}
             >
-              Sign In
+               Login
             </Link>
           </Navbar.Collapse>
         </Container>
@@ -884,7 +884,7 @@ const TVChagoApp = () => {
                         checked={customerType === 'new'}
                         onChange={handleCustomerTypeChange}
                       />
-                      <label htmlFor="newCustomer">New Customer</label>
+                      <label htmlFor="newCustomer" className="text-black">New Customer</label>
                     </div>
                     <div className="tv-radio-item">
                       <input
@@ -895,7 +895,7 @@ const TVChagoApp = () => {
                         checked={customerType === 'existing'}
                         onChange={handleCustomerTypeChange}
                       />
-                      <label htmlFor="existingCustomer">Existing Customer</label>
+                      <label htmlFor="existingCustomer" className="text-black">Existing Customer</label>
                     </div>
                   </div>
                 </div>
