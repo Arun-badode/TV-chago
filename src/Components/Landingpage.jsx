@@ -158,72 +158,82 @@ const TVChagoApp = () => {
       style={{ backgroundColor: darkBg, color: "white" }}
     >
       {/* Navbar */}
-      <Navbar
-        expand="lg"
-        fixed="top"
-        className={`transition-all ${isScrolled ? "py-3" : "py-4"}`}
-        style={{
-          backgroundColor: isScrolled ? `${darkBg}e6` : "transparent",
-          backdropFilter: isScrolled ? "blur(10px)" : "none",
-        }}
-      >
-        <Container>
-          <Navbar.Brand href="#" className="d-flex align-items-center">
-            <div
-              style={{
-                backgroundColor: "#ffffff", // Light background to highlight dark logo
-                padding: "6px",
-                borderRadius: "8px", // Rounded corners
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-              }}
-            >
-              <img
-                src="https://i.postimg.cc/FzW5kPNX/Whats-App-Image-2025-06-12-at-11-59-46-c03b4354-removebg-preview.png" // 🔁 Replace with your actual logo path
-                alt="TV Chago Logo"
-                height="32" // Adjust size as needed
-                style={{ display: "block" }}
-              />
-            </div>
-          </Navbar.Brand>
+    <Navbar
+      expand="lg"
+      fixed="top"
+      className={`transition-all w-100 ${isScrolled ? "py-3" : "py-4"}`}
+      style={{
+        backgroundColor: isScrolled ? `${darkBg}e6` : `${darkBg}99`,
+        backdropFilter: "blur(10px)",
+        WebkitBackdropFilter: "blur(10px)",
+        transition: "all 0.3s ease-in-out",
+        zIndex: 999,
+      }}
+    >
+      <Container>
+        <Navbar.Brand href="#" className="d-flex align-items-center">
+          <div
+            style={{
+              backgroundColor: "#ffffff",
+              padding: "6px",
+              borderRadius: "8px",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <img
+              src="https://i.postimg.cc/FzW5kPNX/Whats-App-Image-2025-06-12-at-11-59-46-c03b4354-removebg-preview.png"
+              alt="TV Chago Logo"
+              height="32"
+              style={{ display: "block" }}
+            />
+          </div>
+        </Navbar.Brand>
 
-          <Navbar.Toggle aria-controls="basic-navbar-nav" className="border-0">
-            <span className="navbar-toggler-icon"></span>
-          </Navbar.Toggle>
+        <Navbar.Toggle
+          aria-controls="basic-navbar-nav"
+          className="border-0"
+          style={{ filter: "invert(1)" }} // Makes icon white
+        >
+          <span className="navbar-toggler-icon" />
+        </Navbar.Toggle>
 
-          <Navbar.Collapse id="basic-navbar-nav">
-            <Nav className="ms-auto">
-              <Nav.Link href="#" className="text-white mx-lg-3">
-                Home
-              </Nav.Link>
-              <Nav.Link href="#packages" className="text-white mx-lg-3">
-                Packages
-              </Nav.Link>
-              <Nav.Link href="#faq" className="text-white mx-lg-3">
-                FAQs
-              </Nav.Link>
-              <Nav.Link href="#contact" className="text-white mx-lg-3">
-                Contact
-              </Nav.Link>
-            </Nav>
-            <Link to="/login"
-              variant="primary"
-              className="ms-lg-3 mt-2 mt-lg-0"
-              style={{
-                background: `linear-gradient(to right, ${brandPurple}, ${brandCyan})`,
-                border: "none",
-                borderRadius: "50px",
-                padding: "0.5rem 1.5rem",
-                color:"white",
-                textDecoration:"none"
-              }}
-            >
-              Sign In
-            </Link>
-          </Navbar.Collapse>
-        </Container>
-      </Navbar>
+        <Navbar.Collapse id="basic-navbar-nav">
+          <Nav className="ms-auto text-center">
+            <Nav.Link href="#" className="mx-lg-3 text-white">
+              Home
+            </Nav.Link>
+            <Nav.Link href="#packages" className="mx-lg-3 text-white">
+              Packages
+            </Nav.Link>
+            <Nav.Link href="#faq" className="mx-lg-3 text-white">
+              FAQs
+            </Nav.Link>
+            <Nav.Link href="#contact" className="mx-lg-3 text-white">
+              Contact
+            </Nav.Link>
+          </Nav>
+
+          <Link
+            to="/login"
+            className="ms-lg-3 mt-2 mt-lg-0 d-inline-block"
+            style={{
+              background: `linear-gradient(to right, ${brandPurple}, ${brandCyan})`,
+              border: "none",
+              borderRadius: "50px",
+              padding: "0.5rem 1.5rem",
+              color: "white",
+              textDecoration: "none",
+              textAlign: "center",
+              whiteSpace: "nowrap",
+            }}
+          >
+            Sign In
+          </Link>
+        </Navbar.Collapse>
+      </Container>
+    </Navbar>
 
       {/* Hero Section */}
       <section className="position-relative d-flex align-items-center justify-content-center min-vh-100 overflow-hidden">
