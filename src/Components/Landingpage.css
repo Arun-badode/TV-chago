@@ -524,7 +524,7 @@
         }
 
         .tv-price-display {
-            background: linear-gradient(135deg, var(--tv-primary), var(--tv-secondary));
+             
             color: white;
             padding: 2rem;
             border-radius: 15px;
