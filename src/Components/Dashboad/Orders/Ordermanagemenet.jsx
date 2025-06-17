@@ -1,99 +1,100 @@
-import React, { useState, useEffect } from 'react';
-import { 
-  Search, 
-  Filter, 
-  Download, 
+import React, { useState, useEffect } from "react";
+import {
+  Search,
+  Filter,
+  Download,
   Calendar,
   User,
   Mail,
   Package,
   FileText,
   Eye,
-  Edit3
-} from 'lucide-react';
-import { Modal } from 'react-bootstrap'; // If using react-bootstrap, otherwise use plain Bootstrap modal
+  Edit3,
+} from "lucide-react";
+// Remove this line:
+import { Badge } from "react-bootstrap";
 
 const Ordermanagement = () => {
   const [orders, setOrders] = useState([
     {
-      id: 'ORD-001',
-      dateTime: '2025-06-15 14:30',
-      customerName: 'John Doe',
-      email: 'john.doe@example.com',
-      username: 'johndoe',
-      servicePackage: 'Premium Web Design Package',
-      status: 'Pending',
-      paymentStatus: 'Paid',
-      fileUpload: 'project_requirements.pdf',
-      notes: 'Urgent request - needs completion by end of week'
+      id: "ORD-001",
+      dateTime: "2025-06-15 14:30",
+      customerName: "John Doe",
+      email: "john.doe@example.com",
+      username: "johndoe",
+      servicePackage: "Premium Web Design Package",
+      status: "Pending",
+      paymentStatus: "Paid",
+      fileUpload: "project_requirements.pdf",
+      decision: "null",
     },
     {
-      id: 'ORD-002',
-      dateTime: '2025-06-14 09:15',
-      customerName: 'Jane Smith',
-      email: 'jane.smith@example.com',
-      username: 'janesmith',
-      servicePackage: 'Standard Logo Design Package',
-      status: 'Completed',
-      paymentStatus: 'Paid',
-      fileUpload: 'logo_brief.docx',
-      notes: 'Standard processing - client very satisfied'
+      id: "ORD-002",
+      dateTime: "2025-06-14 09:15",
+      customerName: "Jane Smith",
+      email: "jane.smith@example.com",
+      username: "janesmith",
+      servicePackage: "Standard Logo Design Package",
+      status: "Completed",
+      paymentStatus: "Paid",
+      fileUpload: "logo_brief.docx",
+      decision: "null",
     },
     {
-      id: 'ORD-003',
-      dateTime: '2025-06-13 16:45',
-      customerName: 'Bob Johnson',
-      email: 'bob.johnson@example.com',
-      username: 'bobjohnson',
-      servicePackage: 'Mobile App UI Package',
-      status: 'Pending',
-      paymentStatus: 'Failed',
-      fileUpload: 'app_specifications.pdf',
-      notes: 'Payment retry needed - contacted customer'
+      id: "ORD-003",
+      dateTime: "2025-06-13 16:45",
+      customerName: "Bob Johnson",
+      email: "bob.johnson@example.com",
+      username: "bobjohnson",
+      servicePackage: "Mobile App UI Package",
+      status: "Pending",
+      paymentStatus: "Failed",
+      fileUpload: "app_specifications.pdf",
+      decision: "null",
     },
     {
-      id: 'ORD-004',
-      dateTime: '2025-06-12 11:20',
-      customerName: 'Sarah Wilson',
-      email: 'sarah.wilson@example.com',
-      username: 'sarahw',
-      servicePackage: 'Brand Identity Package',
-      status: 'Completed',
-      paymentStatus: 'Paid',
-      fileUpload: 'brand_guidelines.pdf',
-      notes: 'Delivered ahead of schedule'
+      id: "ORD-004",
+      dateTime: "2025-06-12 11:20",
+      customerName: "Sarah Wilson",
+      email: "sarah.wilson@example.com",
+      username: "sarahw",
+      servicePackage: "Brand Identity Package",
+      status: "Completed",
+      paymentStatus: "Paid",
+      fileUpload: "brand_guidelines.pdf",
+      decision: "null",
     },
     {
-      id: 'ORD-005',
-      dateTime: '2025-06-11 08:30',
-      customerName: 'Mike Davis',
-      email: 'mike.davis@example.com',
-      username: 'mikedavis',
-      servicePackage: 'E-commerce Website Package',
-      status: 'Pending',
-      paymentStatus: 'Paid',
-      fileUpload: 'ecommerce_requirements.docx',
-      notes: 'Large project - estimated 2 weeks completion'
+      id: "ORD-005",
+      dateTime: "2025-06-11 08:30",
+      customerName: "Mike Davis",
+      email: "mike.davis@example.com",
+      username: "mikedavis",
+      servicePackage: "E-commerce Website Package",
+      status: "Pending",
+      paymentStatus: "Paid",
+      fileUpload: "ecommerce_requirements.docx",
+      decision: "null",
     },
     {
-      id: 'ORD-006',
-      dateTime: '2025-06-10 15:45',
-      customerName: 'Lisa Chen',
-      email: 'lisa.chen@example.com',
-      username: 'lisachen',
-      servicePackage: 'Social Media Graphics Package',
-      status: 'Completed',
-      paymentStatus: 'Paid',
-      fileUpload: 'social_media_brief.pdf',
-      notes: 'Quick turnaround project'
-    }
+      id: "ORD-006",
+      dateTime: "2025-06-10 15:45",
+      customerName: "Lisa Chen",
+      email: "lisa.chen@example.com",
+      username: "lisachen",
+      servicePackage: "Social Media Graphics Package",
+      status: "Completed",
+      paymentStatus: "Paid",
+      fileUpload: "social_media_brief.pdf",
+      decision: "null",
+    },
   ]);
 
   const [filteredOrders, setFilteredOrders] = useState(orders);
-  const [searchTerm, setSearchTerm] = useState('');
-  const [statusFilter, setStatusFilter] = useState('All');
-  const [dateFilter, setDateFilter] = useState('');
-  const [usernameFilter, setUsernameFilter] = useState('');
+  const [searchTerm, setSearchTerm] = useState("");
+  const [statusFilter, setStatusFilter] = useState("All");
+  const [dateFilter, setDateFilter] = useState("");
+  const [usernameFilter, setUsernameFilter] = useState("");
   const [showModal, setShowModal] = useState(false);
   const [selectedOrder, setSelectedOrder] = useState(null);
 
@@ -103,60 +104,76 @@ const Ordermanagement = () => {
 
   const filterOrders = () => {
     let filtered = orders;
-    
+
     // Search filter
     if (searchTerm) {
-      filtered = filtered.filter(order => 
-        order.customerName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        order.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        order.username.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        order.id.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        order.servicePackage.toLowerCase().includes(searchTerm.toLowerCase())
+      filtered = filtered.filter(
+        (order) =>
+          order.customerName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          order.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          order.username.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          order.id.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          order.servicePackage.toLowerCase().includes(searchTerm.toLowerCase())
       );
     }
-    
+
     // Status filter
-    if (statusFilter !== 'All') {
-      filtered = filtered.filter(order => order.status === statusFilter);
+    if (statusFilter !== "All") {
+      filtered = filtered.filter((order) => order.status === statusFilter);
     }
-    
+
     // Date filter
     if (dateFilter) {
-      filtered = filtered.filter(order => order.dateTime.includes(dateFilter));
+      filtered = filtered.filter((order) =>
+        order.dateTime.includes(dateFilter)
+      );
     }
-    
+
     // Username filter
     if (usernameFilter) {
-      filtered = filtered.filter(order => 
+      filtered = filtered.filter((order) =>
         order.username.toLowerCase().includes(usernameFilter.toLowerCase())
       );
     }
-    
+
     setFilteredOrders(filtered);
   };
 
   const exportToCSV = () => {
     const csvContent = [
-      ['Order ID', 'Date/Time', 'Customer Name', 'Email', 'Username', 'Service Package', 'Status', 'Payment Status', 'File Upload', 'Notes'],
-      ...filteredOrders.map(order => [
-        order.id, 
-        order.dateTime, 
-        order.customerName, 
-        order.email, 
-        order.username, 
-        order.servicePackage, 
-        order.status, 
-        order.paymentStatus, 
-        order.fileUpload, 
-        order.notes
-      ])
-    ].map(row => row.join(',')).join('\n');
-    
-    const blob = new Blob([csvContent], { type: 'text/csv' });
+      [
+        "Order ID",
+        "Date/Time",
+        "Customer Name",
+        "Email",
+        "Username",
+        "Service Package",
+        "Status",
+        "Payment Status",
+        "File Upload",
+        "Notes",
+      ],
+      ...filteredOrders.map((order) => [
+        order.id,
+        order.dateTime,
+        order.customerName,
+        order.email,
+        order.username,
+        order.servicePackage,
+        order.status,
+        order.paymentStatus,
+        order.fileUpload,
+        order.notes,
+      ]),
+    ]
+      .map((row) => row.join(","))
+      .join("\n");
+
+    const blob = new Blob([csvContent], { type: "text/csv" });
     const url = window.URL.createObjectURL(blob);
-    const a = document.createElement('a');
+    const a = document.createElement("a");
     a.href = url;
-    a.download = `orders_export_${new Date().toISOString().split('T')[0]}.csv`;
+    a.download = `orders_export_${new Date().toISOString().split("T")[0]}.csv`;
     a.click();
     window.URL.revokeObjectURL(url);
   };
@@ -176,9 +193,9 @@ File Upload: ${order.fileUpload}
 Notes: ${order.notes}
   `.trim();
 
-    const blob = new Blob([fileContent], { type: 'text/plain' });
+    const blob = new Blob([fileContent], { type: "text/plain" });
     const url = window.URL.createObjectURL(blob);
-    const a = document.createElement('a');
+    const a = document.createElement("a");
     a.href = url;
     a.download = order.fileUpload; // Use the file name from order
     a.click();
@@ -186,10 +203,10 @@ Notes: ${order.notes}
   };
 
   const clearFilters = () => {
-    setSearchTerm('');
-    setStatusFilter('All');
-    setDateFilter('');
-    setUsernameFilter('');
+    setSearchTerm("");
+    setStatusFilter("All");
+    setDateFilter("");
+    setUsernameFilter("");
   };
 
   const handleView = (order) => {
@@ -202,13 +219,27 @@ Notes: ${order.notes}
     setSelectedOrder(null);
   };
 
+  const handleDecision = (id, decision) => {
+    setOrders((prev) =>
+      prev.map((order) => (order.id === id ? { ...order, decision } : order))
+    );
+  };
+
+  const getPaymentBadge = (status) => {
+    return status === "Paid"
+      ? "badge bg-success"
+      : "badge bg-warning text-dark";
+  };
+
   return (
     <div className="container-flud min-vh-100 p-4 ">
-      <div >
+      <div>
         {/* Header */}
         <div className="mb-4">
           <h4 className=" text-dark mb-2">Orders Management</h4>
-          <p className="" style={{fontSize:"15px"}}>Manage and monitor all customer orders</p>
+          <p className="" style={{ fontSize: "15px" }}>
+            Manage and monitor all customer orders
+          </p>
         </div>
 
         {/* Search and Filter Section */}
@@ -281,7 +312,7 @@ Notes: ${order.notes}
             <button
               onClick={exportToCSV}
               className="btn  text-white"
-              style={{ backgroundColor: '#d83631' }} // Bootstrap primary color
+              style={{ backgroundColor: "#d83631" }} // Bootstrap primary color
             >
               <i className="bi bi-download me-2"></i> Export to CSV
             </button>
@@ -302,15 +333,15 @@ Notes: ${order.notes}
           <div className="table-responsive">
             <table className="table table-striped table-bordered">
               <thead className="bg-light">
-                <tr style={{textWrap:"nowrap"}}>
+                <tr style={{ textWrap: "nowrap" }}>
                   <th>Order ID</th>
                   <th>Date/Time</th>
-                  <th>Customer Details</th>
-                  <th>Service Package</th>
-                  <th>Status</th>
+                  <th className="text-center">Customer Details</th>
+                  <th className="text-center">Service Package</th>
+                  <th className="text-center">Status</th>
                   <th>Payment Status</th>
                   <th>File Upload</th>
-                  <th>Notes</th>
+                  <th className="text-center">Decision</th>
                   <th>Actions</th>
                 </tr>
               </thead>
@@ -318,7 +349,7 @@ Notes: ${order.notes}
                 {filteredOrders.map((order) => (
                   <tr key={order.id}>
                     <td>{order.id}</td>
-                    <td>{order.dateTime.split(' ')[0]}</td>
+                    <td>{order.dateTime.split(" ")[0]}</td>
                     <td>
                       <div>{order.customerName}</div>
                       <div>{order.email}</div>
@@ -328,7 +359,9 @@ Notes: ${order.notes}
                     <td>
                       <span
                         className={`badge ${
-                          order.status === 'Completed' ? 'bg-success' : 'bg-warning'
+                          order.status === "Completed"
+                            ? "bg-success"
+                            : "bg-warning"
                         }`}
                       >
                         {order.status}
@@ -337,25 +370,54 @@ Notes: ${order.notes}
                     <td>
                       <span
                         className={`badge ${
-                          order.paymentStatus === 'Paid' ? 'bg-success' : 'bg-danger'
+                          order.paymentStatus === "Paid"
+                            ? "bg-success"
+                            : "bg-danger"
                         }`}
                       >
                         {order.paymentStatus}
                       </span>
                     </td>
                     <td>
-                        <div className='d-flex align-items-center justify-content-center mt-4'>
-    <button
-      className="btn btn-link p-0"
-      title="Download File"
-      onClick={() => handleFileDownload(order)}
-      style={{ color: '#d83631' }}
-    >
-      <i className="fa-solid fa-file-arrow-down fa-lg"></i>
-    </button>
-  </div>
+                      <div className="d-flex align-items-center justify-content-center mt-4">
+                        <button
+                          className="btn btn-link p-0"
+                          title="Download File"
+                          onClick={() => handleFileDownload(order)}
+                          style={{ color: "#d83631" }}
+                        >
+                          <i className="fa-solid fa-file-arrow-down fa-lg"></i>
+                        </button>
+                      </div>
                     </td>
-                    <td>{order.notes.length > 50 ? `${order.notes.substring(0, 50)}...` : order.notes}</td>
+                    <td>
+                      {order.decision && order.decision !== "null" ? (
+                        <span
+                          className={`badge ${
+                            order.decision === "Accepted"
+                              ? "bg-success"
+                              : "bg-danger"
+                          }`}
+                        >
+                          {order.decision}
+                        </span>
+                      ) : (
+                        <>
+                          <button
+                            className="btn btn-sm btn-success me-1"
+                            onClick={() => handleDecision(order.id, "Accepted")}
+                          >
+                            Accept
+                          </button>
+                          <button
+                            className="btn btn-sm btn-danger"
+                            onClick={() => handleDecision(order.id, "Rejected")}
+                          >
+                            Reject
+                          </button>
+                        </>
+                      )}
+                    </td>
                     <td>
                       <div className="btn-group">
                         <button
@@ -392,7 +454,9 @@ Notes: ${order.notes}
             <div className="modal-dialog modal-lg" role="document">
               <div className="modal-content">
                 <div className="modal-header">
-                  <h5 className="modal-title">Order Details - {selectedOrder.id}</h5>
+                  <h5 className="modal-title">
+                    Order Details - {selectedOrder.id}
+                  </h5>
                   <button
                     type="button"
                     className="btn-close"
@@ -400,15 +464,35 @@ Notes: ${order.notes}
                   ></button>
                 </div>
                 <div className="modal-body">
-                  <p><strong>Date/Time:</strong> {selectedOrder.dateTime}</p>
-                  <p><strong>Customer Name:</strong> {selectedOrder.customerName}</p>
-                  <p><strong>Email:</strong> {selectedOrder.email}</p>
-                  <p><strong>Username:</strong> @{selectedOrder.username}</p>
-                  <p><strong>Service Package:</strong> {selectedOrder.servicePackage}</p>
-                  <p><strong>Status:</strong> {selectedOrder.status}</p>
-                  <p><strong>Payment Status:</strong> {selectedOrder.paymentStatus}</p>
-                  <p><strong>File Upload:</strong> {selectedOrder.fileUpload}</p>
-                  <p><strong>Notes:</strong> {selectedOrder.notes}</p>
+                  <p>
+                    <strong>Date/Time:</strong> {selectedOrder.dateTime}
+                  </p>
+                  <p>
+                    <strong>Customer Name:</strong> {selectedOrder.customerName}
+                  </p>
+                  <p>
+                    <strong>Email:</strong> {selectedOrder.email}
+                  </p>
+                  <p>
+                    <strong>Username:</strong> @{selectedOrder.username}
+                  </p>
+                  <p>
+                    <strong>Service Package:</strong>{" "}
+                    {selectedOrder.servicePackage}
+                  </p>
+                  <p>
+                    <strong>Status:</strong> {selectedOrder.status}
+                  </p>
+                  <p>
+                    <strong>Payment Status:</strong>{" "}
+                    {selectedOrder.paymentStatus}
+                  </p>
+                  <p>
+                    <strong>File Upload:</strong> {selectedOrder.fileUpload}
+                  </p>
+                  <p>
+                    <strong>Notes:</strong> {selectedOrder.notes}
+                  </p>
                 </div>
                 <div className="modal-footer">
                   <button
