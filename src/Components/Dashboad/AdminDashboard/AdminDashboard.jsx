@@ -444,6 +444,7 @@ const AdminDashboard = () => {
 
   return (
     <div className="container-fluid py-4">
+       <h4 className="text-dark mb-3 mt-3">Dashboard</h4>
       {/* Summary Cards */}
    <div className="row">
   {[

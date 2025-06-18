@@ -102,6 +102,12 @@ const TvChagoServices = () => {
   };
 
   return (
+
+    <>
+       <div className="mt-3">
+            <h4>TV Chago Premium Services</h4>
+            <p className="mb-0">Manage your services below</p>
+          </div>
     <div className="container py-4">
       {showAlert && (
         <Alert variant="success" onClose={() => setShowAlert(false)} dismissible className="mb-4">
@@ -111,10 +117,7 @@ const TvChagoServices = () => {
 
       <Card className="shadow-sm">
         <Card.Header className="bg-light d-flex justify-content-between align-items-center">
-          <div>
-            <h3>TV Chago Premium Services</h3>
-            <p className="mb-0">Manage your services below</p>
-          </div>
+          
           <Button variant="primary" onClick={handleAddService}>
             <FaPlus className="me-1" /> Add Service
           </Button>
@@ -306,6 +309,7 @@ const TvChagoServices = () => {
         </Modal.Footer>
       </Modal>
     </div>
+    </>
   );
 };
 

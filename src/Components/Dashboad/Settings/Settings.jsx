@@ -27,7 +27,9 @@ const Settings = () => {
   };
 
   return (
-    <Card className="shadow-sm mt-5">
+<>
+    <h4 className="text-dark mt-3">Settings</h4>
+    <Card className="shadow-sm mt-4">
       <Card.Header className="bg-light">
         <h5 className="mb-0">System Settings</h5>
       </Card.Header>
@@ -150,6 +152,7 @@ const Settings = () => {
         </div>
       </Card.Body>
     </Card>
+    </>
   );
 };
 

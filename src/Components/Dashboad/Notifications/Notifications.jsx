@@ -137,11 +137,7 @@ const Notifications = () => {
     <div className="container-fluid py-4">
       <div className="row mb-4">
         <div className="col-md-8">
-          <h2 className="mb-0 d-flex align-items-center">
-            <FaEnvelope className="me-2 text-primary" />
-            <FaSms className="me-2 text-info" />
-            Notification Center
-          </h2>
+        <h4 className="text-dark mb-2">Notification Center</h4>
           <p className="text-muted mb-0">View and manage all system notifications</p>
         </div>
         <div className="col-md-4 d-flex align-items-center justify-content-end">
