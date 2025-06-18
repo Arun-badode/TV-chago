@@ -1,32 +1,9 @@
 import React, { useState } from "react";
-import {
-  Container,
-  Row,
-  Col,
-  Card,
-  Form,
-  Button,
-  ListGroup,
-  Accordion,
-  Navbar,
-  Nav,
-} from "react-bootstrap";
-import {
-  FaTv,
-  FaFilm,
-  FaCrown,
-  FaCheckCircle,
-  FaHeadset,
-  FaShieldAlt,
-  FaDownload,
-  FaMobileAlt,
-  FaGlobe,
-  FaBolt,
-  FaBars,
-  FaTimes,
-} from "react-icons/fa";
+import {  Container,  Row,  Col,  Card,  Form,  Button, ListGroup, Accordion, Navbar, Nav,} from "react-bootstrap";
+import { FaTv, FaFilm, FaCrown, FaCheckCircle, FaHeadset, FaShieldAlt, FaDownload, FaMobileAlt, FaGlobe, FaBolt, FaBars, FaTimes,} from "react-icons/fa";
 import "./Landingpage.css";
-
+import { Link } from "react-router-dom";
+import axios from 'axios';
 const TVChagoApp = () => {
   const [expanded, setExpanded] = useState(false);
 
@@ -125,33 +102,6 @@ const TVChagoApp = () => {
       return;
     }
     
-    if (formData.paymentMethod === "bank" && !formData.bankName) {
-      alert("Please provide the bank name for bank transfer");
-      return;
-    }
-    
-    if (formData.paymentMethod === "paypal") {
-      if (!formData.cardNumber || !formData.cardExpiry || !formData.cardCvc) {
-        alert("Please fill in all payment details");
-        return;
-      }
-    }
-    
-    // Validate usernames
-    let usernameError = false;
-    Object.keys(usernameInputs).forEach(service => {
-      usernameInputs[service].forEach((username, index) => {
-        if (!username) {
-          usernameError = true;
-        }
-      });
-    });
-    
-    if (usernameError) {
-      alert("Please fill in all username fields");
-      return;
-    }
-    
     // Prepare order data
     const orderData = {
       services: {
@@ -195,7 +145,16 @@ const TVChagoApp = () => {
         phone: formData.phone,
       },
     };
-
+// Inside handleSubmit:
+axios.post("https://your-backend-api.com/api/orders", orderData)
+  .then((response) => {
+    console.log("Success:", response.data);
+    alert(`Order submitted successfully! Total: £${calculateTotal()}`);
+  })
+  .catch((error) => {
+    console.error("Error:", error);
+    alert("There was an error submitting your order.");
+  });
     // Here you would typically send this data to your backend
     console.log("Order Data:", orderData);
     
@@ -249,8 +208,8 @@ const TVChagoApp = () => {
     </Navbar.Toggle>
     <Navbar.Collapse id="basic-navbar-nav">
       <Nav className="ms-auto align-items-lg-center">
-        <Button
-          href="/login"
+        <Link
+          to="/login"
           className="ms-lg-3 mt-2 mt-lg-0"
           style={{
             background: "linear-gradient(to right, #e64a19, #ff7043)",
@@ -260,7 +219,7 @@ const TVChagoApp = () => {
           onClick={() => setExpanded(false)}
         >
           Get Started
-        </Button>
+        </Link>
       </Nav>
     </Navbar.Collapse>
   </Container>
