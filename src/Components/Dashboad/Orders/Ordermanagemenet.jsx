@@ -1,96 +1,70 @@
 import React, { useState, useEffect } from "react";
-import {
-  Search,
-  Filter,
-  Download,
-  Calendar,
-  Package,
-  FileText,
-  Eye,
-  Check,
-  X,
-  Plus,
-  RotateCw,
-  CreditCard,
-  Banknote,
-  Trash2,
-} from "lucide-react";
+import {  Search,  Filter,  Download,  Calendar,  Package,  FileText,  Eye,  Check,  X,  Plus,  RotateCw,  CreditCard,  Banknote, Trash2,} from "lucide-react";
+import axios from "axios";
+import API_URL from "../../../utils/BaseUrl";
 
 const OrderManagement = () => {
   // State declarations
-  const [orders, setOrders] = useState([
-    {
-      id: "ORD-001",
-      dateTime: "2025-06-15 14:30",
-      customerName: "John Doe",
-      email: "john.doe@example.com",
-      username: "johndoe",
-      orderType: "New",
-      service: "1 Service",
-      servicePackage: "Premium Web Design",
-      status: "Pending",
-      paymentStatus: "Paid",
-      paymentMethod: "PayPal",
-      discount: "10%",
-    },
-    {
-      id: "ORD-002",
-      dateTime: "2025-06-14 09:15",
-      customerName: "Jane Smith",
-      email: "jane.smith@example.com",
-      username: "janesmith",
-      orderType: "Extended",
-      service: "2 Services",
-      servicePackage: "Standard Logo Design",
-      status: "Completed",
-      paymentStatus: "Paid",
-      paymentMethod: "Bank Transfer",
-      discount: "0%",
-    },
-    {
-      id: "ORD-003",
-      dateTime: "2025-06-13 16:45",
-      customerName: "Bob Johnson",
-      email: "bob.johnson@example.com",
-      username: "bobjohnson",
-      orderType: "New",
-      service: "Both Services",
-      servicePackage: "Mobile App UI",
-      status: "Pending",
-      paymentStatus: "Failed",
-      paymentMethod: "PayPal",
-      discount: "15%",
-    },
-    {
-      id: "ORD-004",
-      dateTime: "2025-06-12 11:20",
-      customerName: "Sarah Wilson",
-      email: "sarah.wilson@example.com",
-      username: "sarahw",
-      orderType: "Extended",
-      service: "1 Service",
-      servicePackage: "Brand Identity",
-      status: "Completed",
-      paymentStatus: "Paid",
-      paymentMethod: "Bank Transfer",
-      discount: "5%",
-    },
-    {
-      id: "ORD-005",
-      dateTime: "2025-06-11 08:30",
-      customerName: "Mike Davis",
-      email: "mike.davis@example.com",
-      username: "mikedavis",
-      orderType: "New",
-      service: "2 Services",
-      servicePackage: "E-commerce Website",
-      status: "Pending",
-      paymentStatus: "Paid",
-      paymentMethod: "PayPal",
-      discount: "0%",
-    },
-  ]);
-
+  // const [orders, setOrders] = useState([
+  //   {
+  //     id: "ORD-001",
+  //     dateTime: "2025-06-15 14:30",
+  //     customerName: "John Doe",
+  //     email: "john.doe@example.com",
+  //     username: "johndoe",
+  //     orderType: "New",
+  //     service: "1 Service",
+  //     servicePackage: "Premium Web Design",
+  //     status: "Pending",
+  //     paymentStatus: "Paid",
+  //     paymentMethod: "PayPal",
+  //     discount: "10%",
+  //   },
+  //   {
+  //     id: "ORD-002",
+  //     dateTime: "2025-06-14 09:15",
+  //     customerName: "Jane Smith",
+  //     email: "jane.smith@example.com",
+  //     username: "janesmith",
+  //     orderType: "Extended",
+  //     service: "2 Services",
+  //     servicePackage: "Standard Logo Design",
+  //     status: "Completed",
+  //     paymentStatus: "Paid",
+  //     paymentMethod: "Bank Transfer",
+  //     discount: "0%",
+  //   },
+  //   {
+  //     id: "ORD-003",
+  //     dateTime: "2025-06-13 16:45",
+  //     customerName: "Bob Johnson",
+  //     email: "bob.johnson@example.com",
+  //     username: "bobjohnson",
+  //     orderType: "New",
+  //     service: "Both Services",
+  //     servicePackage: "Mobile App UI",
+  //     status: "Pending",
+  //     paymentStatus: "Failed",
+  //     paymentMethod: "PayPal",
+  //     discount: "15%",
+  //   },
+  //   {
+  //     id: "ORD-004",
+  //     dateTime: "2025-06-12 11:20",
+  //     customerName: "Sarah Wilson",
+  //     email: "sarah.wilson@example.com",
+  //     username: "sarahw",
+  //     orderType: "Extended",
+  //     service: "1 Service",
+  //     servicePackage: "Brand Identity",
+  //     status: "Completed",
+  //     paymentStatus: "Paid",
+  //     paymentMethod: "Bank Transfer",
+  //     discount: "5%",
+  //   },
+   
+  // ]);
+  const [orders, setOrders] = useState([])
   const [filteredOrders, setFilteredOrders] = useState(orders);
   const [searchTerm, setSearchTerm] = useState("");
   const [statusFilter, setStatusFilter] = useState("All");
@@ -100,18 +74,29 @@ const OrderManagement = () => {
   const [showModal, setShowModal] = useState(false);
   const [selectedOrder, setSelectedOrder] = useState(null);
 
+    // ✅ Fetch all orders
+  const fetchOrders = async () => {
+    try {
+      const response = await axios.get(`${API_URL}/orders`);
+      console.log('✅ Orders fetched successfully:', response.data);
+      setOrders(response.data);
+    } catch (error) {
+      console.error('❌ Error fetching orders:', error);
+    }
+  };
+
+  // Load orders when component mounts
+  useEffect(() => {
+    fetchOrders();
+  }, []);
   // Filter orders based on search and filters
   useEffect(() => {
     let filtered = orders;
-
     if (searchTerm) {
       filtered = filtered.filter(
         (order) =>
-          order.customerName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-          order.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
-          order.username.toLowerCase().includes(searchTerm.toLowerCase()) ||
-          order.id.toLowerCase().includes(searchTerm.toLowerCase()) ||
-          order.servicePackage.toLowerCase().includes(searchTerm.toLowerCase())
+          order?.customerInfo?.fullName?.toLowerCase()?.includes(searchTerm.toLowerCase()) ||
+          order?.customerInfo?.email?.toLowerCase()?.includes(searchTerm.toLowerCase()) 
       );
     }
 
@@ -362,9 +347,8 @@ const OrderManagement = () => {
               <tr>
                 <th>Order ID</th>
                 <th>Date/Time</th>
-                <th>Customer</th>
-                <th>Type</th>
-                <th>Service</th>
+                <th>Customer Name</th>
+                <th>Customer Email</th>
                 <th>Status</th>
                 <th>Payment</th>
                 <th>Discount</th>
@@ -372,26 +356,18 @@ const OrderManagement = () => {
               </tr>
             </thead>
             <tbody>
-              {filteredOrders.map((order) => (
+              {filteredOrders.map((order,index) => (
                 <tr key={order.id}>
-                  <td>{order.id}</td>
-                  <td>{order.dateTime.split(" ")[0]}</td>
+                  <td>{index+1}</td>
+               <td>{new Date(order.createdAt).toLocaleDateString('en-GB')}</td>
                   <td>
-                    <div className="fw-bold">{order.customerName}</div>
-                    <div className="small text-muted">@{order.username}</div>
-                    <div className="small">{order.email}</div>
+                   
+                    <div >{order.customerInfo.fullName}</div>
                   </td>
-                  <td>
-                    <span className={`badge ${getOrderTypeBadge(order.orderType)}`}>
-                      {order.orderType === "New" ? (
-                        <Plus size={14} className="me-1" />
-                      ) : (
-                        <RotateCw size={14} className="me-1" />
-                      )}
-                      {order.orderType}
-                    </span>
+                   <td>
+                    <div>{order.customerInfo.email}</div>
                   </td>
-                  <td>{order.service}</td>
+                 
                   <td>
                     <select
                       value={order.status}
@@ -485,22 +461,39 @@ const OrderManagement = () => {
                   <div className="col-md-6">
                     <h6>Customer Information</h6>
                     <hr />
-                    <p><strong>Name:</strong> {selectedOrder.customerName}</p>
-                    <p><strong>Email:</strong> {selectedOrder.email}</p>
-                    <p><strong>Username:</strong> @{selectedOrder.username}</p>
+                    <p><strong>Name:</strong> {selectedOrder.customerInfo.fullName}</p>
+                    <p><strong>Email:</strong> {selectedOrder.customerInfo.email}</p>
+                    <p><strong>Username:</strong> @{selectedOrder.customerInfo.phone}</p>
                   </div>
                   <div className="col-md-6">
                     <h6>Order Information</h6>
                     <hr />
-                    <p><strong>Date/Time:</strong> {selectedOrder.dateTime}</p>
-                    <p>
-                      <strong>Type:</strong>{" "}
-                      <span className={`badge ${getOrderTypeBadge(selectedOrder.orderType)}`}>
-                        {selectedOrder.orderType}
-                      </span>
-                    </p>
-                    <p><strong>Service:</strong> {selectedOrder.service}</p>
-                    <p><strong>Package:</strong> {selectedOrder.servicePackage}</p>
+                    <p><strong>Date/Time:</strong>{new Date(selectedOrder.createdAt).toLocaleDateString('en-GB')}</p>
+                  {Object.keys(selectedOrder.services).map((serviceKey) => {
+  const service = selectedOrder.services[serviceKey];
+
+  // Only show if quantity > 0
+  if (service.quantity > 0) {
+    return (
+      <div key={serviceKey} style={{ marginBottom: '15px' }}>
+        <p><strong>Service:</strong> {serviceKey}</p>
+        <p><strong>Quantity:</strong> {service.quantity}</p>
+        <p><strong>Price:</strong> £{service.price}</p>
+        <p><strong>Total:</strong> £{service.total}</p>
+
+        {/* Loop through all usernames for this service */}
+        {service.accounts.map((account, idx) => (
+          <div key={idx} style={{ marginLeft: '20px', marginBottom: '10px' }}>
+            <p><strong>Username:</strong> {account.username}</p>
+            <p><strong>Type:</strong> {account.type}</p>
+          </div>
+        ))}
+      </div>
+    );
+  }
+  return null;
+})}
+
                   </div>
                 </div>
                 <div className="row mt-3">
