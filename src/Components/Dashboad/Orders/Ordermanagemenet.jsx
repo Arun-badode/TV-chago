@@ -39,7 +39,7 @@ const OrderManagement = () => {
       customerName: "Jane Smith",
       email: "jane.smith@example.com",
       username: "janesmith",
-      orderType: "Extension",
+      orderType: "Extended",
       service: "2 Services",
       servicePackage: "Standard Logo Design",
       status: "Completed",
@@ -67,7 +67,7 @@ const OrderManagement = () => {
       customerName: "Sarah Wilson",
       email: "sarah.wilson@example.com",
       username: "sarahw",
-      orderType: "Extension",
+      orderType: "Extended",
       service: "1 Service",
       servicePackage: "Brand Identity",
       status: "Completed",
@@ -299,7 +299,7 @@ const OrderManagement = () => {
             >
               <option value="All">All Types</option>
               <option value="New">New</option>
-              <option value="Extension">Extension</option>
+              <option value="Extended">Extended</option>
             </select>
           </div>
 

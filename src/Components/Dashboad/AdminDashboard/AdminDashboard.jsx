@@ -13,6 +13,12 @@ import {
   Gear,
   CheckCircle,
   XCircle,
+  PeopleFill,
+  CheckCircleFill,
+  HourglassSplit,
+  XCircleFill,
+  PlusCircleFill,
+
 } from "react-bootstrap-icons";
 import { Bar, Pie } from "react-chartjs-2";
 import { FaArrowUp } from "react-icons/fa";
@@ -64,7 +70,7 @@ const AdminDashboard = () => {
       customerName: "Jane Smith",
       email: "jane@example.com",
       username: "janesmith",
-      orderType: "extension",
+      orderType: "Extended",
       service: "YouTube Subscribers",
       quantity: 5000,
       servicePackage: "2 Services",
@@ -96,7 +102,7 @@ const AdminDashboard = () => {
       customerName: "Sarah Williams",
       email: "sarah@example.com",
       username: "sarahw",
-      orderType: "extension",
+      orderType: "Extended",
       service: "Instagram Growth",
       quantity: 3000,
       servicePackage: "1 Services",
@@ -157,7 +163,7 @@ const AdminDashboard = () => {
   const pendingOrders = orders.filter((order) => order.status === "Pending").length;
   const cancelledOrders = orders.filter((order) => order.status === "Cancelled").length;
   const newOrders = orders.filter((order) => order.orderType === "new").length;
-  const extensionOrders = orders.filter((order) => order.orderType === "extension").length;
+  const ExtendedOrders = orders.filter((order) => order.orderType === "Extended").length;
 
   // Get unique services for filter dropdown
   const uniqueServices = [...new Set(orders.map((order) => order.service))];
@@ -176,7 +182,7 @@ const AdminDashboard = () => {
 
   const orderTypeData = {
     New: newOrders,
-    Extension: extensionOrders,
+    Extended: ExtendedOrders,
   };
 
   const paymentStatusData = orders.reduce((acc, order) => {
@@ -441,12 +447,42 @@ const AdminDashboard = () => {
       {/* Summary Cards */}
    <div className="row">
   {[
-    { title: "Total Orders", value: totalOrders, icon: "users", trend: "+28.8%" },
-    { title: "Completed", value: completedOrders, icon: "check", trend: "+20.8%" },
-    { title: "Pending", value: pendingOrders, icon: "hourglass-half", trend: "+10.8%" },
-    { title: "Cancelled", value: cancelledOrders, icon: "ban", trend: "+5.8%" },
-    { title: "New Orders", value: newOrders, icon: <i className="fa-solid fa-circle-plus"></i>, trend: "+15.2%" },
-    { title: "Extensions", value: extensionOrders, icon: <i className="fa-solid fa-arrows-rotate"></i>, trend: "+8.5%" },
+     { 
+    title: "Total Orders", 
+    value: totalOrders, 
+    icon: <PeopleFill />,
+    trend: "+28.8%" 
+  },
+  { 
+    title: "Completed", 
+    value: completedOrders, 
+    icon: <CheckCircleFill />,
+    trend: "+20.8%" 
+  },
+  { 
+    title: "Pending", 
+    value: pendingOrders, 
+    icon: <HourglassSplit />,
+    trend: "+10.8%" 
+  },
+  { 
+    title: "Cancelled", 
+    value: cancelledOrders, 
+    icon: <XCircleFill />,
+    trend: "+5.8%" 
+  },
+  { 
+    title: "New Orders", 
+    value: newOrders, 
+    icon: <PlusCircleFill />,
+    trend: "+15.2%" 
+  },
+  { 
+    title: "Extendeds", 
+    value: ExtendedOrders, 
+    icon: <ArrowRepeat />,
+    trend: "+8.5%" 
+  },
   ].map((stat, index) => (
     <div className="col-lg-4 col-md-6 mb-3 d-flex"
 key={index}>
@@ -523,7 +559,7 @@ key={index}>
                 >
                   <option value="All">All Types</option>
                   <option value="New">New</option>
-                  <option value="Extension">Extension</option>
+                  <option value="Extended">Extended</option>
                 </Form.Select>
               </Form.Group>
             </div>
@@ -621,7 +657,7 @@ key={index}>
                           ) : (
                             <>
                               <ArrowRepeat className="me-1" />
-                              Extension
+                              Extended
                             </>
                           )}
                         </Badge>
@@ -888,7 +924,7 @@ key={index}>
                     <Badge
                       bg={currentOrder.orderType === "new" ? "primary" : "info"}
                     >
-                      {currentOrder.orderType === "new" ? "New" : "Extension"}
+                      {currentOrder.orderType === "new" ? "New" : "Extended"}
                     </Badge>
                   </p>
                   <p>
