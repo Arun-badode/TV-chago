@@ -159,6 +159,7 @@ const TvChagoServices = () => {
                         variant="outline-primary"
                         size="sm"
                         onClick={() => handleEditService(service)}
+                        className="bg-danger text-light"
                         title="Edit"
                       >
                         <FaEdit />
@@ -167,6 +168,7 @@ const TvChagoServices = () => {
                         variant="outline-danger"
                         size="sm"
                         onClick={() => handleDeleteService(service.id)}
+                            className="bg-danger text-light"
                         title="Delete"
                       >
                         <FaTrash />

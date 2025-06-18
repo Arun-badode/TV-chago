@@ -103,8 +103,8 @@ const OrderManagement = () => {
   const [serviceFilter, setServiceFilter] = useState("All");
   const [showModal, setShowModal] = useState(false);
   const [selectedOrder, setSelectedOrder] = useState(null);
-  const [showCompleteModal, setShowCompleteModal] = useState(false);
-  const [showRejectModal, setShowRejectModal] = useState(false);
+  const [acceptedOrders, setAcceptedOrders] = useState([]);
+  const [rejectedOrders, setRejectedOrders] = useState([]);
 
   // Filter orders based on search and filters
   useEffect(() => {
@@ -204,36 +204,14 @@ const OrderManagement = () => {
     setSelectedOrder(null);
   };
 
-  const handleMarkComplete = (order) => {
-    setSelectedOrder(order);
-    setShowCompleteModal(true);
+  const handleAccept = (orderId) => {
+    setAcceptedOrders([...acceptedOrders, orderId]);
+    setRejectedOrders(rejectedOrders.filter(id => id !== orderId));
   };
 
-  const handleReject = (order) => {
-    setSelectedOrder(order);
-    setShowRejectModal(true);
-  };
-
-  const confirmCompletion = () => {
-    setOrders((prev) =>
-      prev.map((order) =>
-        order.id === selectedOrder.id
-          ? { ...order, status: "Completed", decision: "Completed" }
-          : order
-      )
-    );
-    setShowCompleteModal(false);
-  };
-
-  const confirmRejection = () => {
-    setOrders((prev) =>
-      prev.map((order) =>
-        order.id === selectedOrder.id
-          ? { ...order, status: "Rejected", decision: "Rejected" }
-          : order
-      )
-    );
-    setShowRejectModal(false);
+  const handleReject = (orderId) => {
+    setRejectedOrders([...rejectedOrders, orderId]);
+    setAcceptedOrders(acceptedOrders.filter(id => id !== orderId));
   };
 
   const getBadgeClass = (status) => {
@@ -444,21 +422,29 @@ const OrderManagement = () => {
                       >
                         <Eye size={16} />
                       </button>
-                      {order.status === "Pending" && (
+                      {acceptedOrders.includes(order.id) ? (
+                        <button className="btn btn-sm btn-success" disabled>
+                          Accepted
+                        </button>
+                      ) : rejectedOrders.includes(order.id) ? (
+                        <button className="btn btn-sm btn-danger" disabled>
+                          Rejected
+                        </button>
+                      ) : (
                         <>
                           <button
                             className="btn btn-sm btn-success"
-                            onClick={() => handleMarkComplete(order)}
+                            onClick={() => handleAccept(order.id)}
                             title="Accept Order"
                           >
-                            <Check size={16} />
+                            Accept
                           </button>
                           <button
                             className="btn btn-sm btn-danger"
-                            onClick={() => handleReject(order)}
+                            onClick={() => handleReject(order.id)}
                             title="Reject Order"
                           >
-                            <X size={16} />
+                            Reject
                           </button>
                         </>
                       )}
@@ -556,98 +542,6 @@ const OrderManagement = () => {
                   onClick={handleCloseModal}
                 >
                   Close
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* Accept Order Modal */}
-      {showCompleteModal && selectedOrder && (
-        <div
-          className="modal fade show"
-          style={{ display: "block", background: "rgba(0,0,0,0.5)" }}
-          tabIndex="-1"
-        >
-          <div className="modal-dialog">
-            <div className="modal-content">
-              <div className="modal-header">
-                <h5 className="modal-title">✅ Accept Order</h5>
-                <button
-                  type="button"
-                  className="btn-close"
-                  onClick={() => setShowCompleteModal(false)}
-                ></button>
-              </div>
-              <div className="modal-body">
-                <p>
-                  Are you sure you want to <strong>ACCEPT</strong> order <strong>{selectedOrder.id}</strong>?
-                </p>
-                <p className="text-success">
-                  This will mark the order as <strong>Completed</strong>.
-                </p>
-              </div>
-              <div className="modal-footer">
-                <button
-                  type="button"
-                  className="btn btn-secondary"
-                  onClick={() => setShowCompleteModal(false)}
-                >
-                  Cancel
-                </button>
-                <button
-                  type="button"
-                  className="btn btn-success"
-                  onClick={confirmCompletion}
-                >
-                  Confirm Accept
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* Reject Order Modal */}
-      {showRejectModal && selectedOrder && (
-        <div
-          className="modal fade show"
-          style={{ display: "block", background: "rgba(0,0,0,0.5)" }}
-          tabIndex="-1"
-        >
-          <div className="modal-dialog">
-            <div className="modal-content">
-              <div className="modal-header">
-                <h5 className="modal-title">❌ Reject Order</h5>
-                <button
-                  type="button"
-                  className="btn-close"
-                  onClick={() => setShowRejectModal(false)}
-                ></button>
-              </div>
-              <div className="modal-body">
-                <p>
-                  Are you sure you want to <strong>REJECT</strong> order <strong>{selectedOrder.id}</strong>?
-                </p>
-                <p className="text-danger">
-                  This will mark the order as <strong>Rejected</strong>.
-                </p>
-              </div>
-              <div className="modal-footer">
-                <button
-                  type="button"
-                  className="btn btn-secondary"
-                  onClick={() => setShowRejectModal(false)}
-                >
-                  Cancel
-                </button>
-                <button
-                  type="button"
-                  className="btn btn-danger"
-                  onClick={confirmRejection}
-                >
-                  Confirm Reject
                 </button>
               </div>
             </div>

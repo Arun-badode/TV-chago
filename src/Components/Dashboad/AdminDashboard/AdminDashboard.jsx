@@ -654,7 +654,7 @@ key={index}>
                       <td>${order.price.toFixed(2)}</td>
                       <td className="text-center">
                         <Button
-                          variant="link"
+                          variant="otline-primary"
                           size="sm"
                           href={order.fileUrl}
                           download
@@ -666,18 +666,18 @@ key={index}>
                       <td>
                         <div className="d-flex justify-content-center">
                           <Button
-                            variant="link"
+                            variant="outline-danger"
                             size="sm"
                             onClick={() => handleViewClick(order)}
-                            className="me-1"
+                            className="me-1 bg-danger text-light "
                           >
-                            <Eye />
+                            <Eye  size={16}/>
                           </Button>
                           <Dropdown>
                             <Dropdown.Toggle
-                              variant="link"
+                              variant="outline-danger"
                               id="dropdown-actions"
-                              className="p-0"
+                              className="p-1 bg-danger text-light"
                             >
                               <ThreeDotsVertical />
                             </Dropdown.Toggle>
