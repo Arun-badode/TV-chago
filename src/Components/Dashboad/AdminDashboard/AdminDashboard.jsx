@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Table, Form, Button, Modal, Dropdown, Badge } from "react-bootstrap";
+import { Table, Form, Button, Modal, Dropdown, Badge, Alert } from "react-bootstrap";
 import {
   Download,
   Search,
@@ -10,6 +10,9 @@ import {
   Trash,
   PlusCircle,
   ArrowRepeat,
+  Gear,
+  CheckCircle,
+  XCircle,
 } from "react-bootstrap-icons";
 import { Bar, Pie } from "react-chartjs-2";
 import {
@@ -43,15 +46,16 @@ const AdminDashboard = () => {
       customerName: "John Doe",
       email: "john@example.com",
       username: "johndoe",
-      orderType: "new", // 'new' or 'extension'
-      service: "Instagram Growth", // Service name
-      quantity: 1000, // Quantity of service
+      orderType: "new",
+      service: "Instagram Growth",
+      quantity: 1000,
       servicePackage: "1 Services",
       status: "Completed",
       paymentStatus: "Paid",
       fileUrl: "/files/order1.pdf",
       price: 99.99,
       notes: "Urgent delivery requested",
+      completedDate: "2023-05-16",
     },
     {
       id: 2,
@@ -62,7 +66,7 @@ const AdminDashboard = () => {
       orderType: "extension",
       service: "YouTube Subscribers",
       quantity: 5000,
-      servicePackage: "2 Sevices",
+      servicePackage: "2 Services",
       status: "Pending",
       paymentStatus: "Paid",
       fileUrl: "/files/order2.pdf",
@@ -100,6 +104,7 @@ const AdminDashboard = () => {
       fileUrl: "/files/order4.pdf",
       price: 249.99,
       notes: "Special instructions",
+      completedDate: "2023-05-19",
     },
     {
       id: 5,
@@ -116,6 +121,7 @@ const AdminDashboard = () => {
       fileUrl: "/files/order5.pdf",
       price: 399.99,
       notes: "",
+      completedDate: "2023-05-20",
     },
   ];
 
@@ -128,25 +134,29 @@ const AdminDashboard = () => {
   const [serviceFilter, setServiceFilter] = useState("All");
   const [showEditModal, setShowEditModal] = useState(false);
   const [showViewModal, setShowViewModal] = useState(false);
+  const [showSettingsModal, setShowSettingsModal] = useState(false);
   const [currentOrder, setCurrentOrder] = useState(null);
   const [editPrice, setEditPrice] = useState("");
   const [editNotes, setEditNotes] = useState("");
+  const [editStatus, setEditStatus] = useState("");
+  const [editPaymentStatus, setEditPaymentStatus] = useState("");
+  const [autoDeleteDays, setAutoDeleteDays] = useState(30);
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
+
+  // Settings for auto-delete
+  const [settings, setSettings] = useState({
+    autoDeleteEnabled: false,
+    autoDeleteDays: 30,
+    deleteCompletedOnly: true,
+  });
 
   // Calculate summary counts
   const totalOrders = orders.length;
-  const completedOrders = orders.filter(
-    (order) => order.status === "Completed"
-  ).length;
-  const pendingOrders = orders.filter(
-    (order) => order.status === "Pending"
-  ).length;
-  const cancelledOrders = orders.filter(
-    (order) => order.status === "Cancelled"
-  ).length;
+  const completedOrders = orders.filter((order) => order.status === "Completed").length;
+  const pendingOrders = orders.filter((order) => order.status === "Pending").length;
+  const cancelledOrders = orders.filter((order) => order.status === "Cancelled").length;
   const newOrders = orders.filter((order) => order.orderType === "new").length;
-  const extensionOrders = orders.filter(
-    (order) => order.orderType === "extension"
-  ).length;
+  const extensionOrders = orders.filter((order) => order.orderType === "extension").length;
 
   // Get unique services for filter dropdown
   const uniqueServices = [...new Set(orders.map((order) => order.service))];
@@ -173,9 +183,10 @@ const AdminDashboard = () => {
     return acc;
   }, {});
 
-  // Bar chart options
+  // Chart options and data
   const barOptions = {
     responsive: true,
+    maintainAspectRatio: false,
     plugins: {
       legend: {
         position: "top",
@@ -187,9 +198,9 @@ const AdminDashboard = () => {
     },
   };
 
-  // Pie chart options
   const pieOptions = {
     responsive: true,
+    maintainAspectRatio: false,
     plugins: {
       legend: {
         position: "top",
@@ -201,7 +212,6 @@ const AdminDashboard = () => {
     },
   };
 
-  // Chart data
   const servicePackageChartData = {
     labels: Object.keys(servicePackageData),
     datasets: [
@@ -302,6 +312,29 @@ const AdminDashboard = () => {
     setFilteredOrders(result);
   }, [searchTerm, statusFilter, dateFilter, orderTypeFilter, serviceFilter, orders]);
 
+  // Auto-delete old completed orders based on settings
+  useEffect(() => {
+    if (settings.autoDeleteEnabled) {
+      const today = new Date();
+      const thresholdDate = new Date();
+      thresholdDate.setDate(today.getDate() - settings.autoDeleteDays);
+
+      const ordersToDelete = orders.filter(order => {
+        if (order.status !== "Completed") return false;
+        if (!order.completedDate) return false;
+        
+        const completedDate = new Date(order.completedDate);
+        return completedDate < thresholdDate;
+      });
+
+      if (ordersToDelete.length > 0) {
+        const orderIdsToDelete = ordersToDelete.map(order => order.id);
+        const updatedOrders = orders.filter(order => !orderIdsToDelete.includes(order.id));
+        setOrders(updatedOrders);
+      }
+    }
+  }, [settings, orders]);
+
   const handleViewClick = (order) => {
     setCurrentOrder(order);
     setShowViewModal(true);
@@ -311,25 +344,44 @@ const AdminDashboard = () => {
     setCurrentOrder(order);
     setEditPrice(order.price);
     setEditNotes(order.notes);
+    setEditStatus(order.status);
+    setEditPaymentStatus(order.paymentStatus);
     setShowEditModal(true);
   };
 
   const handleDeleteClick = (orderId) => {
-    if (window.confirm("Are you sure you want to delete this order?")) {
-      const updatedOrders = orders.filter((order) => order.id !== orderId);
-      setOrders(updatedOrders);
-    }
+    setCurrentOrder(orders.find(order => order.id === orderId));
+    setShowDeleteConfirm(true);
+  };
+
+  const confirmDelete = () => {
+    const updatedOrders = orders.filter((order) => order.id !== currentOrder.id);
+    setOrders(updatedOrders);
+    setShowDeleteConfirm(false);
   };
 
   const handleSaveChanges = () => {
     const updatedOrders = orders.map((order) =>
       order.id === currentOrder.id
-        ? { ...order, price: parseFloat(editPrice), notes: editNotes }
+        ? { 
+            ...order, 
+            price: parseFloat(editPrice), 
+            notes: editNotes,
+            status: editStatus,
+            paymentStatus: editPaymentStatus,
+            ...(editStatus === "Completed" && !order.completedDate ? { completedDate: new Date().toISOString().split('T')[0] } : {})
+          }
         : order
     );
 
     setOrders(updatedOrders);
     setShowEditModal(false);
+  };
+
+  const handleSettingsSave = () => {
+    // Save settings to localStorage or backend
+    localStorage.setItem('dashboardSettings', JSON.stringify(settings));
+    setShowSettingsModal(false);
   };
 
   const exportToCSV = () => {
@@ -347,6 +399,7 @@ const AdminDashboard = () => {
       "Payment Status",
       "Price",
       "Notes",
+      "Completed Date"
     ].join(",");
 
     const csvContent = filteredOrders
@@ -365,6 +418,7 @@ const AdminDashboard = () => {
           `"${order.paymentStatus}"`,
           order.price,
           `"${order.notes}"`,
+          `"${order.completedDate || ''}"`,
         ].join(",")
       )
       .join("\n");
@@ -384,181 +438,44 @@ const AdminDashboard = () => {
   return (
     <div className="container-fluid py-4">
       {/* Summary Cards */}
-  <div className="row">
-  <div className="col-xl-2 col-md-4 mb-3 d-flex">
-    <div className="card shadow-lg flex-fill">
-      <div className="card-body">
-        <div className="d-flex justify-content-between align-items-center">
-          <div>
-            <h5>Total Orders</h5>
-            <h3>{totalOrders}</h3>
+   <div className="row">
+  {[
+    { title: "Total Orders", value: totalOrders, icon: "users", trend: "+28.8%" },
+    { title: "Completed", value: completedOrders, icon: "check", trend: "+20.8%" },
+    { title: "Pending", value: pendingOrders, icon: "hourglass-half", trend: "+10.8%" },
+    { title: "Cancelled", value: cancelledOrders, icon: "ban", trend: "+5.8%" },
+    { title: "New Orders", value: newOrders, icon: <i className="fa-solid fa-circle-plus"></i>, trend: "+15.2%" },
+    { title: "Extensions", value: extensionOrders, icon: <i className="fa-solid fa-arrows-rotate"></i>, trend: "+8.5%" },
+  ].map((stat, index) => (
+    <div className="col-lg-4 col-md-6 mb-3 d-flex"
+key={index}>
+      <div className="card shadow-lg w-100">
+        <div className="card-body d-flex justify-content-between align-items-center px-3 py-2">
+          <div className="pe-3">
+            <h6 className="mb-1">{stat.title}</h6>
+            <h3 className="mb-1">{stat.value}</h3>
             <small className="text-success">
               <i className="fas fa-arrow-up me-1"></i>
-              +28.8% from last month
+              {stat.trend} from last month
             </small>
           </div>
           <div
-            className="text-white p-3 rounded-circle d-flex align-items-center justify-content-center"
-            style={{
-              backgroundColor: "#d84a33",
-              width: "50px",
-              height: "50px",
-            }}
+            className="bg-danger text-white rounded-circle d-flex align-items-center justify-content-center"
+            style={{ width: "52px", height: "52px", minWidth: "52px" }}
           >
-            <i
-              className="fas fa-users fa-lg"
-              style={{ fontSize: "1.25rem" }}
-            ></i>
+            {typeof stat.icon === "string" ? (
+              <i className={`fa-solid fa-${stat.icon}`} style={{ fontSize: "1.3rem" }}></i>
+            ) : (
+              React.cloneElement(stat.icon, { style: { fontSize: "1.3rem" } })
+            )}
           </div>
         </div>
       </div>
     </div>
-  </div>
-
-  <div className="col-xl-2 col-md-4 mb-3 d-flex">
-    <div className="card shadow-lg flex-fill">
-      <div className="card-body">
-        <div className="d-flex justify-content-between align-items-center">
-          <div>
-            <h5>Completed</h5>
-            <h3>{completedOrders}</h3>
-            <small className="text-success">
-              <i className="fas fa-arrow-up me-1"></i>
-              +20.8% from last month
-            </small>
-          </div>
-          <div
-            className="text-white p-3 rounded-circle d-flex align-items-center justify-content-center"
-            style={{
-              backgroundColor: "#d84a33",
-              width: "50px",
-              height: "50px",
-            }}
-          >
-            <i
-              className="fa-solid fa-check"
-              style={{ fontSize: "1.25rem" }}
-            ></i>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div className="col-xl-2 col-md-4 mb-3 d-flex">
-    <div className="card shadow-lg flex-fill">
-      <div className="card-body">
-        <div className="d-flex justify-content-between align-items-center">
-          <div>
-            <h5>Pending</h5>
-            <h3>{pendingOrders}</h3>
-            <small className="text-success">
-              <i className="fas fa-arrow-up me-1"></i>
-              +10.8% from last month
-            </small>
-          </div>
-          <div
-            className="text-white p-3 rounded-circle d-flex align-items-center justify-content-center"
-            style={{
-              backgroundColor: "#d84a33",
-              width: "50px",
-              height: "50px",
-            }}
-          >
-            <i
-              className="fa-solid fa-hourglass-half"
-              style={{ fontSize: "1.25rem" }}
-            ></i>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div className="col-xl-2 col-md-4 mb-3 d-flex">
-    <div className="card shadow-lg flex-fill">
-      <div className="card-body">
-        <div className="d-flex justify-content-between align-items-center">
-          <div>
-            <h5>Cancelled</h5>
-            <h3>{cancelledOrders}</h3>
-            <small className="text-success">
-              <i className="fas fa-arrow-up me-1"></i>
-              +5.8% from last month
-            </small>
-          </div>
-          <div
-            className="text-white p-3 rounded-circle d-flex align-items-center justify-content-center"
-            style={{
-              backgroundColor: "#d84a33",
-              width: "50px",
-              height: "50px",
-            }}
-          >
-            <i
-              className="fa-solid fa-ban"
-              style={{ fontSize: "1.25rem" }}
-            ></i>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div className="col-xl-2 col-md-4 mb-3 d-flex">
-    <div className="card shadow-lg flex-fill">
-      <div className="card-body">
-        <div className="d-flex justify-content-between align-items-center">
-          <div>
-            <h5>New Orders</h5>
-            <h3>{newOrders}</h3>
-            <small className="text-success">
-              <i className="fas fa-arrow-up me-1"></i>
-              +15.2% from last month
-            </small>
-          </div>
-          <div
-            className="text-white p-3 rounded-circle d-flex align-items-center justify-content-center"
-            style={{
-              backgroundColor: "#d84a33",
-              width: "50px",
-              height: "50px",
-            }}
-          >
-            <PlusCircle style={{ fontSize: "1.25rem" }} />
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div className="col-xl-2 col-md-4 mb-3 d-flex">
-    <div className="card shadow-lg flex-fill">
-      <div className="card-body">
-        <div className="d-flex justify-content-between align-items-center">
-          <div>
-            <h5>Extensions</h5>
-            <h3>{extensionOrders}</h3>
-            <small className="text-success">
-              <i className="fas fa-arrow-up me-1"></i>
-              +8.5% from last month
-            </small>
-          </div>
-          <div
-            className="text-white p-3 rounded-circle d-flex align-items-center justify-content-center"
-            style={{
-              backgroundColor: "#d84a33",
-              width: "50px",
-              height: "50px",
-            }}
-          >
-            <ArrowRepeat style={{ fontSize: "1.25rem" }} />
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+  ))}
 </div>
+
+
 
       {/* Search and Filter Section */}
       <div className="card mb-4">
@@ -650,11 +567,21 @@ const AdminDashboard = () => {
 
       {/* Orders Table */}
       <div className="card mb-4">
+        <div className="card-header d-flex justify-content-between align-items-center">
+          <h5 className="mb-0">Orders Management</h5>
+          <Button 
+            variant="outline-secondary" 
+            size="sm" 
+            onClick={() => setShowSettingsModal(true)}
+          >
+            <Gear className="me-1" /> Settings
+          </Button>
+        </div>
         <div className="card-body">
           <div className="table-responsive">
-            <Table striped bordered hover>
+            <Table striped bordered hover responsive>
               <thead>
-                <tr style={{ textWrap: "nowrap", textAlign: "center" }}>
+                <tr style={{ textAlign: "center" }}>
                   <th>Order ID</th>
                   <th>Date/Time</th>
                   <th>Customer</th>
@@ -725,18 +652,19 @@ const AdminDashboard = () => {
                         </span>
                       </td>
                       <td>${order.price.toFixed(2)}</td>
-                      <td>
+                      <td className="text-center">
                         <Button
                           variant="link"
                           size="sm"
                           href={order.fileUrl}
                           download
+                          className="p-0"
                         >
                           <Download />
                         </Button>
                       </td>
                       <td>
-                        <div className="d-flex">
+                        <div className="d-flex justify-content-center">
                           <Button
                             variant="link"
                             size="sm"
@@ -749,10 +677,11 @@ const AdminDashboard = () => {
                             <Dropdown.Toggle
                               variant="link"
                               id="dropdown-actions"
+                              className="p-0"
                             >
                               <ThreeDotsVertical />
                             </Dropdown.Toggle>
-                            <Dropdown.Menu>
+                            <Dropdown.Menu align="end">
                               <Dropdown.Item
                                 onClick={() => handleEditClick(order)}
                               >
@@ -787,29 +716,23 @@ const AdminDashboard = () => {
 
       {/* Charts Section */}
       <div className="row mb-4">
-        <div className="col-md-6 mb-4">
+        <div className="col-lg-6 mb-4">
           <div className="card h-100">
-            <div className="card-body" style={{ height: "400px" }}>
+            <div className="card-body" style={{ minHeight: "400px" }}>
               <Bar options={barOptions} data={servicePackageChartData} />
             </div>
           </div>
         </div>
-        <div className="col-md-6 mb-4">
+        <div className="col-lg-6 mb-4">
           <div className="card h-100">
-            <div
-              className="card-body d-flex align-items-center justify-content-center"
-              style={{ height: "400px" }}
-            >
+            <div className="card-body" style={{ minHeight: "400px" }}>
               <Pie options={pieOptions} data={statusChartData} />
             </div>
           </div>
         </div>
-        <div className="col-md-6 mb-4">
+        <div className="col-lg-6 mb-4">
           <div className="card h-100">
-            <div
-              className="card-body d-flex align-items-center justify-content-center"
-              style={{ height: "400px" }}
-            >
+            <div className="card-body" style={{ minHeight: "400px" }}>
               <Bar
                 options={{
                   ...barOptions,
@@ -826,12 +749,9 @@ const AdminDashboard = () => {
             </div>
           </div>
         </div>
-        <div className="col-md-6 mb-4">
+        <div className="col-lg-6 mb-4">
           <div className="card h-100">
-            <div
-              className="card-body d-flex align-items-center justify-content-center"
-              style={{ height: "400px" }}
-            >
+            <div className="card-body" style={{ minHeight: "400px" }}>
               <Pie
                 options={{
                   ...pieOptions,
@@ -851,20 +771,66 @@ const AdminDashboard = () => {
       </div>
 
       {/* Edit Modal */}
-      <Modal show={showEditModal} onHide={() => setShowEditModal(false)}>
+      <Modal show={showEditModal} onHide={() => setShowEditModal(false)} size="lg">
         <Modal.Header closeButton>
           <Modal.Title>Edit Order #{currentOrder?.id}</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Form>
-            <Form.Group className="mb-3">
-              <Form.Label>Price</Form.Label>
-              <Form.Control
-                type="number"
-                value={editPrice}
-                onChange={(e) => setEditPrice(e.target.value)}
-              />
-            </Form.Group>
+            <div className="row">
+              <div className="col-md-6">
+                <Form.Group className="mb-3">
+                  <Form.Label>Price</Form.Label>
+                  <Form.Control
+                    type="number"
+                    value={editPrice}
+                    onChange={(e) => setEditPrice(e.target.value)}
+                  />
+                </Form.Group>
+
+                <Form.Group className="mb-3">
+                  <Form.Label>Status</Form.Label>
+                  <Form.Select
+                    value={editStatus}
+                    onChange={(e) => setEditStatus(e.target.value)}
+                  >
+                    <option value="Pending">Pending</option>
+                    <option value="Completed">Completed</option>
+                    <option value="Cancelled">Cancelled</option>
+                  </Form.Select>
+                </Form.Group>
+              </div>
+              <div className="col-md-6">
+                <Form.Group className="mb-3">
+                  <Form.Label>Payment Status</Form.Label>
+                  <Form.Select
+                    value={editPaymentStatus}
+                    onChange={(e) => setEditPaymentStatus(e.target.value)}
+                  >
+                    <option value="Paid">Paid</option>
+                    <option value="Failed">Failed</option>
+                    <option value="Pending">Pending</option>
+                    <option value="Refunded">Refunded</option>
+                  </Form.Select>
+                </Form.Group>
+
+                {editStatus === "Completed" && (
+                  <Form.Group className="mb-3">
+                    <Form.Label>Completed Date</Form.Label>
+                    <Form.Control
+                      type="date"
+                      value={currentOrder?.completedDate || new Date().toISOString().split('T')[0]}
+                      onChange={(e) => {
+                        setCurrentOrder({
+                          ...currentOrder,
+                          completedDate: e.target.value
+                        });
+                      }}
+                    />
+                  </Form.Group>
+                )}
+              </div>
+            </div>
 
             <Form.Group className="mb-3">
               <Form.Label>Notes</Form.Label>
@@ -888,11 +854,7 @@ const AdminDashboard = () => {
       </Modal>
 
       {/* View Modal */}
-      <Modal
-        show={showViewModal}
-        onHide={() => setShowViewModal(false)}
-        size="lg"
-      >
+      <Modal show={showViewModal} onHide={() => setShowViewModal(false)} size="lg">
         <Modal.Header closeButton>
           <Modal.Title>Order Details #{currentOrder?.id}</Modal.Title>
         </Modal.Header>
@@ -942,6 +904,11 @@ const AdminDashboard = () => {
                   <p>
                     <strong>Price:</strong> ${currentOrder.price.toFixed(2)}
                   </p>
+                  {currentOrder.completedDate && (
+                    <p>
+                      <strong>Completed Date:</strong> {currentOrder.completedDate}
+                    </p>
+                  )}
                 </div>
               </div>
 
@@ -1016,6 +983,99 @@ const AdminDashboard = () => {
             }}
           >
             Edit Order
+          </Button>
+        </Modal.Footer>
+      </Modal>
+
+      {/* Delete Confirmation Modal */}
+      <Modal show={showDeleteConfirm} onHide={() => setShowDeleteConfirm(false)} centered>
+        <Modal.Header closeButton>
+          <Modal.Title>Confirm Delete</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          Are you sure you want to delete order #{currentOrder?.id} for {currentOrder?.customerName}?
+          <div className="mt-3">
+            <Alert variant="warning">
+              This action cannot be undone. All data related to this order will be permanently deleted.
+            </Alert>
+          </div>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={() => setShowDeleteConfirm(false)}>
+            Cancel
+          </Button>
+          <Button variant="danger" onClick={confirmDelete}>
+            Delete Order
+          </Button>
+        </Modal.Footer>
+      </Modal>
+
+      {/* Settings Modal */}
+      <Modal show={showSettingsModal} onHide={() => setShowSettingsModal(false)}>
+        <Modal.Header closeButton>
+          <Modal.Title>Dashboard Settings</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <Form>
+            <Form.Group className="mb-3">
+              <Form.Check
+                type="switch"
+                id="auto-delete-switch"
+                label="Enable Auto-Delete"
+                checked={settings.autoDeleteEnabled}
+                onChange={(e) => setSettings({
+                  ...settings,
+                  autoDeleteEnabled: e.target.checked
+                })}
+              />
+              <Form.Text className="text-muted">
+                Automatically delete old completed orders
+              </Form.Text>
+            </Form.Group>
+
+            {settings.autoDeleteEnabled && (
+              <>
+                <Form.Group className="mb-3">
+                  <Form.Label>Delete After (Days)</Form.Label>
+                  <Form.Control
+                    type="number"
+                    min="1"
+                    value={settings.autoDeleteDays}
+                    onChange={(e) => setSettings({
+                      ...settings,
+                      autoDeleteDays: parseInt(e.target.value) || 30
+                    })}
+                  />
+                  <Form.Text className="text-muted">
+                    Orders will be deleted after this many days
+                  </Form.Text>
+                </Form.Group>
+
+                <Form.Group className="mb-3">
+                  <Form.Check
+                    type="switch"
+                    id="completed-only-switch"
+                    label="Delete Completed Orders Only"
+                    checked={settings.deleteCompletedOnly}
+                    onChange={(e) => setSettings({
+                      ...settings,
+                      deleteCompletedOnly: e.target.checked
+                    })}
+                  />
+                  <Form.Text className="text-muted">
+                    Only delete orders with Completed status
+                  </Form.Text>
+                </Form.Group>
+              </>
+            )}
+          </Form>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={() => setShowSettingsModal(false)}>
+            Cancel
+          </Button>
+          <Button variant="primary" onClick={handleSettingsSave}>
+            Save Settings
           </Button>
         </Modal.Footer>
       </Modal>

@@ -11,6 +11,7 @@ import Uploads from './Components/Dashboad/Uploads/Uploads';
 import Setting from './Components/Dashboad/Settings/Settings';
 import UserProfile from './Components/Dashboad/UserProfile';
 import Ordermanagemenet from './Components/Dashboad/Orders/Ordermanagemenet';
+import ServiceManagement from './Components/Dashboad/Servicemanagement/ServiceManagement';
 
 
 
@@ -37,6 +38,7 @@ function AppWrapper() {
           <Route index element={<AdminDashboard />} />
           <Route path="userprofile" element={< UserProfile />} />
            <Route path="ordermanagement" element={<Ordermanagemenet />} />
+           <Route path="servicemanagement" element={<ServiceManagement />} />
 
           {/* <Route path="pendingorder" element={< PendingOrders />} />
           <Route path="completedorder" element={< CompletedOrders />} /> */}

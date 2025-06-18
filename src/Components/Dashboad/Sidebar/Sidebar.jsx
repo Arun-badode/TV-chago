@@ -49,9 +49,9 @@ const Sidebar = ({
     },
     {
       id: "customers",
-      label: "Export Orders",
+      label: "Service Management",
       icon: Users,
-      path: "dashboardlayout/customer",
+      path: "dashboardlayout/servicemanagement",
     },
     {
       id: "notifications",

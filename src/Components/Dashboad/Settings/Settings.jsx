@@ -1,156 +1,155 @@
 import React, { useState } from "react";
-import { Button, Card, Form, Row, Col } from "react-bootstrap";
+import { Button, Card, Form, InputGroup, Table, Alert } from "react-bootstrap";
+import { FaSave, FaBox, FaHome, FaClock, FaPercentage } from "react-icons/fa";
 
 const Settings = () => {
-  const [servicePricing, setServicePricing] = useState({
-    service1: 100,
-    service2: 200,
-    both: 250,
+  const [settings, setSettings] = useState({
+    requireFileUpload: false,
+    askForAddress: false,
+    autoDeleteEnabled: false,
+    autoDeleteDays: 30,
+    defaultDiscount: 0
   });
 
-  const [adminUsers, setAdminUsers] = useState(["User 1", "User 2"]);
-  const [smsEmailTemplate, setSmsEmailTemplate] = useState({
-    sms: "Default SMS template",
-    email: "Default Email template",
-  });
+  const [showSuccess, setShowSuccess] = useState(false);
 
-  const handleServicePricingChange = (e, service) => {
-    setServicePricing({ ...servicePricing, [service]: e.target.value });
+  const handleSettingChange = (name, value) => {
+    setSettings({
+      ...settings,
+      [name]: value
+    });
   };
 
-  const handleAdminUserChange = (e, index) => {
-    const updatedUsers = [...adminUsers];
-    updatedUsers[index] = e.target.value;
-    setAdminUsers(updatedUsers);
-  };
-
-  const handleTemplateChange = (e, type) => {
-    setSmsEmailTemplate({ ...smsEmailTemplate, [type]: e.target.value });
-  };
-
-  const handleSaveChanges = () => {
-    alert("Changes saved successfully!");
-    // You can add API calls or state management actions here
+  const handleSaveSettings = () => {
+    console.log("Saving settings:", settings);
+    setShowSuccess(true);
+    setTimeout(() => setShowSuccess(false), 3000);
   };
 
   return (
-    <div className="container-flud py-5 ">
-      <h2 className="mb-4">Settings Panel</h2>
+    <Card className="shadow-sm mt-5">
+      <Card.Header className="bg-light">
+        <h5 className="mb-0">System Settings</h5>
+      </Card.Header>
+      <Card.Body>
+        {showSuccess && (
+          <Alert variant="success" onClose={() => setShowSuccess(false)} dismissible>
+            Settings saved successfully!
+          </Alert>
+        )}
 
-      {/* Pricing Section */}
-      <Card className="mb-4">
-        <Card.Header>Change Pricing for Services</Card.Header>
-        <Card.Body>
-          <Row>
-            <Col md={4}>
-              <Form.Group>
-                <Form.Label>Service 1 Pricing</Form.Label>
-                <Form.Control
-                  type="number"
-                  value={servicePricing.service1}
-                  onChange={(e) => handleServicePricingChange(e, "service1")}
-                />
-              </Form.Group>
-            </Col>
-            <Col md={4}>
-              <Form.Group>
-                <Form.Label>Service 2 Pricing</Form.Label>
-                <Form.Control
-                  type="number"
-                  value={servicePricing.service2}
-                  onChange={(e) => handleServicePricingChange(e, "service2")}
-                />
-              </Form.Group>
-            </Col>
-            <Col md={4}>
-              <Form.Group>
-                <Form.Label>Both Services Pricing</Form.Label>
-                <Form.Control
-                  type="number"
-                  value={servicePricing.both}
-                  onChange={(e) => handleServicePricingChange(e, "both")}
-                />
-              </Form.Group>
-            </Col>
-          </Row>
-        </Card.Body>
-      </Card>
+        <Form.Group className="mb-3">
+          <Form.Check
+            type="switch"
+            id="require-file-upload"
+            label={
+              <>
+                <FaBox className="me-2" />
+                Require file upload?
+              </>
+            }
+            checked={settings.requireFileUpload}
+            onChange={(e) => handleSettingChange("requireFileUpload", e.target.checked)}
+          />
+        </Form.Group>
 
-      {/* Admin Users Section */}
-      <Card className="mb-4">
-        <Card.Header>Manage Admin Users</Card.Header>
-        <Card.Body>
-          {adminUsers.map((user, index) => (
-            <Row key={index} className="mb-3">
-              <Col md={8}>
-                <Form.Group>
-                  <Form.Label>Admin User {index + 1}</Form.Label>
-                  <Form.Control
-                    type="text"
-                    value={user}
-                    onChange={(e) => handleAdminUserChange(e, index)}
-                  />
-                </Form.Group>
-              </Col>
-              <Col md={4}>
-                <Button
-                  variant="danger"
-                  onClick={() => {
-                    const updatedUsers = adminUsers.filter((_, i) => i !== index);
-                    setAdminUsers(updatedUsers);
-                  }}
-                  style={{ marginTop: "30px" }}
-                >
-                  Delete
-                </Button>
-              </Col>
-            </Row>
-          ))}
-          <Button
-            variant="danger"
-            onClick={() => setAdminUsers([...adminUsers, "New Admin User"])}
+        <Form.Group className="mb-3">
+          <Form.Check
+            type="switch"
+            id="ask-for-address"
+            label={
+              <>
+                <FaHome className="me-2" />
+                Ask for address?
+              </>
+            }
+            checked={settings.askForAddress}
+            onChange={(e) => handleSettingChange("askForAddress", e.target.checked)}
+          />
+        </Form.Group>
+
+        <Form.Group className="mb-3">
+          <div className="d-flex align-items-center mb-2">
+            <Form.Check
+              type="switch"
+              id="auto-delete-enabled"
+              label={
+                <>
+                  <FaClock className="me-2" />
+                  Auto-delete completed orders
+                </>
+              }
+              checked={settings.autoDeleteEnabled}
+              onChange={(e) => handleSettingChange("autoDeleteEnabled", e.target.checked)}
+              className="me-2"
+            />
+          </div>
+          {settings.autoDeleteEnabled && (
+            <InputGroup>
+              <Form.Control
+                type="number"
+                min="1"
+                value={settings.autoDeleteDays}
+                onChange={(e) => handleSettingChange("autoDeleteDays", parseInt(e.target.value) || 0)}
+              />
+              <InputGroup.Text>days after completion</InputGroup.Text>
+            </InputGroup>
+          )}
+        </Form.Group>
+
+        <Form.Group className="mb-4">
+          <InputGroup>
+            <InputGroup.Text>
+              <FaPercentage className="me-2" />
+              Default staff discount
+            </InputGroup.Text>
+            <Form.Control
+              type="number"
+              min="0"
+              max="100"
+              value={settings.defaultDiscount}
+              onChange={(e) => handleSettingChange("defaultDiscount", Math.min(100, Math.max(0, parseInt(e.target.value) || 0)))}
+            />
+            <InputGroup.Text>%</InputGroup.Text>
+          </InputGroup>
+        </Form.Group>
+
+        <Table striped bordered hover className="mb-4">
+          <tbody>
+            <tr>
+              <td><FaBox /> Require file upload</td>
+              <td>{settings.requireFileUpload ? "Yes" : "No"}</td>
+            </tr>
+            <tr>
+              <td><FaHome /> Ask for address</td>
+              <td>{settings.askForAddress ? "Yes" : "No"}</td>
+            </tr>
+            <tr>
+              <td><FaClock /> Auto-delete orders</td>
+              <td>
+                {settings.autoDeleteEnabled 
+                  ? `After ${settings.autoDeleteDays} days` 
+                  : "Disabled"}
+              </td>
+            </tr>
+            <tr>
+              <td><FaPercentage /> Default staff discount</td>
+              <td>{settings.defaultDiscount}%</td>
+            </tr>
+          </tbody>
+        </Table>
+
+        <div className="text-center">
+          <Button 
+            variant="primary" 
+            onClick={handleSaveSettings}
+            className="px-5"
           >
-            Add Admin User
+            <FaSave className="me-2" /> Save Settings
           </Button>
-        </Card.Body>
-      </Card>
-
-      {/* SMS/Email Templates Section */}
-      <Card className="mb-4">
-        <Card.Header>Edit SMS / Email Templates</Card.Header>
-        <Card.Body>
-          <Row>
-            <Col md={6}>
-              <Form.Group>
-                <Form.Label>SMS Template</Form.Label>
-                <Form.Control
-                  as="textarea"
-                  rows={5}
-                  value={smsEmailTemplate.sms}
-                  onChange={(e) => handleTemplateChange(e, "sms")}
-                />
-              </Form.Group>
-            </Col>
-            <Col md={6}>
-              <Form.Group>
-                <Form.Label>Email Template</Form.Label>
-                <Form.Control
-                  as="textarea"
-                  rows={5}
-                  value={smsEmailTemplate.email}
-                  onChange={(e) => handleTemplateChange(e, "email")}
-                />
-              </Form.Group>
-            </Col>
-          </Row>
-        </Card.Body>
-      </Card>
-
-      {/* Save Changes Button */}
-      <Button variant="primary" onClick={handleSaveChanges}>
-        Save Changes
-      </Button>
-    </div>
+        </div>
+      </Card.Body>
+    </Card>
   );
 };
 
