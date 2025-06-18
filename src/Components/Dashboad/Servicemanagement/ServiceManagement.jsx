@@ -127,8 +127,7 @@ const TvChagoServices = () => {
                 <th>Service</th>
                 <th>Price</th>
                 <th>Duration</th>
-                <th>Quantity</th>
-                <th>Subtotal</th>
+              
                 <th>Actions</th>
               </tr>
             </thead>
@@ -138,21 +137,8 @@ const TvChagoServices = () => {
                   <td>{service.name}</td>
                   <td>£{service.price.toFixed(2)}</td>
                   <td>{service.duration}</td>
-                  <td>
-                    <input
-                      type="number"
-                      min="0"
-                      className="form-control"
-                      value={service.quantity}
-                      onChange={(e) => {
-                        const newQuantity = Math.max(0, parseInt(e.target.value) || 0);
-                        setServices(services.map(s => 
-                          s.id === service.id ? { ...s, quantity: newQuantity } : s
-                        ));
-                      }}
-                    />
-                  </td>
-                  <td>£{calculateSubtotal(service.price, service.quantity)}</td>
+                 
+                  
                   <td>
                     <div className="d-flex gap-2">
                       <Button
@@ -168,7 +154,7 @@ const TvChagoServices = () => {
                         variant="outline-danger"
                         size="sm"
                         onClick={() => handleDeleteService(service.id)}
-                            className="bg-danger text-light"
+                        className="text-light bg-danger"
                         title="Delete"
                       >
                         <FaTrash />

@@ -229,7 +229,16 @@ const OrderManagement = () => {
     return type === "New" ? "bg-primary" : "bg-info text-dark";
   };
 
-
+  const getPaymentMethodIcon = (method) => {
+    switch (method) {
+      case "PayPal":
+        return <CreditCard size={16} className="me-1" />;
+      case "Bank Transfer":
+        return <Banknote size={16} className="me-1" />;
+      default:
+        return null;
+    }
+  };
 
   return (
     <div className="container-fluid min-vh-100 p-4">
@@ -384,14 +393,24 @@ const OrderManagement = () => {
                   </td>
                   <td>{order.service}</td>
                   <td>
-                    <span className={`badge ${getBadgeClass(order.status)}`}>
-                      {order.status}
-                    </span>
+                    <select
+                      value={order.status}
+                      onChange={(e) => handleStatusChange(order.id, e.target.value)}
+                      className={`form-select form-select-sm ${getBadgeClass(order.status)} text-white`}
+                      style={{
+                        backgroundColor: getBadgeClass(order.status).includes('bg-') ? 
+                          getBadgeClass(order.status).replace('bg-', 'var(--bs-') + ')' : '',
+                        border: 'none',
+                        width: '120px'
+                      }}
+                    >
+                      <option value="Pending">Pending</option>
+                      <option value="Completed">Completed</option>
+                      
+                    </select>
                   </td>
                   <td>
                     <div className="d-flex align-items-center">
-                      
-
                       <span className={`badge ${order.paymentStatus === "Paid" ? "bg-success" : "bg-danger"}`}>
                         {order.paymentStatus}
                       </span>
@@ -404,32 +423,17 @@ const OrderManagement = () => {
                   </td>
                   <td>
                     <div className="d-flex gap-2">
-                   
-                      
-                    
-                        <>
-                          <button
-                            className="btn btn-sm btn-success"
-                            onClick={() => handleStatusChange(order.id, "Completed")}
-                            title="Accept Order"
-                          >
-                            Aceept
-                          </button>
-                          <button
-                            className="btn btn-sm btn-danger"
-                            onClick={() => handleStatusChange(order.id, "Rejected")}
-                            title="Reject Order"
-                          >
-                           Reject
-                          </button>
-                             <button
+
+<button className="btn btn-success">Accept</button>
+<button className="btn btn-danger">Reject</button>
+
+                      <button
                         className="btn btn-sm btn-primary"
                         onClick={() => handleView(order)}
                         title="View Details"
                       >
                         <Eye size={16} />
                       </button>
-                      
                       <button
                         className="btn btn-sm btn-danger"
                         onClick={() => handleDelete(order.id)}
@@ -437,8 +441,6 @@ const OrderManagement = () => {
                       >
                         <Trash2 size={16} />
                       </button>
-                        </>
-                 
                     </div>
                   </td>
                 </tr>

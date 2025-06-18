@@ -210,7 +210,7 @@ axios.post("https://your-backend-api.com/api/orders", orderData)
       <Nav className="ms-auto align-items-lg-center">
         <Link
           to="/login"
-          className="ms-lg-3 mt-2 mt-lg-0"
+          className="ms-lg-3 mt-2 mt-lg-0  text-decoration-none text-white py-2 px-3 rounded-pill"
           style={{
             background: "linear-gradient(to right, #e64a19, #ff7043)",
             border: "none",
