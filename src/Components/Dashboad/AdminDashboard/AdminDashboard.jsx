@@ -70,7 +70,7 @@ const AdminDashboard = () => {
       customerName: "Jane Smith",
       email: "jane@example.com",
       username: "janesmith",
-      orderType: "extended",
+      orderType: "Extended",
       service: "YouTube Subscribers",
       quantity: 5000,
       servicePackage: "2 Services",
@@ -102,7 +102,7 @@ const AdminDashboard = () => {
       customerName: "Sarah Williams",
       email: "sarah@example.com",
       username: "sarahw",
-      orderType: "extended",
+      orderType: "Extended",
       service: "Instagram Growth",
       quantity: 3000,
       servicePackage: "1 Services",
@@ -163,7 +163,7 @@ const AdminDashboard = () => {
   const pendingOrders = orders.filter((order) => order.status === "Pending").length;
   const cancelledOrders = orders.filter((order) => order.status === "Cancelled").length;
   const newOrders = orders.filter((order) => order.orderType === "new").length;
-  const extendedOrders = orders.filter((order) => order.orderType === "extended").length;
+  const ExtendedOrders = orders.filter((order) => order.orderType === "Extended").length;
 
   // Get unique services for filter dropdown
   const uniqueServices = [...new Set(orders.map((order) => order.service))];
@@ -182,7 +182,7 @@ const AdminDashboard = () => {
 
   const orderTypeData = {
     New: newOrders,
-    extended: extendedOrders,
+    Extended: ExtendedOrders,
   };
 
   const paymentStatusData = orders.reduce((acc, order) => {
@@ -478,8 +478,8 @@ const AdminDashboard = () => {
     trend: "+15.2%" 
   },
   { 
-    title: "extendeds", 
-    value: extendedOrders, 
+    title: "Extendeds", 
+    value: ExtendedOrders, 
     icon: <ArrowRepeat />,
     trend: "+8.5%" 
   },
@@ -559,7 +559,7 @@ key={index}>
                 >
                   <option value="All">All Types</option>
                   <option value="New">New</option>
-                  <option value="extended">extended</option>
+                  <option value="Extended">Extended</option>
                 </Form.Select>
               </Form.Group>
             </div>
@@ -657,7 +657,7 @@ key={index}>
                           ) : (
                             <>
                               <ArrowRepeat className="me-1" />
-                              extended
+                              Extended
                             </>
                           )}
                         </Badge>
@@ -924,7 +924,7 @@ key={index}>
                     <Badge
                       bg={currentOrder.orderType === "new" ? "primary" : "info"}
                     >
-                      {currentOrder.orderType === "new" ? "New" : "extended"}
+                      {currentOrder.orderType === "new" ? "New" : "Extended"}
                     </Badge>
                   </p>
                   <p>
