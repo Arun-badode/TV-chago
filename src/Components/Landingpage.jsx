@@ -4,6 +4,7 @@ import { FaTv, FaFilm, FaCrown, FaCheckCircle, FaHeadset, FaShieldAlt, FaDownloa
 import "./Landingpage.css";
 import { Link } from "react-router-dom";
 import axios from 'axios';
+import API_URL from "../utils/BaseUrl";
 const TVChagoApp = () => {
   const [expanded, setExpanded] = useState(false);
 
@@ -146,7 +147,7 @@ const TVChagoApp = () => {
       },
     };
 // Inside handleSubmit:
-axios.post("https://your-backend-api.com/api/orders", orderData)
+axios.post(`${API_URL}/orders`, orderData)
   .then((response) => {
     console.log("Success:", response.data);
     alert(`Order submitted successfully! Total: £${calculateTotal()}`);
