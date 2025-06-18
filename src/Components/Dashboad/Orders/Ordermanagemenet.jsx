@@ -13,6 +13,7 @@ import {
   RotateCw,
   CreditCard,
   Banknote,
+  Trash2,
 } from "lucide-react";
 
 const OrderManagement = () => {
@@ -31,7 +32,6 @@ const OrderManagement = () => {
       paymentStatus: "Paid",
       paymentMethod: "PayPal",
       discount: "10%",
-      decision: null,
     },
     {
       id: "ORD-002",
@@ -46,7 +46,6 @@ const OrderManagement = () => {
       paymentStatus: "Paid",
       paymentMethod: "Bank Transfer",
       discount: "0%",
-      decision: "Completed",
     },
     {
       id: "ORD-003",
@@ -61,7 +60,6 @@ const OrderManagement = () => {
       paymentStatus: "Failed",
       paymentMethod: "PayPal",
       discount: "15%",
-      decision: null,
     },
     {
       id: "ORD-004",
@@ -76,7 +74,6 @@ const OrderManagement = () => {
       paymentStatus: "Paid",
       paymentMethod: "Bank Transfer",
       discount: "5%",
-      decision: "Completed",
     },
     {
       id: "ORD-005",
@@ -91,7 +88,6 @@ const OrderManagement = () => {
       paymentStatus: "Paid",
       paymentMethod: "PayPal",
       discount: "0%",
-      decision: null,
     },
   ]);
 
@@ -103,8 +99,6 @@ const OrderManagement = () => {
   const [serviceFilter, setServiceFilter] = useState("All");
   const [showModal, setShowModal] = useState(false);
   const [selectedOrder, setSelectedOrder] = useState(null);
-  const [acceptedOrders, setAcceptedOrders] = useState([]);
-  const [rejectedOrders, setRejectedOrders] = useState([]);
 
   // Filter orders based on search and filters
   useEffect(() => {
@@ -153,7 +147,6 @@ const OrderManagement = () => {
         "Username",
         "Order Type",
         "Service",
-        "Service Package",
         "Status",
         "Payment Status",
         "Payment Method",
@@ -167,7 +160,6 @@ const OrderManagement = () => {
         order.username,
         order.orderType,
         order.service,
-        order.servicePackage,
         order.status,
         order.paymentStatus,
         order.paymentMethod,
@@ -204,14 +196,18 @@ const OrderManagement = () => {
     setSelectedOrder(null);
   };
 
-  const handleAccept = (orderId) => {
-    setAcceptedOrders([...acceptedOrders, orderId]);
-    setRejectedOrders(rejectedOrders.filter(id => id !== orderId));
+  const handleStatusChange = (orderId, newStatus) => {
+    setOrders((prev) =>
+      prev.map((order) =>
+        order.id === orderId ? { ...order, status: newStatus } : order
+      )
+    );
   };
 
-  const handleReject = (orderId) => {
-    setRejectedOrders([...rejectedOrders, orderId]);
-    setAcceptedOrders(acceptedOrders.filter(id => id !== orderId));
+  const handleDelete = (orderId) => {
+    if (window.confirm("Are you sure you want to delete this order?")) {
+      setOrders((prev) => prev.filter((order) => order.id !== orderId));
+    }
   };
 
   const getBadgeClass = (status) => {
@@ -233,13 +229,7 @@ const OrderManagement = () => {
     return type === "New" ? "bg-primary" : "bg-info text-dark";
   };
 
-  const getPaymentMethodIcon = (method) => {
-    return method === "PayPal" ? (
-      <CreditCard size={16} className="me-1" />
-    ) : (
-      <Banknote size={16} className="me-1" />
-    );
-  };
+
 
   return (
     <div className="container-fluid min-vh-100 p-4">
@@ -366,7 +356,6 @@ const OrderManagement = () => {
                 <th>Customer</th>
                 <th>Type</th>
                 <th>Service</th>
-                <th>Package</th>
                 <th>Status</th>
                 <th>Payment</th>
                 <th>Discount</th>
@@ -394,7 +383,6 @@ const OrderManagement = () => {
                     </span>
                   </td>
                   <td>{order.service}</td>
-                  <td>{order.servicePackage}</td>
                   <td>
                     <span className={`badge ${getBadgeClass(order.status)}`}>
                       {order.status}
@@ -402,7 +390,8 @@ const OrderManagement = () => {
                   </td>
                   <td>
                     <div className="d-flex align-items-center">
-                      {getPaymentMethodIcon(order.paymentMethod)}
+                      
+
                       <span className={`badge ${order.paymentStatus === "Paid" ? "bg-success" : "bg-danger"}`}>
                         {order.paymentStatus}
                       </span>
@@ -415,39 +404,41 @@ const OrderManagement = () => {
                   </td>
                   <td>
                     <div className="d-flex gap-2">
-                      <button
+                   
+                      
+                    
+                        <>
+                          <button
+                            className="btn btn-sm btn-success"
+                            onClick={() => handleStatusChange(order.id, "Completed")}
+                            title="Accept Order"
+                          >
+                            Aceept
+                          </button>
+                          <button
+                            className="btn btn-sm btn-danger"
+                            onClick={() => handleStatusChange(order.id, "Rejected")}
+                            title="Reject Order"
+                          >
+                           Reject
+                          </button>
+                             <button
                         className="btn btn-sm btn-primary"
                         onClick={() => handleView(order)}
                         title="View Details"
                       >
                         <Eye size={16} />
                       </button>
-                      {acceptedOrders.includes(order.id) ? (
-                        <button className="btn btn-sm btn-success" disabled>
-                          Accepted
-                        </button>
-                      ) : rejectedOrders.includes(order.id) ? (
-                        <button className="btn btn-sm btn-danger" disabled>
-                          Rejected
-                        </button>
-                      ) : (
-                        <>
-                          <button
-                            className="btn btn-sm btn-success"
-                            onClick={() => handleAccept(order.id)}
-                            title="Accept Order"
-                          >
-                            Accept
-                          </button>
-                          <button
-                            className="btn btn-sm btn-danger"
-                            onClick={() => handleReject(order.id)}
-                            title="Reject Order"
-                          >
-                            Reject
-                          </button>
+                      
+                      <button
+                        className="btn btn-sm btn-danger"
+                        onClick={() => handleDelete(order.id)}
+                        title="Delete Order"
+                      >
+                        <Trash2 size={16} />
+                      </button>
                         </>
-                      )}
+                 
                     </div>
                   </td>
                 </tr>

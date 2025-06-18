@@ -391,7 +391,7 @@ const TVChagoApp = () => {
                     </div>
                   </div>
                   <h3 className="h4 fw-bold mb-3">Service Two</h3>
-                  <div className="h2 fw-bold mb-3" style={{ color: "#E8A87C" }}>
+                  <div className="h2 fw-bold mb-3" style={{ color: "#FF6B47" }}>
                     £{servicePrices.service2}
                     <small className="text-muted d-block">for 12 months</small>
                   </div>
@@ -498,17 +498,13 @@ const TVChagoApp = () => {
                     </div>
                   </div>
                   <h3 className="h4 fw-bold mb-3">Both Services</h3>
-                  <div
-                    className="h2 fw-bold mb-3"
-                    style={{
-                      background: "linear-gradient(to right, #FF6B47, #E8A87C)",
-                      WebkitBackgroundClip: "text",
-                      WebkitTextFillColor: "transparent",
-                    }}
-                  >
+                  <div className="h2 fw-bold mb-3" style={{ color: "#FF6B47" }}>
+                    
                     £{servicePrices.both}
                     <small className="text-muted d-block">for 12 months</small>
                   </div>
+
+                  
                   
                   <Form.Group className="mb-3">
                     <Form.Label>Quantity</Form.Label>

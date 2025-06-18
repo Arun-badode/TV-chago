@@ -15,6 +15,7 @@ import {
   XCircle,
 } from "react-bootstrap-icons";
 import { Bar, Pie } from "react-chartjs-2";
+import { FaArrowUp } from "react-icons/fa";
 import {
   Chart as ChartJS,
   CategoryScale,
